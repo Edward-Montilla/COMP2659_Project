@@ -4,30 +4,32 @@
 
 typedef unsigned int UINT16;
 
-void plot_pixel(UINT16*, int, int);
-void plot_vertical_line(UINT16*, int, int, int);
+void plot_pixel(UINT16 *, int, int);
+void plot_vertical_line(UINT16 *, int, int, int);
 
 int main() {
-    UINT16 *base = Physbase();
+  UINT16 *base = Physbase();
 
-    return 0;
+  return 0;
 }
 
 /* Plots a singular pixel at the x & y coordinate given */
-void plot_pixel (UINT16* base, int x, int y) {
-    if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT)
-        *(base + y * 40 + (x >> 4)) |= 1 << 7 - (x & 7);
+void plot_pixel(UINT16 *base, int x, int y) {
+  if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT)
+    *(base + y * 40 + (x >> 4)) |= 1 << 7 - (x & 7);
 }
 
-/* Plots first pixel at the x & y coordinate, then continues to plot a pixel below that coordinate */
-void plot_vertical_line (UINT16* base, int x, int y, int length) {
-    if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT - length) {
-        plot_pixel(base, x, y);
+/* Plots first pixel at the x & y coordinate, then continues to plot a pixel
+ * below that coordinate */
+void plot_vertical_line(UINT16 *base, int x, int y, int length) {
+  int row; /* This doesn't work */
 
-        int row; /* This doesn't work */
-        for (row = 0; row < length; row += 1) {
-            y += 40;
-            plot_pixel(base, x, y);
-        }
+  if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT - length) {
+    plot_pixel(base, x, y);
+
+    for (row = 0; row < length; row += 1) {
+      y += 40;
+      plot_pixel(base, x, y);
     }
+  }
 }
