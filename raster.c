@@ -10,6 +10,8 @@ void plot_vertical_line(UINT16 *, int, int, int);
 int main() {
   UINT16 *base = Physbase();
 
+  plot_vertical_line(base, 128, 0, 300);
+
   return 0;
 }
 
@@ -22,13 +24,13 @@ void plot_pixel(UINT16 *base, int x, int y) {
 /* Plots first pixel at the x & y coordinate, then continues to plot a pixel
  * below that coordinate */
 void plot_vertical_line(UINT16 *base, int x, int y, int length) {
-  int row; /* This doesn't work */
+  int row;
 
   if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT - length) {
     plot_pixel(base, x, y);
 
-    for (row = 0; row < length; row += 1) {
-      y += 40;
+    for (row = 0; row < length; row++) {
+      y += 1;
       plot_pixel(base, x, y);
     }
   }
