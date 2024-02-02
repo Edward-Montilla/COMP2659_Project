@@ -6,11 +6,13 @@ typedef unsigned int UINT16;
 
 void plot_pixel(UINT16 *, int, int);
 void plot_vertical_line(UINT16 *, int, int, int);
+void plot_horizontal_line(UINT16 *, int, int, int);
 
 int main() {
   UINT16 *base = Physbase();
 
-  plot_vertical_line(base, 128, 0, 300);
+  plot_vertical_line(base, 128, 0, 399);
+  plot_horizontal_line(base, 0, 200, 639);
 
   return 0;
 }
@@ -18,7 +20,7 @@ int main() {
 /* Plots a singular pixel at the x & y coordinate given */
 void plot_pixel(UINT16 *base, int x, int y) {
   if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT)
-    *(base + y * 40 + (x >> 4)) |= 1 << 7 - (x & 7);
+    *(base + y * 40 + (x >> 4)) |= 1 << 15 - (x & 15);
 }
 
 /* Plots first pixel at the x & y coordinate, then continues to plot a pixel
@@ -31,6 +33,21 @@ void plot_vertical_line(UINT16 *base, int x, int y, int length) {
 
     for (row = 0; row < length; row++) {
       y += 1;
+      plot_pixel(base, x, y);
+    }
+  }
+}
+
+/* Plots first pixel at the x & y coordinate, then continues to plot a pixel
+ * below that coordinate */
+void plot_horizontal_line(UINT16 *base, int x, int y, int length) {
+  int row;
+
+  if (x >= 0 && x < SCREEN_WIDTH - length && y >= 0 && y < SCREEN_HEIGHT) {
+    plot_pixel(base, x, y);
+
+    for (row = 0; row < length; row++) {
+      x += 1;
       plot_pixel(base, x, y);
     }
   }
