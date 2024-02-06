@@ -1,7 +1,30 @@
 #include <osbind.h>
 #include "raster.h"
 
-const UINT16 mallard_bitmap[16] =
+const UINT16 reticle[19] =
+{
+	0x0180,
+	0x0180,
+	0x0180,
+	0x0180,
+	0x0180,
+	0x0180,
+	0x0000,
+	0x0000,
+	0xF99F,
+	0xF99F,
+	0xF99F,
+	0x0000,
+	0x0000,
+	0x0180,
+	0x0180,
+	0x0180,
+	0x0180,
+	0x0180,
+	0x0180
+};
+
+const UINT16 mallard_bitmap[14] =
 {
 	0x0000,
 	0x0000,
@@ -10,8 +33,6 @@ const UINT16 mallard_bitmap[16] =
 	0x7FFE,
 	0x7FFE,
 	0x7FFE,
-	0x0180,
-	0x0180,
 	0x0180,
 	0x0180,
 	0x0180,
@@ -25,7 +46,8 @@ int main()
 {
 	void *base = Physbase();
 
-	plot_bitmap_16(base, 128, 300, mallard_bitmap, 16);
+	plot_bitmap_16(base, 128, 300, mallard_bitmap, 14);
+	plot_bitmap_16(base, 512, 300, reticle, 19);
 	/* _clear_screen(); */
 
 	return 0;
