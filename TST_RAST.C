@@ -46,9 +46,9 @@ int main()
 {
 	void *base = Physbase();
 
+	clear_screen(base);
 	plot_bitmap_16(base, 128, 300, mallard_bitmap, 14);
 	plot_bitmap_16(base, 512, 300, reticle, 19);
-	/* _clear_screen(); */
 
 	return 0;
 }
