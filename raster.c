@@ -1,4 +1,4 @@
-#include "raster.h"
+#include "RASTER.H"
 #include "TYPES.H"
 
 #define SCREEN_WIDTH 640
@@ -92,15 +92,14 @@ void plot_horizontal_line(UINT16 *base, int x, int y, int length) {
  *******************************************************************************/
 /* Fills the whole screen with black or white, it assumes that the caller knows
  * that the pattern is based on 2's comp binary'*/
-void clear_screen(UINT16 *base, int pattern) {
+/* void clear_screen(UINT16 *base, int pattern) {
   register int i = 0;
   register UINT16 *loc = base;
 
   while (i++ < BYTES_PER_SCREEN) {
     *(loc++) = pattern;
   }
-}
-
+} */
 
 /* plots a 16 x 16 bitmap on coordinantes that are within the bounds of the
  * screen */
