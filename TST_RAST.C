@@ -1,12 +1,54 @@
 #include <osbind.h>
 #include "raster.h"
 
+const UINT16 reticle[19] =
+{
+	0x0180,
+	0x0180,
+	0x0180,
+	0x0180,
+	0x0180,
+	0x0180,
+	0x0000,
+	0x0000,
+	0xF99F,
+	0xF99F,
+	0xF99F,
+	0x0000,
+	0x0000,
+	0x0180,
+	0x0180,
+	0x0180,
+	0x0180,
+	0x0180,
+	0x0180
+};
+
+const UINT16 mallard_bitmap[14] =
+{
+	0x0000,
+	0x0000,
+	0x7FFE,
+	0x7FFE,
+	0x7FFE,
+	0x7FFE,
+	0x7FFE,
+	0x0180,
+	0x0180,
+	0x0180,
+	0x0180,
+	0x0180,
+	0x0000,
+	0x0000
+};
+
 int main()
 {
 	void *base = Physbase();
 
-	plot_something_1(base, 100, 100);
-	plot_something_2(base, 200, 200);
+	clear_screen(base);
+	plot_bitmap_16(base, 128, 300, mallard_bitmap, 14);
+	plot_bitmap_16(base, 512, 300, reticle, 19);
 
 	return 0;
 }
