@@ -42,11 +42,12 @@ void plot_vertical_line(UINT16 *base, int x, int y, int length) {
   int row;
 
   if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT - length) {
-    plot_pixel(base, x, y);
+    UINT16 *loc = base + (y * 40) + (x >> 4);
+    int row;
 
     for (row = 0; row < length; row++) {
-      y += 1;
-      plot_pixel(base, x, y);
+      *loc |= 1 << 15 - (x & 15);
+      loc += 40;
     }
   }
 }
@@ -69,11 +70,12 @@ void plot_horizontal_line(UINT16 *base, int x, int y, int length) {
   int row;
 
   if (x >= 0 && x < SCREEN_WIDTH - length && y >= 0 && y < SCREEN_HEIGHT) {
-    plot_pixel(base, x, y);
+    UINT16 *loc = base + (y * 40) + (x >> 4);
+    int col;
 
-    for (row = 0; row < length; row++) {
-      x += 1;
-      plot_pixel(base, x, y);
+    for (col = 0; col < length; col++) {
+      *loc |= 1 << 15 - (x & 15);
+      loc += 1;
     }
   }
 }
@@ -101,6 +103,21 @@ void plot_horizontal_line(UINT16 *base, int x, int y, int length) {
   }
 } */
 
+/*******************************************************************************
+ * FUNCTION NAME: plot_bitmap_16                                               *
+ *                                                                             *
+ * INPUT: *base = pointer to the starting address of the frame buffer (FB)     *
+ *         x = x - coordinate                                                  *
+ *         y = y - coordinate                                                  *
+ *         bitmap = an array with hex codes that maps which bits to change     *
+ *         height = determines when to stop placing rows                       *
+ *                                                                             *
+ * OUTPUT: no return value from function, all 32kb of FB is filled with the    *
+ *           pattern                                                           *
+ *                                                                             *
+ * ASSUMPTION:                                                                 *
+ *                                                                             *
+ *******************************************************************************/
 /* plots a 16 x 16 bitmap on coordinantes that are within the bounds of the
  * screen */
 void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap,

@@ -3,6 +3,7 @@
 
 #include "TYPES.H"
 
+/* Prototypes */
 void plot_pixel(UINT16 *base, int x, int y);
 void plot_vertical_line(UINT16 *base, int x, int y, int length);
 void plot_horizontal_line(UINT16 *base, int x, int y, int length);
