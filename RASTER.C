@@ -126,7 +126,7 @@ void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap,
   int row;
 
   for (row = 0; row < height; row++) {
-    *loc |= bitmap[row]; /* danger (no bounds checking!) */
+    *loc |= bitmap[row]; /* needs bounds checking */
     loc += 40;           /* 40 is the number of words between the current */
   }
 }
