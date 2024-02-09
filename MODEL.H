@@ -20,3 +20,7 @@ typedef struct {
     Reticle reticle;
     Mallard mallards[2];
 } Model;
+
+/* Prototypes */
+void move_reticle(Reticle *reticle);
+void move_mallard(Mallard *mallard);
