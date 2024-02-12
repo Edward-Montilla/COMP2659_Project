@@ -8,13 +8,16 @@
 /*******************************************************************************
  * FUNCTION NAME: plot_pixel                                                   *
  *                                                                             *
+ * PURPOSE: Plot a signular pixel at the given coordinate                      *
+ *                                                                             *
  * INPUT: *base = pointer to the starting address of the frame buffer (FB)     *
  *          x = x - coordinate                                                 *
  *          y = y - coordinate                                                 *
  *                                                                             *
  * OUTPUT: no return value from function, FB at coordinate (x,y) is turned on  *
  *                                                                             *
- * ASSUMPTION:                                                                 *
+ * ASSUMPTION: Ploting in done as a whole byte, and is OR masked.              *
+ *              leaves neighboring pixels unaffected                           *
  *                                                                             *
  *******************************************************************************/
 void plot_pixel(UINT16 *base, int x, int y) {
@@ -22,10 +25,12 @@ void plot_pixel(UINT16 *base, int x, int y) {
     *(base + y * 40 + (x >> 4)) |= 1 << 15 - (x & 15);
 }
 
-/* Plots first pixel at the x & y coordinate, then continues to plot a pixel
-     below that coordinate */
+
 /*******************************************************************************
  * FUNCTION NAME: plot_vertical_line                                           *
+ *                                                                             *
+ * PURPOSE:  uses a for loop to plot a vertical line at the specified          *
+ *           coordinates with the specified length                             *
  *                                                                             *
  * INPUT: *base = pointer to the starting address of the frame buffer (FB)     *
  *          x = x - coordinate                                                 *
@@ -35,7 +40,9 @@ void plot_pixel(UINT16 *base, int x, int y) {
  * OUTPUT: no return value from function, FB at coordinate (x,y)to(x,y+length) *
  *           is turned on.                                                     *
  *                                                                             *
- * ASSUMPTION:                                                                 *
+ * ASSUMPTION: Vertical line begins at the coordinate and ends at (x + length).*
+ *             Plots first pixel at the x & y coordinate, then continues       *
+ *             to plot a pixel below that coordinate                           *
  *                                                                             *
  *******************************************************************************/
 void plot_vertical_line(UINT16 *base, int x, int y, int length) {
@@ -55,17 +62,21 @@ void plot_vertical_line(UINT16 *base, int x, int y, int length) {
 /*******************************************************************************
  * FUNCTION NAME: plot_horizontal_line                                         *
  *                                                                             *
+ * PURPOSE: Uses a for loop to plot a horizontal line at the                   * 
+ *          specified coordinate with the specified length                     *
+ *                                                                             *
  * INPUT: *base = pointer to the starting address of the frame buffer (FB)     *
  *          x = x - coordinate                                                 *
  *          y = y - coordinate                                                 *
  *          length = length of horizontal line                                 *
  * OUTPUT: no return value from function, FB at coordinate (x,y) is turned on  *
  *                                                                             *
- * ASSUMPTION:                                                                 *
+ * ASSUMPTION: Horizontal line begins at coordinate and ends in (y + length).  *
+ *              Plots first pixel at the x & y coordinate, then continues to   *
+ *              plot a pixel below that coordinate                             *
  *                                                                             *
  *******************************************************************************/
-/* Plots first pixel at the x & y coordinate, then continues to plot a pixel
- * below that coordinate */
+/* */
 void plot_horizontal_line(UINT16 *base, int x, int y, int length) {
   int row;
 
@@ -83,17 +94,17 @@ void plot_horizontal_line(UINT16 *base, int x, int y, int length) {
 /*******************************************************************************
  * FUNCTION NAME: clear_screen                                                 *
  *                                                                             *
+ * PURPOSE: fills the screen with black or white according to pattern argument *
+ *                                                                             * 
  * INPUT: *base = pointer to the starting address of the frame buffer (FB)     *
  *          pattern = pattern of the desired outcome ot the screen             *
  *                                                                             *
  * OUTPUT: no return value from function, all 32kb of FB is filled with the    *
  *           pattern                                                           *
  *                                                                             *
- * ASSUMPTION:                                                                 *
+ * ASSUMPTION: Not as optimized as it can be, good enough to transition        *
  *                                                                             *
  *******************************************************************************/
-/* Fills the whole screen with black or white, it assumes that the caller knows
- * that the pattern is based on 2's comp binary'*/
 /* void clear_screen(UINT16 *base, int pattern) {
   register int i = 0;
   register UINT16 *loc = base;
@@ -106,6 +117,8 @@ void plot_horizontal_line(UINT16 *base, int x, int y, int length) {
 /*******************************************************************************
  * FUNCTION NAME: plot_bitmap_16                                               *
  *                                                                             *
+ * PURPOSE: Plots a 16 x 16 size pixel bitmap at the specified coordinate      *   
+ *                                                                             *
  * INPUT: *base = pointer to the starting address of the frame buffer (FB)     *
  *         x = x - coordinate                                                  *
  *         y = y - coordinate                                                  *
@@ -115,11 +128,9 @@ void plot_horizontal_line(UINT16 *base, int x, int y, int length) {
  * OUTPUT: no return value from function, all 32kb of FB is filled with the    *
  *           pattern                                                           *
  *                                                                             *
- * ASSUMPTION:                                                                 *
+ * ASSUMPTION: Bounds are checked to be within the size of the bitmap.         *
  *                                                                             *
  *******************************************************************************/
-/* plots a 16 x 16 bitmap on coordinantes that are within the bounds of the
- * screen */
 void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap,
                     unsigned int height) {
   UINT16 *loc = base + (y * 40) + (x >> 4);
@@ -127,6 +138,6 @@ void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap,
 
   for (row = 0; row < height; row++) {
     *loc |= bitmap[row]; /* needs bounds checking */
-    loc += 40;           /* 40 is the number of words between the current */
+    loc += 40;  /* 40 is the number of 'word'(s) between the current pixel and the pixel directly bellow it */
   }
 }
