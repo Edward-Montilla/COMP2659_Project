@@ -32,8 +32,7 @@ void move_reticle(Reticle *reticle) {
  *                                                                             *
  *******************************************************************************/
 void move_mallard(Mallard *mallard) {
-  if (mallard->is_dead)
-    return;
+  if (mallard->is_dead == TRUE) return;
 
   mallard->x += mallard->dx;
   mallard->y += mallard->dy;
@@ -43,6 +42,8 @@ void move_mallard(Mallard *mallard) {
  * FUNCTION NAME: is_hit                                                       *
  *                                                                             *
  * PURPOSE: Checks coordinate of two objects and returns true if hit           *
+ *        This funtion uses an AABB collision algorithm found on amanotes      *
+ *        I'll cite this: https://www.amanotes.com/post/using-swept-aabb-to-detect-and-process-collision#:~:text=What%20is%20AABB%3F,with%20each%20other%20or%20not.
  *                                                                             *
  * INPUT: *mallard = pointer to structure                                      *
  *        *reticle = pointer to structure                                      *
@@ -53,14 +54,15 @@ void move_mallard(Mallard *mallard) {
  * ASSUMPTION: Assumes that sturctures are in play                             *
  *                                                                             *
  *******************************************************************************/
-bool is_hit(Reticle *reticle, Mallard *mallard) {
-  bool hit = false;
-  if (reticle->x == mallard->x && reticle->y == mallard->y) {
-    hit = true;
+/* bool is_hit(Reticle &reticle, Mallard &mallard) {
+  bool hit = FALSE;
   
-/* change dead status of mallard; make it so that tolerance for hits +- half tha area  
-    Implement AABB algorithm in 2D
-*/
-  }
+  int left = mallard.x - (reticle.x + reticle.width);
+  int right = (mallard.x + mallard.width) - reticle.x;
+  int top = (mallard.y + mallard.height) - reticle.y;
+  int bottom = mallard.y - (reticle.y + reticle.height);
+
+  if (left > 0 || right < 0 || top < 0 || bottom > 0) hit = TRUE;
+  
   return hit;
-};
+}; */
