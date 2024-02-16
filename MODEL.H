@@ -1,6 +1,12 @@
+#define bool int
+#define FALSE 0
+#define TRUE 1
+
 typedef struct {
   /* position variables */
   unsigned int x, y;
+  /* size variables*/
+  const int width, height;
   /* displacement variables */
   int dx, dy;
 } Reticle;
@@ -8,6 +14,8 @@ typedef struct {
 typedef struct {
   /* position variables */
   unsigned int x, y;
+  /* size variables*/
+  const int width, height;
   /* displacement variables */
   int dx, dy;
   /* out of play variable */

@@ -105,14 +105,14 @@ void plot_horizontal_line(UINT16 *base, int x, int y, int length) {
  * ASSUMPTION: Not as optimized as it can be, good enough to transition        *
  *                                                                             *
  *******************************************************************************/
-/* void clear_screen(UINT16 *base, int pattern) {
+void clear_screen(UINT16 *base, int pattern) {
   register int i = 0;
   register UINT16 *loc = base;
 
   while (i++ < BYTES_PER_SCREEN) {
     *(loc++) = pattern;
   }
-} */
+}
 
 /*******************************************************************************
  * FUNCTION NAME: plot_bitmap_16                                               *
