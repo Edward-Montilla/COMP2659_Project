@@ -67,6 +67,12 @@ void move_right_request(Reticle *reticle) {
     reticle->dx = 0;
 }
 
+/*
+void mallard_move_request() {
+    if ()
+}
+*/
+
 bool bounds_check(Reticle *reticle) {
     bool in_bounds = TRUE;
 
@@ -74,6 +80,18 @@ bool bounds_check(Reticle *reticle) {
     || reticle->x + reticle->width >= 638
     || reticle->y <= 1 
     || reticle->y + reticle->height >= 398)
+        in_bounds = FALSE;
+
+    return in_bounds;
+}
+
+bool bounds_check_enemy(Mallard *mallard) {
+    bool in_bounds = TRUE;
+
+    if (mallard->x <= 1
+    || mallard->x + mallard->width >= 638
+    || mallard->y <= 1 
+    || mallard->y + mallard->height >= 398)
         in_bounds = FALSE;
 
     return in_bounds;

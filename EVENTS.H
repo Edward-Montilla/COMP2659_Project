@@ -10,7 +10,7 @@ void pause();
 
 /* Synchronous Events */
 void game_timer();
-void mallard_movement();
+void mallard_move_request(Mallard *mallard);
 
 /* Cascaded Events */
 bool shoot_win_check();
