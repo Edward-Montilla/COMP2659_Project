@@ -1,5 +1,6 @@
 #include "RASTER.H"
 #include "TYPES.H"
+#include "font.h"
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 400
@@ -23,8 +24,7 @@
 void plot_pixel(UINT16 *base, int x, int y) {
   if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT)
     *(base + y * 40 + (x >> 4)) |= 1 << 15 - (x & 15);
-}
-
+};
 
 /*******************************************************************************
  * FUNCTION NAME: plot_vertical_line                                           *
@@ -57,12 +57,12 @@ void plot_vertical_line(UINT16 *base, int x, int y, int length) {
       loc += 40;
     }
   }
-}
+};
 
 /*******************************************************************************
  * FUNCTION NAME: plot_horizontal_line                                         *
  *                                                                             *
- * PURPOSE: Uses a for loop to plot a horizontal line at the                   * 
+ * PURPOSE: Uses a for loop to plot a horizontal line at the                   *
  *          specified coordinate with the specified length                     *
  *                                                                             *
  * INPUT: *base = pointer to the starting address of the frame buffer (FB)     *
@@ -89,13 +89,13 @@ void plot_horizontal_line(UINT16 *base, int x, int y, int length) {
       loc += 1;
     }
   }
-}
+};
 
 /*******************************************************************************
  * FUNCTION NAME: clear_screen                                                 *
  *                                                                             *
  * PURPOSE: fills the screen with black or white according to pattern argument *
- *                                                                             * 
+ *                                                                             *
  * INPUT: *base = pointer to the starting address of the frame buffer (FB)     *
  *          pattern = pattern of the desired outcome ot the screen             *
  *                                                                             *
@@ -112,12 +112,12 @@ void clear_screen(UINT16 *base, int pattern) {
   while (i++ < BYTES_PER_SCREEN) {
     *(loc++) = pattern;
   }
-}
+};
 
 /*******************************************************************************
  * FUNCTION NAME: plot_bitmap_16                                               *
  *                                                                             *
- * PURPOSE: Plots a 16 x 16 size pixel bitmap at the specified coordinate      *   
+ * PURPOSE: Plots a 16 x 16 size pixel bitmap at the specified coordinate      *
  *                                                                             *
  * INPUT: *base = pointer to the starting address of the frame buffer (FB)     *
  *         x = x - coordinate                                                  *
@@ -129,6 +129,7 @@ void clear_screen(UINT16 *base, int pattern) {
  *           pattern                                                           *
  *                                                                             *
  * ASSUMPTION: Bounds are checked to be within the size of the bitmap.         *
+ *              Can only be displayed in address locations divible by 8        *
  *                                                                             *
  *******************************************************************************/
 void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap,
@@ -138,6 +139,65 @@ void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap,
 
   for (row = 0; row < height; row++) {
     *loc |= bitmap[row]; /* needs bounds checking */
-    loc += 40;  /* 40 is the number of 'word'(s) between the current pixel and the pixel directly bellow it */
+    loc += 40; /* 40 is the number of 'word'(s) between the current pixel and
+                  the pixel directly bellow it */
   }
-}
+};
+
+/*******************************************************************************
+ * FUNCTION NAME: plot_bitmap_8                                                *
+ *                                                                             *
+ * PURPOSE: Plots a 8 x 8 size pixel bitmap at the specified coordinate        *
+ *                                                                             *
+ * INPUT: *base = pointer to the starting address of the frame buffer (FB)     *
+ *         x = x - coordinate                                                  *
+ *         y = y - coordinate                                                  *
+ *         bitmap = an array with hex codes that maps which bits to change     *
+ *         height = determines when to stop placing rows                       *
+ *                                                                             *
+ * OUTPUT: no return value from function, all 32kb of FB is filled with the    *
+ *           pattern                                                           *
+ *                                                                             *
+ * ASSUMPTION: Bounds are checked to be within the size of the bitmap.         *
+ *              Can only be displayed in address locations divible by 8        *
+ *                                                                             *
+ *******************************************************************************/
+void plot_bitmap_8(UINT16 *base, int x, int y, const UINT16 *bitmap,
+                   unsigned int height) {
+  UINT16 *loc = base + (y * 80) + (x >> 3);
+  int row;
+
+  for (row = 0; row < height; row++) {
+    *loc |= bitmap[row];
+    loc += 80;
+  }
+};
+
+/*******************************************************************************
+ * FUNCTION NAME: plot_text                                                *
+ *                                                                             *
+ * PURPOSE: Plots a 8 x 8 size pixel bitmap at the specified coordinate        *
+ *                                                                             *
+ * INPUT: *base = pointer to the starting address of the frame buffer (FB)     *
+ *         x = x - coordinate                                                  *
+ *         y = y - coordinate                                                  *
+ *         bitmap = an array with hex codes that maps which bits to change     *
+ *         height = determines when to stop placing rows                       *
+ *                                                                             *
+ * OUTPUT: no return value from function, all 32kb of FB is filled with the    *
+ *           pattern                                                           *
+ *                                                                             *
+ * ASSUMPTION: Bounds are checked to be within the size of the bitmap.         *
+ *              Can only be displayed in address locations divible by 8        *
+ *                                                                             *
+ *******************************************************************************/
+void plot_text(UINT16 *base, int x, int y, const UINT8 *bitmap, int ascii) {
+  UINT16 *loc = base + (y * 80) + (x >> 3);
+  int row;
+
+  bitmap += ascii * 8; /* point to the letter */
+  for (row = 0; row < 8; row++) {
+    *loc |= bitmap[row];
+    loc += 80;
+  }
+};
