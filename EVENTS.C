@@ -67,6 +67,10 @@ void move_right_request(Reticle *reticle) {
     reticle->dx = 0;
 }
 
+void game_timer(int *timer) {
+    (*timer) -= 1;
+}
+
 /* flies in square shape */
 void mallard_move_request(Mallard *mallard) {
     if (mallard->y > 350) mallard->dx -= 4;

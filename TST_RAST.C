@@ -56,6 +56,7 @@ const UINT16 mallard_bitmap[14] =
 int main()
 {
 	int key;
+	int timer = 45;
 	void *base = Physbase();
 
 	clear_screen(base, 0);
@@ -96,6 +97,9 @@ int main()
 			}
 
 			if (key == ' ') {
+				game_timer(&timer);
+				printf("Timer = %d\n", timer);
+
 				mallard_move_request(&(test_mso.mallards[0]));
 				printf("M1x = %d, ", test_mso.mallards[0].x);
 				printf("M1y = %d\n", test_mso.mallards[0].y);
