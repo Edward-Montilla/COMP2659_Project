@@ -9,6 +9,7 @@ void shoot_request();
 void pause();
 
 /* Synchronous Events */
+void temp_clock_tick();
 void game_timer();
 void mallard_move_request(Mallard *mallard);
 
@@ -16,4 +17,4 @@ void mallard_move_request(Mallard *mallard);
 bool shoot_win_check();
 bool time_lose_check();
 bool bounds_check(Reticle *reticle);
-bool bounds_check_enemy(Mallard *mallard);
+/* bool bounds_check_enemy(Mallard *mallard); */ /* Not needed yet */
