@@ -1,9 +1,11 @@
+#include <osbind.h>
 #include "EVENTS.H"
 
 /*******************************************************************************
  * FUNCTION NAME: move_up_request                                              *
  *                                                                             *
- * PURPOSE: Requests a change of vertical position of the reticle              *
+ * PURPOSE: Requests a change of vertical position of the reticle and then     *
+ *         resets the reticle's velocity at the end.                           *
  *                                                                             *
  * INPUT: *reticle = pointer to structure of structure.                        *
  *                                                                             *
@@ -14,33 +16,64 @@
  *                                                                             *
  *******************************************************************************/
 void move_up_request(Reticle *reticle) {
-    reticle->dy += 1;
+    reticle->dy -= 2;
     move_reticle(reticle);
+
+    if (!bounds_check(reticle)) {
+        Cconws("Out of bounds!");
+        reticle->dy += 4;
+        move_reticle(reticle);
+    }
+    
+    reticle->dy = 0;
 }
 
-/*******************************************************************************
- * FUNCTION NAME: move_left_request                                            *
- *                                                                             *
- * PURPOSE: Requests a change of horizontal position of the reticle            *
- *                                                                             *
- * INPUT: *reticle = pointer to structure of structure.                        *
- *                                                                             *
- * OUTPUT: no return value from function, the structure's change in x          *
- *          manipulated.                                                       *
- *                                                                             *
- * ASSUMPTION: Assumes that Reticle structure is instantiated.                 *
- *                                                                             *
- *******************************************************************************/
-void move_left_request(Reticle *reticle) {
-    reticle->dx -= 1;
+void move_down_request(Reticle *reticle) {
+    reticle->dy += 2;
     move_reticle(reticle);
+
+    if (!bounds_check(reticle)) {
+        Cconws("Out of bounds!");
+        reticle->dy -= 4;
+        move_reticle(reticle);
+    }
+    
+    reticle->dy = 0;
+}
+
+void move_left_request(Reticle *reticle) {
+    reticle->dx -= 2;
+    move_reticle(reticle);
+
+    if (!bounds_check(reticle)) {
+        Cconws("Out of bounds!");
+        reticle->dx += 4;
+        move_reticle(reticle);
+    }
+
+    reticle->dx = 0;
+}
+
+void move_right_request(Reticle *reticle) {
+    reticle->dx += 2;
+    move_reticle(reticle);
+
+    if (!bounds_check(reticle)) {
+        Cconws("Out of bounds!");
+        reticle->dx -= 4;
+        move_reticle(reticle);
+    }
+
+    reticle->dx = 0;
 }
 
 bool bounds_check(Reticle *reticle) {
     bool in_bounds = TRUE;
 
-    if (reticle->x + reticle->width > 638 
-    || reticle->y + reticle->height > 398)
+    if (reticle->x <= 1
+    || reticle->x + reticle->width >= 638
+    || reticle->y <= 1 
+    || reticle->y + reticle->height >= 398)
         in_bounds = FALSE;
 
     return in_bounds;

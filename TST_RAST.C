@@ -61,7 +61,7 @@ int main()
 	clear_screen(base, 0);
 	plot_bitmap_16(base, 128, 300, reticle_bitmap, 19);
 	
-	Cconws("Press Q to Quit");
+	Cconws("Press Q to Quit\n\r");
 
 	while (1) {
 		if (Cconis() != 0) {
@@ -69,6 +69,25 @@ int main()
 
 			if (key == 'W' || key == 'w') {
 				move_up_request(&(test_mso.reticle));
+				printf("x = %d, ", test_mso.reticle.x);
+				printf("y = %d\n", test_mso.reticle.y);
+			}
+
+			if (key == 'A' || key == 'a') {
+				move_left_request(&(test_mso.reticle));
+				printf("x = %d, ", test_mso.reticle.x);
+				printf("y = %d\n", test_mso.reticle.y);
+			}
+
+			if (key == 'S' || key == 's') {
+				move_down_request(&(test_mso.reticle));
+				printf("x = %d, ", test_mso.reticle.x);
+				printf("y = %d\n", test_mso.reticle.y);
+			}
+
+			if (key == 'D' || key == 'd') {
+				move_right_request(&(test_mso.reticle));
+				printf("x = %d, ", test_mso.reticle.x);
 				printf("y = %d\n", test_mso.reticle.y);
 			}
 
