@@ -2,11 +2,11 @@
 	data
 	even
 _test_mso:
-	dc.w	128,300,16,19,0,0,0,0
-	dc.w	0,0,0,0
+	dc.w	320,200,16,19,0,0,49,49
+	dc.w	16,14,0,0
 	dc.b	0,0
 	even
-	dc.w	0,0,0,0,0,0
+	dc.w	591,351,16,14,0,0
 	dc.b	0,0
 	even
 _reticle_bitmap:
@@ -17,85 +17,269 @@ _mallard_bitmap:
 	dc.w	0,0,32766,32766,32766,32766,32766,384
 	dc.w	384,384,384,384,0,0
 	text
-L2:
+L11:
+	dc.b	77,50,121,32,61,32,37,100,10,0
+L10:
+	dc.b	77,50,120,32,61,32,37,100,44,32,0
+L9:
+	dc.b	77,49,121,32,61,32,37,100,10,0
+L8:
+	dc.b	77,49,120,32,61,32,37,100,44,32,0
+L7:
+	dc.b	89,79,85,32,76,79,83,69,33,10,13,0
+L6:
+	dc.b	84,105,109,101,114,32,61,32,37,100,10,0
+L5:
 	dc.b	121,32,61,32,37,100,10,0
+L4:
+	dc.b	120,32,61,32,37,100,44,32,0
+L3:
+	dc.b	83,112,97,99,101,98,97,114,32,102,111,114
+	dc.b	32,99,108,111,99,107,32,116,105,99,107,10
+	dc.b	13,0
+L2:
+	dc.b	87,65,83,68,32,116,111,32,109,111,118,101
+	dc.b	10,13,0
 L1:
 	dc.b	80,114,101,115,115,32,81,32,116,111,32,81
-	dc.b	117,105,116,0
+	dc.b	117,105,116,10,13,0
 	even
 _main:
-	link	a6,#-6
-	movem.l	d3/d4,-(a7)
-	;line	61
+	link	a6,#-8
+	movem.l	d3/d4/d5/d6/d7/a3/a4/a5,-(a7)
+	lea	_test_mso,a3
+	lea	_printf,a4
+	move.l	#L5,d5
+	move.l	#L4,d6
+	lea	__trap_1_wl,a5
+	lea	-4(a6),a0
+	move.l	a0,d7
+	;line	62
+	move.l	d7,a0
+	move.w	#45,(a0)
 	move.w	#2,-(a7)
 	jsr	__trap_14_w
 	addq.l	#2,a7
 	move.l	d0,d4
-	;line	61
+	;line	62
 	clr.w	-(a7)
 	move.l	d4,-(a7)
 	jsr	_clear_screen
 	addq.l	#6,a7
-	;line	62
+	;line	63
 	move.w	#19,-(a7)
 	pea	_reticle_bitmap
-	move.w	#300,-(a7)
-	move.w	#128,-(a7)
+	move.w	#200,-(a7)
+	move.w	#320,-(a7)
 	move.l	d4,-(a7)
 	jsr	_plot_bitmap_16
 	lea	14(a7),a7
 	;line	64
+	move.w	#14,-(a7)
+	pea	_mallard_bitmap
+	move.w	#49,-(a7)
+	move.w	#49,-(a7)
+	move.l	d4,-(a7)
+	jsr	_plot_bitmap_16
+	lea	14(a7),a7
+	;line	65
+	move.w	#14,-(a7)
+	pea	_mallard_bitmap
+	move.w	#351,-(a7)
+	move.w	#591,-(a7)
+	move.l	d4,-(a7)
+	jsr	_plot_bitmap_16
+	lea	14(a7),a7
+	;line	67
 	pea	L1
 	move.w	#9,-(a7)
-	jsr	__trap_1_wl
+	jsr	(a5)
 	addq.l	#6,a7
-	;line	66
-	bra	L4
-L3:
-	;line	67
+	;line	68
+	pea	L2
+	move.w	#9,-(a7)
+	jsr	(a5)
+	addq.l	#6,a7
+	;line	69
+	pea	L3
+	move.w	#9,-(a7)
+	jsr	(a5)
+	addq.l	#6,a7
+	;line	71
+	bra	L13
+L12:
+	;line	72
 	move.w	#11,-(a7)
 	jsr	__trap_1_w
 	addq.l	#2,a7
 	tst.w	d0
-	beq	L6
-	;line	68
+	beq	L15
+	;line	73
 	move.w	#8,-(a7)
 	jsr	__trap_1_w
 	addq.l	#2,a7
 	move.w	d0,d3
-	;line	70
+	;line	76
 	cmp.w	#87,d3
-	beq	L8
+	beq	L17
 	cmp.w	#119,d3
-	bne	L7
-L8:
-	;line	71
-	pea	_test_mso
+	bne	L16
+L17:
+	;line	77
+	move.l	a3,-(a7)
 	jsr	_move_up_request
 	addq.l	#4,a7
-	;line	72
-	move.w	2+_test_mso,-(a7)
-	pea	L2
-	jsr	_printf
+	;line	78
+	move.w	(a3),-(a7)
+	move.l	d6,-(a7)
+	jsr	(a4)
 	addq.l	#6,a7
-L7:
-	;line	75
+	;line	79
+	move.w	2(a3),-(a7)
+	move.l	d5,-(a7)
+	jsr	(a4)
+	addq.l	#6,a7
+L16:
+	;line	82
+	cmp.w	#65,d3
+	beq	L19
+	cmp.w	#97,d3
+	bne	L18
+L19:
+	;line	83
+	move.l	a3,-(a7)
+	jsr	_move_left_request
+	addq.l	#4,a7
+	;line	84
+	move.w	(a3),-(a7)
+	move.l	d6,-(a7)
+	jsr	(a4)
+	addq.l	#6,a7
+	;line	85
+	move.w	2(a3),-(a7)
+	move.l	d5,-(a7)
+	jsr	(a4)
+	addq.l	#6,a7
+L18:
+	;line	88
+	cmp.w	#83,d3
+	beq	L21
+	cmp.w	#115,d3
+	bne	L20
+L21:
+	;line	89
+	move.l	a3,-(a7)
+	jsr	_move_down_request
+	addq.l	#4,a7
+	;line	90
+	move.w	(a3),-(a7)
+	move.l	d6,-(a7)
+	jsr	(a4)
+	addq.l	#6,a7
+	;line	91
+	move.w	2(a3),-(a7)
+	move.l	d5,-(a7)
+	jsr	(a4)
+	addq.l	#6,a7
+L20:
+	;line	94
+	cmp.w	#68,d3
+	beq	L23
+	cmp.w	#100,d3
+	bne	L22
+L23:
+	;line	95
+	move.l	a3,-(a7)
+	jsr	_move_right_request
+	addq.l	#4,a7
+	;line	96
+	move.w	(a3),-(a7)
+	move.l	d6,-(a7)
+	jsr	(a4)
+	addq.l	#6,a7
+	;line	97
+	move.w	2(a3),-(a7)
+	move.l	d5,-(a7)
+	jsr	(a4)
+	addq.l	#6,a7
+L22:
+	;line	101
+	cmp.w	#32,d3
+	bne	L24
+	;line	102
+	move.l	d7,-(a7)
+	jsr	_game_timer
+	addq.l	#4,a7
+	;line	103
+	move.l	d7,a0
+	move.w	(a0),-(a7)
+	pea	L6
+	jsr	(a4)
+	addq.l	#6,a7
+	;line	106
+	move.l	d7,a0
+	move.w	(a0),-(a7)
+	jsr	_time_lose_check
+	addq.l	#2,a7
+	tst.w	d0
+	beq	L25
+	;line	107
+	pea	L7
+	move.w	#9,-(a7)
+	jsr	(a5)
+	;line	108
+	bra	L14
+L25:
+	;line	111
+	moveq	#12,d0
+	add.l	a3,d0
+	move.l	d0,-(a7)
+	jsr	_mallard_move_request
+	addq.l	#4,a7
+	;line	112
+	move.w	12(a3),-(a7)
+	pea	L8
+	jsr	(a4)
+	addq.l	#6,a7
+	;line	113
+	move.w	14(a3),-(a7)
+	pea	L9
+	jsr	(a4)
+	addq.l	#6,a7
+	;line	115
+	moveq	#26,d0
+	add.l	a3,d0
+	move.l	d0,-(a7)
+	jsr	_mallard_move_request
+	addq.l	#4,a7
+	;line	116
+	move.w	26(a3),-(a7)
+	pea	L10
+	jsr	(a4)
+	addq.l	#6,a7
+	;line	117
+	move.w	28(a3),-(a7)
+	pea	L11
+	jsr	(a4)
+	addq.l	#6,a7
+L24:
+	;line	121
 	cmp.w	#81,d3
-	beq	L10
+	beq	L27
 	cmp.w	#113,d3
-	bne	L9
-L10:
-	;line	76
-	bra	L5
-L9:
-L6:
-L4:
-	bra	L3
-L5:
-	;line	81
+	bne	L26
+L27:
+	;line	122
+	bra	L14
+L26:
+L15:
+L13:
+	bra	L12
+L14:
+	;line	127
 	moveq	#0,d0
-L11:
-	movem.l	-14(a6),d3/d4
+L28:
+	movem.l	-40(a6),d3/d4/d5/d6/d7/a3/a4/a5
 	unlk	a6
 	rts
 	globl	_test_mso
