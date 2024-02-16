@@ -6,6 +6,8 @@
  *                                                                             *
  * PURPOSE: Requests a change of vertical position of the reticle and then     *
  *         resets the reticle's velocity at the end.                           *
+ *          If the requested position is out of bounds, the position will      *
+ *         restrict movement.                                                  *
  *                                                                             *
  * INPUT: *reticle = pointer to structure of structure.                        *
  *                                                                             *
@@ -28,6 +30,22 @@ void move_up_request(Reticle *reticle) {
     reticle->dy = 0;
 }
 
+/*******************************************************************************
+ * FUNCTION NAME: move_down_request                                            *
+ *                                                                             *
+ * PURPOSE: Requests a change of vertical position of the reticle and then     *
+ *         resets the reticle's velocity at the end.                           *
+ *          If the requested position is out of bounds, the position will      *
+ *         restrict movement.                                                  *
+ *                                                                             *
+ * INPUT: *reticle = pointer to structure of structure.                        *
+ *                                                                             *
+ * OUTPUT: no return value from function, the structure's change in y          *
+ *          manipulated.                                                       *
+ *                                                                             *
+ * ASSUMPTION: Assumes that Reticle structure is instantiated.                 *
+ *                                                                             *
+ *******************************************************************************/
 void move_down_request(Reticle *reticle) {
     reticle->dy += 2;
     move_reticle(reticle);
@@ -41,6 +59,22 @@ void move_down_request(Reticle *reticle) {
     reticle->dy = 0;
 }
 
+/*******************************************************************************
+ * FUNCTION NAME: move_left_request                                            *
+ *                                                                             *
+ * PURPOSE: Requests a change of horizontal position of the reticle and then   *
+ *         resets the reticle's velocity at the end.                           *
+ *          If the requested position is out of bounds, the position will      *
+ *         restrict movement.                                                  *
+ *                                                                             *
+ * INPUT: *reticle = pointer to structure of structure.                        *
+ *                                                                             *
+ * OUTPUT: no return value from function, the structure's change in x          *
+ *          manipulated.                                                       *
+ *                                                                             *
+ * ASSUMPTION: Assumes that Reticle structure is instantiated.                 *
+ *                                                                             *
+ *******************************************************************************/
 void move_left_request(Reticle *reticle) {
     reticle->dx -= 2;
     move_reticle(reticle);
@@ -54,6 +88,22 @@ void move_left_request(Reticle *reticle) {
     reticle->dx = 0;
 }
 
+/*******************************************************************************
+ * FUNCTION NAME: move_right_request                                           *
+ *                                                                             *
+ * PURPOSE: Requests a change of horizontal position of the reticle and then   *
+ *         resets the reticle's velocity at the end.                           *
+ *          If the requested position is out of bounds, the position will      *
+ *         restrict movement.                                                  *
+ *                                                                             *
+ * INPUT: *reticle = pointer to structure of structure.                        *
+ *                                                                             *
+ * OUTPUT: no return value from function, the structure's change in x          *
+ *          manipulated.                                                       *
+ *                                                                             *
+ * ASSUMPTION: Assumes that Reticle structure is instantiated.                 *
+ *                                                                             *
+ *******************************************************************************/
 void move_right_request(Reticle *reticle) {
     reticle->dx += 2;
     move_reticle(reticle);
@@ -67,11 +117,38 @@ void move_right_request(Reticle *reticle) {
     reticle->dx = 0;
 }
 
+/*******************************************************************************
+ * FUNCTION NAME: game_timer                                                   *
+ *                                                                             *
+ * PURPOSE: Ticks down in-game timer, synched with clock.                      *
+ *                                                                             *
+ * INPUT: *timer = a pointer to an int that represents the in-game timer.      *
+ *                                                                             *
+ * OUTPUT: no return value from function, in-game timer is reduced by one.     *
+ *                                                                             *
+ * ASSUMPTION: Assumes that timer is dereferenced.                             *
+ *                                                                             *
+ *******************************************************************************/
 void game_timer(int *timer) {
     (*timer) -= 1;
 }
 
-/* flies in square shape */
+/*******************************************************************************
+ * FUNCTION NAME: mallard_move_request                                         *
+ *                                                                             *
+ * PURPOSE: Moves mallard object in a square flight pattern by slowly changing *
+ *         it's velocity.                                                      *
+ *          With this current pattern, mallards cannot collide of go off       *
+ *         screen.                                                             *
+ *                                                                             *
+ * INPUT: *mallard = pointer to structure of structure.                        *
+ *                                                                             *
+ * OUTPUT: no return value from function, the structure's change in x and y    *
+ *          manipulated.                                                       *
+ *                                                                             *
+ * ASSUMPTION: Assumes that Mallard structure is instantiated.                 *
+ *                                                                             *
+ *******************************************************************************/
 void mallard_move_request(Mallard *mallard) {
     if (mallard->y > 350) mallard->dx -= 4;
     if (mallard->y < 50) mallard->dx += 4;
@@ -83,6 +160,19 @@ void mallard_move_request(Mallard *mallard) {
     mallard->dy = 0;
 }
 
+
+/*******************************************************************************
+ * FUNCTION NAME: time_lose_check                                              *
+ *                                                                             *
+ * PURPOSE: Checks the game's in-game clock for the lose condition. (Timer = 0)*
+ *                                                                             *
+ * INPUT: timer = an int to represent the in-game timer.                       *
+ *                                                                             *
+ * OUTPUT: returns FALSE if the in-game timer is not 0, returns TRUE otherwise.*
+ *                                                                             *
+ * ASSUMPTION:                                                                 *
+ *                                                                             *
+ *******************************************************************************/
 bool time_lose_check(int timer) {
     bool time_out = FALSE;
     
@@ -91,6 +181,19 @@ bool time_lose_check(int timer) {
     return time_out;
 }
 
+/*******************************************************************************
+ * FUNCTION NAME: bounds_check                                                 *
+ *                                                                             *
+ * PURPOSE: Checks the current position of the player (reticle) to ensure they *
+ *         are in bounds.                                                      *
+ *                                                                             *
+ * INPUT: *reticle = pointer to structure of structure.                        *
+ *                                                                             *
+ * OUTPUT: returns TRUE if player is inbounds, returns FALSE otherwise.        *
+ *                                                                             *
+ * ASSUMPTION:                                                                 *
+ *                                                                             *
+ *******************************************************************************/
 bool bounds_check(Reticle *reticle) {
     bool in_bounds = TRUE;
 
@@ -103,7 +206,8 @@ bool bounds_check(Reticle *reticle) {
     return in_bounds;
 }
 
-bool bounds_check_enemy(Mallard *mallard) {
+/* Uneeded at this stage, reference mallard_move_request documentation */
+/* bool bounds_check_enemy(Mallard *mallard) {
     bool in_bounds = TRUE;
 
     if (mallard->x <= 1
@@ -113,4 +217,4 @@ bool bounds_check_enemy(Mallard *mallard) {
         in_bounds = FALSE;
 
     return in_bounds;
-}
+} */ 
