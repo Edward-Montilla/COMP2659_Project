@@ -83,6 +83,13 @@ void mallard_move_request(Mallard *mallard) {
     mallard->dy = 0;
 }
 
+bool time_lose_check(int timer) {
+    bool time_out = FALSE;
+    
+    if (timer == 0) time_out = TRUE;
+
+    return time_out;
+}
 
 bool bounds_check(Reticle *reticle) {
     bool in_bounds = TRUE;

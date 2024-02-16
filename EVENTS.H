@@ -15,6 +15,6 @@ void mallard_move_request(Mallard *mallard);
 
 /* Cascaded Events */
 bool shoot_win_check();
-bool time_lose_check();
+bool time_lose_check(int timer);
 bool bounds_check(Reticle *reticle);
 /* bool bounds_check_enemy(Mallard *mallard); */ /* Not needed yet */
