@@ -67,11 +67,29 @@ void move_right_request(Reticle *reticle) {
     reticle->dx = 0;
 }
 
-/*
-void mallard_move_request() {
-    if ()
+void game_timer(int *timer) {
+    (*timer) -= 1;
 }
-*/
+
+/* flies in square shape */
+void mallard_move_request(Mallard *mallard) {
+    if (mallard->y > 350) mallard->dx -= 4;
+    if (mallard->y < 50) mallard->dx += 4;
+    if (mallard->x < 50) mallard->dy -= 4;
+    if (mallard->x > 590) mallard->dy += 4;
+
+    move_mallard(mallard);
+    mallard->dx = 0;
+    mallard->dy = 0;
+}
+
+bool time_lose_check(int timer) {
+    bool time_out = FALSE;
+    
+    if (timer == 0) time_out = TRUE;
+
+    return time_out;
+}
 
 bool bounds_check(Reticle *reticle) {
     bool in_bounds = TRUE;
