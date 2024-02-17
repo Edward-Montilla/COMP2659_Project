@@ -1,6 +1,7 @@
-#define bool int
-#define FALSE 0
-#define TRUE 1
+#ifndef MODEL_H
+#define MODEL_H
+
+#include "TYPES.H"
 
 typedef struct {
   /* position variables */
@@ -32,3 +33,5 @@ typedef struct {
 void move_reticle(Reticle *reticle);
 void move_mallard(Mallard *mallard);
 bool is_hit(Reticle *reticle, Mallard *mallard);
+
+#endif

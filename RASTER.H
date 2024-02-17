@@ -12,4 +12,8 @@ void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap,
                     unsigned int height);
 /* extern void clear_screen(UINT32 *base); */
 
+/* bitmaps */
+extern const UINT16 reticle_bitmap[];
+extern const UINT16 mallard_bitmap[];
+
 #endif

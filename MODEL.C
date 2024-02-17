@@ -42,8 +42,7 @@ void move_mallard(Mallard *mallard) {
  * FUNCTION NAME: is_hit                                                       *
  *                                                                             *
  * PURPOSE: Checks coordinate of two objects and returns true if hit           *
- *        This funtion uses an AABB collision algorithm found on amanotes      *
- *        I'll cite this: https://www.amanotes.com/post/using-swept-aabb-to-detect-and-process-collision#:~:text=What%20is%20AABB%3F,with%20each%20other%20or%20not.
+ *        This funtion uses an AABB collision algorithm found on amanotes [1]  *
  *                                                                             *
  * INPUT: *mallard = pointer to structure                                      *
  *        *reticle = pointer to structure                                      *
@@ -66,3 +65,7 @@ void move_mallard(Mallard *mallard) {
   
   return hit;
 }; */
+
+/* Luu The Vinh. "Using Swept AABB to detect and process collision." amanotes.com.
+  https://www.amanotes.com/post/using-swept-aabb-to-detect-and-process-collision#:~:text=What%20is%20AABB%3F,with%20each%20other%20or%20not
+  (accessed Feb. 14, 2024) */
