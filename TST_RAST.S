@@ -8,14 +8,6 @@ _test_mso:
 	even
 	dc.w	591,351,16,14,0,0
 	dc.b	0,0
-	even
-_reticle_bitmap:
-	dc.w	384,384,384,384,384,384,0,0
-	dc.w	-1633,-1633,-1633,0,0,384,384,384
-	dc.w	384,384,384
-_mallard_bitmap:
-	dc.w	0,0,32766,32766,32766,32766,32766,384
-	dc.w	384,384,384,384,0,0
 	text
 L11:
 	dc.b	77,50,121,32,61,32,37,100,10,0
@@ -54,19 +46,19 @@ _main:
 	lea	__trap_1_wl,a5
 	lea	-4(a6),a0
 	move.l	a0,d7
-	;line	62
+	;line	22
 	move.l	d7,a0
 	move.w	#45,(a0)
 	move.w	#2,-(a7)
 	jsr	__trap_14_w
 	addq.l	#2,a7
 	move.l	d0,d4
-	;line	62
+	;line	22
 	clr.w	-(a7)
 	move.l	d4,-(a7)
 	jsr	_clear_screen
 	addq.l	#6,a7
-	;line	63
+	;line	23
 	move.w	#19,-(a7)
 	pea	_reticle_bitmap
 	move.w	#200,-(a7)
@@ -74,7 +66,7 @@ _main:
 	move.l	d4,-(a7)
 	jsr	_plot_bitmap_16
 	lea	14(a7),a7
-	;line	64
+	;line	24
 	move.w	#14,-(a7)
 	pea	_mallard_bitmap
 	move.w	#49,-(a7)
@@ -82,7 +74,7 @@ _main:
 	move.l	d4,-(a7)
 	jsr	_plot_bitmap_16
 	lea	14(a7),a7
-	;line	65
+	;line	25
 	move.w	#14,-(a7)
 	pea	_mallard_bitmap
 	move.w	#351,-(a7)
@@ -90,199 +82,197 @@ _main:
 	move.l	d4,-(a7)
 	jsr	_plot_bitmap_16
 	lea	14(a7),a7
-	;line	67
+	;line	28
 	pea	L1
 	move.w	#9,-(a7)
 	jsr	(a5)
 	addq.l	#6,a7
-	;line	68
+	;line	29
 	pea	L2
 	move.w	#9,-(a7)
 	jsr	(a5)
 	addq.l	#6,a7
-	;line	69
+	;line	30
 	pea	L3
 	move.w	#9,-(a7)
 	jsr	(a5)
 	addq.l	#6,a7
-	;line	71
+	;line	32
 	bra	L13
 L12:
-	;line	72
+	;line	33
 	move.w	#11,-(a7)
 	jsr	__trap_1_w
 	addq.l	#2,a7
 	tst.w	d0
 	beq	L15
-	;line	73
+	;line	34
 	move.w	#8,-(a7)
 	jsr	__trap_1_w
 	addq.l	#2,a7
 	move.w	d0,d3
-	;line	76
+	;line	37
 	cmp.w	#87,d3
 	beq	L17
 	cmp.w	#119,d3
 	bne	L16
 L17:
-	;line	77
+	;line	38
 	move.l	a3,-(a7)
 	jsr	_move_up_request
 	addq.l	#4,a7
-	;line	78
+	;line	39
 	move.w	(a3),-(a7)
 	move.l	d6,-(a7)
 	jsr	(a4)
 	addq.l	#6,a7
-	;line	79
+	;line	40
 	move.w	2(a3),-(a7)
 	move.l	d5,-(a7)
 	jsr	(a4)
 	addq.l	#6,a7
 L16:
-	;line	82
+	;line	43
 	cmp.w	#65,d3
 	beq	L19
 	cmp.w	#97,d3
 	bne	L18
 L19:
-	;line	83
+	;line	44
 	move.l	a3,-(a7)
 	jsr	_move_left_request
 	addq.l	#4,a7
-	;line	84
+	;line	45
 	move.w	(a3),-(a7)
 	move.l	d6,-(a7)
 	jsr	(a4)
 	addq.l	#6,a7
-	;line	85
+	;line	46
 	move.w	2(a3),-(a7)
 	move.l	d5,-(a7)
 	jsr	(a4)
 	addq.l	#6,a7
 L18:
-	;line	88
+	;line	49
 	cmp.w	#83,d3
 	beq	L21
 	cmp.w	#115,d3
 	bne	L20
 L21:
-	;line	89
+	;line	50
 	move.l	a3,-(a7)
 	jsr	_move_down_request
 	addq.l	#4,a7
-	;line	90
+	;line	51
 	move.w	(a3),-(a7)
 	move.l	d6,-(a7)
 	jsr	(a4)
 	addq.l	#6,a7
-	;line	91
+	;line	52
 	move.w	2(a3),-(a7)
 	move.l	d5,-(a7)
 	jsr	(a4)
 	addq.l	#6,a7
 L20:
-	;line	94
+	;line	55
 	cmp.w	#68,d3
 	beq	L23
 	cmp.w	#100,d3
 	bne	L22
 L23:
-	;line	95
+	;line	56
 	move.l	a3,-(a7)
 	jsr	_move_right_request
 	addq.l	#4,a7
-	;line	96
+	;line	57
 	move.w	(a3),-(a7)
 	move.l	d6,-(a7)
 	jsr	(a4)
 	addq.l	#6,a7
-	;line	97
+	;line	58
 	move.w	2(a3),-(a7)
 	move.l	d5,-(a7)
 	jsr	(a4)
 	addq.l	#6,a7
 L22:
-	;line	101
+	;line	62
 	cmp.w	#32,d3
 	bne	L24
-	;line	102
+	;line	63
 	move.l	d7,-(a7)
 	jsr	_game_timer
 	addq.l	#4,a7
-	;line	103
+	;line	64
 	move.l	d7,a0
 	move.w	(a0),-(a7)
 	pea	L6
 	jsr	(a4)
 	addq.l	#6,a7
-	;line	106
+	;line	67
 	move.l	d7,a0
 	move.w	(a0),-(a7)
 	jsr	_time_lose_check
 	addq.l	#2,a7
 	tst.w	d0
 	beq	L25
-	;line	107
+	;line	68
 	pea	L7
 	move.w	#9,-(a7)
 	jsr	(a5)
-	;line	108
+	;line	69
 	bra	L14
 L25:
-	;line	111
+	;line	72
 	moveq	#12,d0
 	add.l	a3,d0
 	move.l	d0,-(a7)
 	jsr	_mallard_move_request
 	addq.l	#4,a7
-	;line	112
+	;line	73
 	move.w	12(a3),-(a7)
 	pea	L8
 	jsr	(a4)
 	addq.l	#6,a7
-	;line	113
+	;line	74
 	move.w	14(a3),-(a7)
 	pea	L9
 	jsr	(a4)
 	addq.l	#6,a7
-	;line	115
+	;line	76
 	moveq	#26,d0
 	add.l	a3,d0
 	move.l	d0,-(a7)
 	jsr	_mallard_move_request
 	addq.l	#4,a7
-	;line	116
+	;line	77
 	move.w	26(a3),-(a7)
 	pea	L10
 	jsr	(a4)
 	addq.l	#6,a7
-	;line	117
+	;line	78
 	move.w	28(a3),-(a7)
 	pea	L11
 	jsr	(a4)
 	addq.l	#6,a7
 L24:
-	;line	121
+	;line	82
 	cmp.w	#81,d3
 	beq	L27
 	cmp.w	#113,d3
 	bne	L26
 L27:
-	;line	122
+	;line	83
 	bra	L14
 L26:
 L15:
 L13:
 	bra	L12
 L14:
-	;line	127
+	;line	88
 	moveq	#0,d0
 L28:
 	movem.l	-40(a6),d3/d4/d5/d6/d7/a3/a4/a5
 	unlk	a6
 	rts
 	globl	_test_mso
-	globl	_reticle_bitmap
-	globl	_mallard_bitmap
 	globl	_main
