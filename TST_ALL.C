@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include "RASTER.H"
 #include "EVENTS.H"
+#include "RENDERER.H"
 
-Model test_mso =
+const Model test_mso =
 {
 	{320, 200, 16, 19, 0, 0},	/* the Reticle; the player */
 	{
@@ -19,10 +20,7 @@ int main()
 	void *base = Physbase();
 
 	/* Sets the scene */
-	clear_screen(base, 0);
-	plot_bitmap_16(base, 320, 200, reticle_bitmap, 19);
-	plot_bitmap_16(base, 49, 49, mallard_bitmap, 14);
-	plot_bitmap_16(base, 591, 351, mallard_bitmap, 14);
+	render(&test_mso, base);
 	
 	/* Instructions */
 	Cconws("Press Q to Quit\n\r");
