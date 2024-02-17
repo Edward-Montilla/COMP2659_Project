@@ -1,5 +1,18 @@
 #include "RENDERER.H"
 
+/*******************************************************************************
+ * FUNCTION NAME: render                                                       *
+ *                                                                             *
+ * PURPOSE: Plots all raster graphics.                                         *   
+ *                                                                             *
+ * INPUT: *model = a structure that holds all current objects.                 *
+ *                                                                             *
+ * OUTPUT: no return value from function, plots objects on the screen.         *
+ *                                                                             *
+ * ASSUMPTION: models and base have been instantiated, and                     *
+ *           the object's x and y are within bounds.                           *
+ *                                                                             *
+ *******************************************************************************/
 void render(const Model *model, UINT16 *base) {
     clear_screen(base, 0);
     render_reticle(&(model->reticle), base);
