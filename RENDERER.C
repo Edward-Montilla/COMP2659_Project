@@ -1,5 +1,12 @@
 #include "RENDERER.H"
 
+void render(const Model *model, UINT16 *base) {
+    clear_screen(base, 0);
+    render_reticle(&(model->reticle), base);
+    render_mallard(&(model->mallards[0]), base);
+    render_mallard(&(model->mallards[1]), base);
+}
+
 /*******************************************************************************
  * FUNCTION NAME: render_reticle                                               *
  *                                                                             *

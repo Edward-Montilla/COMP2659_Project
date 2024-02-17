@@ -1,5 +1,5 @@
-tst_rast: tst_all.o raster.o bitmap.o events.o model.o rast_asm.o
-	cc68x -g tst_all.o raster.o bitmap.o events.o model.o rast_asm.o -o tst_all
+tst_rast: tst_all.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o
+	cc68x -g tst_all.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o -o tst_all
 
 tst_all.o: tst_all.c raster.h events.h
 	cc68x -g -c tst_all.c
@@ -15,6 +15,9 @@ model.o: model.c model.h
 
 bitmap.o: bitmap.c raster.h
 	cc68x -g -c bitmap.c
+
+renderer.o: renderer.c renderer.h
+	cc68x -g -c renderer.c
 
 rast_asm.o: rast_asm.s
 	gen -D -L2 rast_asm.s
