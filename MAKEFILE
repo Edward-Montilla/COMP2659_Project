@@ -1,4 +1,4 @@
-all: tst_all tst_rend
+all: tst_all tst_rend tst_fnt
 
 tst_all: tst_all.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o
 	cc68x -g tst_all.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o -o tst_all
@@ -6,17 +6,26 @@ tst_all: tst_all.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o
 tst_rend: tst_rend.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o
 	cc68x -g tst_rend.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o -o tst_rend
 
+tst_fnt: tst_fnt.o raster.o font.o
+	cc68x -g tst_fnt.o raster.o font.o -o tst_fnt
+
 tst_all.o: tst_all.c raster.h events.h
 	cc68x -g -c tst_all.c
 
 tst_rend.o: tst_rend.c raster.h events.h
 	cc68x -g -c tst_rend.c
 
+tst_fnt.o: tst_fnt.c font.h types.h raster.h
+	cc68x -g -c tst_fnt.c
+
 events.o: events.c events.h model.h
 	cc68x -g -c events.c
 
 raster.o: raster.c raster.h
 	cc68x -g -c raster.c
+
+font.o: font.c font.h
+	cc68x -g -c font.c
 
 model.o: model.c model.h
 	cc68x -g -c model.c
