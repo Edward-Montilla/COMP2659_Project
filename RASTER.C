@@ -134,13 +134,14 @@ void clear_screen(UINT16 *base, int pattern) {
  *******************************************************************************/
 void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap,
                     unsigned int height) {
-  UINT16 *loc = base + (y * 40) + (x >> 4);
-  int row;
+  int i = 0;
+  base += (x >> 4) + y * 40;
 
-  for (row = 0; row < height; row++) {
-    *loc |= bitmap[row]; /* needs bounds checking */
-    loc += 40; /* 40 is the number of 'word'(s) between the current pixel and
-                  the pixel directly bellow it */
+  while (i < height) {
+    *base = bitmap[i] >> (x & 15);
+    *(base+1) = bitmap[i] << 16 - (x & 15);
+    base += 40;
+    i++;
   }
 };
 
@@ -164,12 +165,14 @@ void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap,
  *******************************************************************************/
 void plot_bitmap_8(UINT16 *base, int x, int y, const UINT16 *bitmap,
                    unsigned int height) {
-  UINT16 *loc = base + (y * 80) + (x >> 3);
-  int row;
+  int i = 0;
+  base += (x >> 3) + y * 80;
 
-  for (row = 0; row < height; row++) {
-    *loc |= bitmap[row];
-    loc += 80;
+  while (i < height) {
+    *base = bitmap[i] >> (x & 7);
+    *(base+1) = bitmap[i] << 8 - (x & 7);
+    base += 80;
+    i++;
   }
 };
 
