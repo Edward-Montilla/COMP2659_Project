@@ -1,6 +1,6 @@
 #include "RASTER.H"
 #include "TYPES.H"
-#include "font.h"
+#include "FONT.H"
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 400
