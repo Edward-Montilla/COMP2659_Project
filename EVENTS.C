@@ -133,6 +133,18 @@ void game_timer(int *timer) {
     (*timer) -= 1;
 }
 
+UINT32 get_time() {
+  long old_ssp;
+  UINT32 timeNow;
+  long *timer = (long *)0x462;
+
+  old_ssp = Super(0);
+  timeNow = *timer;
+  Super(old_ssp);
+
+  return timeNow;
+}
+
 /*******************************************************************************
  * FUNCTION NAME: mallard_move_request                                         *
  *                                                                             *
