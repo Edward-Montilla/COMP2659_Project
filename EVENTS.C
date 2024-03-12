@@ -129,8 +129,13 @@ void move_right_request(Reticle *reticle) {
  * ASSUMPTION: Assumes that timer is dereferenced.                             *
  *                                                                             *
  *******************************************************************************/
-void game_timer(int *timer) {
-    (*timer) -= 1;
+void game_timer(UINT32 *timeThen, UINT32 *count) {
+    UINT32 timeNow = get_time();
+    
+    if (*timeThen != timeNow) {
+        *timeThen = timeNow;
+        (*count)++;
+    }
 }
 
 UINT32 get_time() {

@@ -17,7 +17,8 @@ const Model test_mso =
 int main()
 {
 	int key;
-	int timer = 45;
+	UINT32 timeThen = 0;
+	UINT32 count = 0;
 	void *base = Physbase();
 
 	/* Sets the scene */
@@ -37,6 +38,14 @@ int main()
 			}
 
 			read_key(key, &(test_mso.reticle));
+
+			if (key == ' ') {
+				printf("%d \n\r", timeThen);
+				printf("%d \n\r", count);
+				game_timer(&(timeThen), &(count));
+				printf("%d \n\r", timeThen);
+				printf("%d \n\r", count);
+			}
 
             render(&test_mso, base);
 		}
