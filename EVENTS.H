@@ -1,3 +1,6 @@
+#ifndef EVENTS_H
+#define EVENTS_H
+
 #include "MODEL.H"
 
 /* Asynchronous Events */
@@ -20,3 +23,5 @@ bool bounds_check(Reticle *reticle);
 /* bool bounds_check_enemy(Mallard *mallard); */ /* Not needed yet */
 
 UINT32 get_time();
+
+#endif

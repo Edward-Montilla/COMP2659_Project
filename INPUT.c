@@ -1,30 +1,22 @@
-#include "TYPES.H"
-#include <osbind.h>
-#include <stdio.h>
+#include "INPUT.H"
 
-UINT32 get_time();
-
-int main() {
-  UINT32 timeThen, timeNow, timeElapsed;
-  timeNow = get_time();
-  timeElapsed = timeNow - timeThen;
-
-  if (timeElapsed > 0) {
-
-    printf("%ld\n", timeNow);
-    timeThen = timeNow;
-  }
-  return 0;
-}
-
-UINT32 get_time() {
-  long old_ssp;
-  UINT32 timeNow;
-  long *timer = (long *)0x462;
-
-  old_ssp = Super(0);
-  timeNow = *timer;
-  Super(old_ssp);
-
-  return timeNow;
+void read_key(int key, Reticle *ret) {
+    switch (key)
+    {
+    case 'w':
+        move_up_request(ret);
+        break;
+    case 's':
+        move_down_request(ret);
+        break;
+    case 'a':
+        move_left_request(ret);
+        break;
+    case 'd':
+        move_right_request(ret);
+        break;
+    
+    default:
+        break;
+    }
 }

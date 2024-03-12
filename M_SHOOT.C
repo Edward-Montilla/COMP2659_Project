@@ -3,6 +3,7 @@
 #include "RASTER.H"
 #include "EVENTS.H"
 #include "RENDERER.H"
+#include "INPUT.H"
 
 const Model test_mso =
 {
@@ -30,48 +31,14 @@ int main()
 	while (1) {
 		if (Cconis() != 0) {
 			key = Cnecin();
-
-			/* Player Movement */
-			if (key == 'W' || key == 'w') {
-				move_up_request(&(test_mso.reticle));
-				render(&test_mso, base);
-			}
-
-			if (key == 'A' || key == 'a') {
-				move_left_request(&(test_mso.reticle));
-				render(&test_mso, base);
-			}
-
-			if (key == 'S' || key == 's') {
-				move_down_request(&(test_mso.reticle));
-				render(&test_mso, base);
-			}
-
-			if (key == 'D' || key == 'd') {
-				move_right_request(&(test_mso.reticle));
-				render(&test_mso, base);
-			}
-
-			/* Clock tick, triggers all synchronous events */
-			if (key == ' ') {
-				game_timer(&timer);
-				printf("Timer = %d\n", timer);
-
-				/* Check lose condition */
-				if (time_lose_check(timer)) {
-					Cconws("YOU LOSE!\n\r");
-					break;
-				}
-
-				mallard_move_request(&(test_mso.mallards[0]));
-				mallard_move_request(&(test_mso.mallards[1]));
-				render(&test_mso, base);
-			}
-
 			/* Ends session */
 			if (key == 'Q' || key == 'q') {
 				break;
 			}
+
+			read_key(key, &(test_mso.reticle));
+
+            render(&test_mso, base);
 		}
 	}
 
