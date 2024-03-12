@@ -1,4 +1,7 @@
-all: tst_all tst_rend tst_fnt
+all: game
+
+game: m_shoot.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o
+	cc68x -g m_shoot.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o -o game
 
 tst_all: tst_all.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o
 	cc68x -g tst_all.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o -o tst_all
@@ -8,6 +11,9 @@ tst_rend: tst_rend.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o
 
 tst_fnt: tst_fnt.o raster.o font.o
 	cc68x -g tst_fnt.o raster.o font.o -o tst_fnt
+
+m_shoot.o: m_shoot.c raster.h events.h renderer.h
+	cc68x -g -c m_shoot.c
 
 tst_all.o: tst_all.c raster.h events.h
 	cc68x -g -c tst_all.c
