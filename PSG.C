@@ -69,29 +69,30 @@ UINT8 read_psg(int reg) {
  *                              write register: 0xFF8802                       *
  *******************************************************************************/
 void set_tone(int channel, int tunning) {
-  
+
   int fine = tunning;
   int coarse = tunning;
 
   if (0 <= channel && channel <= 2 && 0 <= tunning && tunning <= 4096) {
     fine &= 0x00FF; /* capture the bottom 8 bits of 12 through masking */
-    coarse = coarse >> 8; /* capture the top 4 bits of 12 through right shifting */
+    coarse =
+        coarse >> 8; /* capture the top 4 bits of 12 through right shifting */
 
     switch (channel) {
     case CHANNEL_A:
-      write_psg(A_FINE,fine);
+      write_psg(A_FINE, fine);
       /*-------------------*/
-      write_psg(A_COARSE,coarse);
+      write_psg(A_COARSE, coarse);
       break;
     case CHANNEL_B:
-      write_psg(B_fine,fine);
+      write_psg(B_fine, fine);
       /*-------------------*/
-      write_psg(B_coarse,coarse);
+      write_psg(B_coarse, coarse);
       break;
     case CHANNEL_C:
-      write_psg(C_fine,fine);
+      write_psg(C_fine, fine);
       /*-------------------*/
-      write_psg(C_coarse,coarse);
+      write_psg(C_coarse, coarse);
       break;
     }
   }
@@ -106,7 +107,7 @@ void set_tone(int channel, int tunning) {
  * INPUT: 'channel' an int pertaining to the channel number of the interface   *
  *        'volume' an int pertaining to the level of volume.                   *
  *                                                                             *
- * OUTPUT: no return value from function, places value onto mememory address   *   
+ * OUTPUT: no return value from function, places value onto mememory address   *
  *                                                                             *
  * ASSUMPTION: Assumes that there is a YM2149 chip and its control registers   *
  *             are mapped at addresses:                                        *
@@ -114,8 +115,8 @@ void set_tone(int channel, int tunning) {
  *                              write register: 0xFF8802                       *
  *******************************************************************************/
 void set_volume(int channel, int volume) {
-  if(0x08 <= channel && channel <= 0x0A && 0 <= volume && volume <= 15){
-    write_psg(channel,volume);
+  if (0x08 <= channel && channel <= 0x0A && 0 <= volume && volume <= 15) {
+    write_psg(channel, volume);
   }
   return;
 };
@@ -136,31 +137,35 @@ void set_volume(int channel, int volume) {
  *                             select register: 0xFF8800                       *
  *                              write register: 0xFF8802                       *
  *******************************************************************************/
-void enable_channel(int channel, int tone_on, int noise_on){
+void enable_channel(int channel, int tone_on, int noise_on) {
   int mask_tune = 0x3F;
-  if(0 <= tone_on && tone_on <= 1 &&  0 <= noise_on  && noise_on <= 1){
+  if (0 <= tone_on && tone_on <= 1 && 0 <= noise_on && noise_on <= 1) {
     tone_on = tone_on ^ mask_tune;
     noise_on = noise_on ^ mask_tune;
-    switch (channel) {
-          case CHANNEL_A:
-            tone_on = tone_on ^ mask_tune;
-            noise_on = (noise_on << 3) ^ mask_tune;
-            write_psg(MIXER_IO,tone_on);
-            write_psg(MIXER_IO,noise_on);
-            break;
-          case CHANNEL_B:
-            tone_on = (noise_on << 1) ^ mask_tune;
-            noise_on = (noise_on << 4) ^ mask_tune;
-            write_psg(MIXER_IO,tone_on);
-            write_psg(MIXER_IO,noise_on);
-            break;
 
-          case CHANNEL_C:
-            tone_on = (noise_on << 2) ^ mask_tune;
-            noise_on = (noise_on << 5) ^ mask_tune;
-            write_psg(MIXER_IO,tone_on);
-            write_psg(MIXER_IO,noise_on);
-            break;
+    /* the maske is wrong!!! mask the other way!!, have to toggle both noise and
+     * tone bits at the same time ro else tone will always turn off becasue of
+     * the order */
+    switch (channel) {
+    case CHANNEL_A:
+      tone_on = tone_on ^ mask_tune;
+      noise_on = (noise_on << 3) ^ mask_tune;
+      write_psg(MIXER_IO, tone_on);
+      write_psg(MIXER_IO, noise_on);
+      break;
+    case CHANNEL_B:
+      tone_on = (noise_on << 1) ^ mask_tune;
+      noise_on = (noise_on << 4) ^ mask_tune;
+      write_psg(MIXER_IO, tone_on);
+      write_psg(MIXER_IO, noise_on);
+      break;
+
+    case CHANNEL_C:
+      tone_on = (noise_on << 2) ^ mask_tune;
+      noise_on = (noise_on << 5) ^ mask_tune;
+      write_psg(MIXER_IO, tone_on);
+      write_psg(MIXER_IO, noise_on);
+      break;
     }
   }
   return;
@@ -173,20 +178,19 @@ void enable_channel(int channel, int tone_on, int noise_on){
  *                                                                             *
  * INPUT: none                                                                 *
  *                                                                             *
- * OUTPUT: no return value from function, places value onto mememory address   * 
+ * OUTPUT: no return value from function, places value onto mememory address   *
  *                                                                             *
  * ASSUMPTION: Assumes that there is a YM2149 chip and its control registers   *
  *             are mapped at addresses:                                        *
  *                             select register: 0xFF8800                       *
  *                              write register: 0xFF8802                       *
  *******************************************************************************/
-void stop_sound(){
+void stop_sound() {
   int reg;
 
-  for(reg = 0; reg <= 0xF; reg++){
-    write_psg(reg,0);
+  for (reg = 0; reg <= 0xF; reg++) {
+    write_psg(reg, 0);
   }
-
 };
 
 /*******************************************************************************
@@ -211,11 +215,11 @@ void set_noise(int tuning) {
 /*******************************************************************************
  * FUNCTION NAME: set_envelop                                                  *
  *                                                                             *
- * PURPOSE:          
+ * PURPOSE:
  *                                                                             *
- * INPUT: 
+ * INPUT:
  *                                                                             *
- * OUTPUT: 
+ * OUTPUT:
  *                                                                             *
  * ASSUMPTION: Assumes that there is a YM2149 chip and its control registers   *
  *             are mapped at addresses:                                        *
