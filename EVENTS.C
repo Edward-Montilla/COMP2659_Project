@@ -1,4 +1,5 @@
 #include <osbind.h>
+#include <stdio.h>
 #include "EVENTS.H"
 
 /*******************************************************************************
@@ -129,12 +130,15 @@ void move_right_request(Reticle *reticle) {
  * ASSUMPTION: Assumes that timer is dereferenced.                             *
  *                                                                             *
  *******************************************************************************/
-void game_timer(UINT32 *timeThen, UINT32 *count) {
-    UINT32 timeNow = get_time();
-    
-    if (*timeThen != timeNow) {
-        *timeThen = timeNow;
-        (*count)++;
+void clock_timer(UINT32 *count) {
+    UINT32 timeThen, timeNow, timeElapsed;
+    timeNow = get_time();
+    timeElapsed = timeNow - timeThen;
+
+    if (timeElapsed > 0) {
+        timeThen = timeNow;
+        /* (*count) -= (timeElapsed) % 1000 / 500; */
+        (*count) -= 1;
     }
 }
 

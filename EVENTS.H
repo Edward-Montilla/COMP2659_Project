@@ -13,7 +13,7 @@ void pause();
 
 /* Synchronous Events */
 void temp_clock_tick();
-void game_timer(UINT32 *timeThen, UINT32 *count);
+void clock_timer(UINT32 *count);
 void mallard_move_request(Mallard *mallard);
 
 /* Cascaded Events */
