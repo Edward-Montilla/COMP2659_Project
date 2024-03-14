@@ -3,7 +3,7 @@
 /*******************************************************************************
  * FUNCTION NAME: render                                                       *
  *                                                                             *
- * PURPOSE: Plots all raster graphics.                                         *   
+ * PURPOSE: Plots all raster graphics.                                         *
  *                                                                             *
  * INPUT: *model = a structure that holds all current objects.                 *
  *                                                                             *

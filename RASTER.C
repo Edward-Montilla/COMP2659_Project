@@ -139,7 +139,7 @@ void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap,
 
   while (i < height) {
     *base = bitmap[i] >> (x & 15);
-    *(base+1) = bitmap[i] << 16 - (x & 15);
+    *(base + 1) = bitmap[i] << 16 - (x & 15);
     base += 40;
     i++;
   }
@@ -170,7 +170,7 @@ void plot_bitmap_8(UINT16 *base, int x, int y, const UINT16 *bitmap,
 
   while (i < height) {
     *base = bitmap[i] >> (x & 7);
-    *(base+1) = bitmap[i] << 8 - (x & 7);
+    *(base + 1) = bitmap[i] << 8 - (x & 7);
     base += 80;
     i++;
   }
@@ -197,10 +197,10 @@ void plot_bitmap_8(UINT16 *base, int x, int y, const UINT16 *bitmap,
 void plot_text(UINT16 *base, int x, int y, const UINT8 *bitmap, int ascii) {
   UINT16 *loc = base + (y * 80) + (x >> 3);
   int row;
-
+  /* subtract 32 from ascii value parameter */
   bitmap += ascii * 8; /* point to the letter */
   for (row = 0; row < 8; row++) {
     *loc |= bitmap[row];
-    loc += 80;
+    loc += 40;
   }
 };
