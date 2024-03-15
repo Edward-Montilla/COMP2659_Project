@@ -3,6 +3,9 @@
 
 #include "TYPES.H"
 
+/* Defined constants */
+
+/* Notes: pitch values */
 #define C_FLT 0x1DE
 #define C_SHR 0x1C3
 #define D_FLT 0x1AA
@@ -16,9 +19,12 @@
 #define A_SHP 0x10C
 #define B_FLT 0x0FD
 
+/* YM2149 memory mapped addresses */
 #define SELECT_REG 0xFF8800
 #define WRITE_REG 0xFF8802
 
+
+/* YM2149 register constants */
 #define A_fine 0x00
 #define A_coarse 0x01
 #define B_fine 0x02
@@ -35,6 +41,25 @@
 #define ENVELOPE_SHAPE 0X0D
 #define PORT_A 0x0E
 #define PORT_B 0x0B
+
+/**** Defined constants for function parameters ****/
+
+/*Channels*/
+#define CHANNEL_A 0
+#define CHANNEL_B 1
+#define CHANNEL_C 2
+
+/*Tone and noise state*/
+#define TONE_ON 1
+#define TONE_OFF 0
+#define NOISE_ON 1
+#define NOISE_OFF 0
+
+/*Envelop shapes*/
+#define HOLD 0
+#define ALT 1
+#define ATT 2
+#define CONT 3
 
 /* prototypes */
 

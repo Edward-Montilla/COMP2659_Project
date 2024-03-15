@@ -136,6 +136,7 @@ void set_volume(int channel, int volume) {
  *             are mapped at addresses:                                        *
  *                             select register: 0xFF8800                       *
  *                              write register: 0xFF8802                       *
+ *            on = 1, off = 0                                                  *
  *******************************************************************************/
 void enable_channel(int channel, int tone_on, int noise_on) {
   int mask_tune = 0x3F;
@@ -148,23 +149,20 @@ void enable_channel(int channel, int tone_on, int noise_on) {
      * the order */
     switch (channel) {
     case CHANNEL_A:
-      tone_on = tone_on ^ mask_tune;
-      noise_on = (noise_on << 3) ^ mask_tune;
-      write_psg(MIXER_IO, tone_on);
-      write_psg(MIXER_IO, noise_on);
+      mask_tune = tone_on ^ mask_tune;
+      mask_tune = (noise_on << 3) ^ mask_tune;
+      write_psg(MIXER_IO, mask_tune);
       break;
     case CHANNEL_B:
-      tone_on = (noise_on << 1) ^ mask_tune;
-      noise_on = (noise_on << 4) ^ mask_tune;
-      write_psg(MIXER_IO, tone_on);
-      write_psg(MIXER_IO, noise_on);
+      mask_tune = (tone_on << 1) ^ mask_tune;
+      mask_tune = (noise_on << 4) ^ mask_tune;
+      write_psg(MIXER_IO, mask_tune);
       break;
 
     case CHANNEL_C:
-      tone_on = (noise_on << 2) ^ mask_tune;
-      noise_on = (noise_on << 5) ^ mask_tune;
-      write_psg(MIXER_IO, tone_on);
-      write_psg(MIXER_IO, noise_on);
+      mask_tune = (tone_on << 2) ^ mask_tune;
+      mask_tune = (noise_on << 5) ^ mask_tune;
+      write_psg(MIXER_IO, mask_tune);
       break;
     }
   }
@@ -196,37 +194,69 @@ void stop_sound() {
 /*******************************************************************************
  * FUNCTION NAME: set_noise                                                    *
  *                                                                             *
- * PURPOSE:                                                                    *
+ * PURPOSE: loads noise register with  a 5 bit values                          *
  *                                                                             *
- * INPUT:                                                                      *
+ * INPUT: 'tuning' an intger value to be written to the noise register         *
  *                                                                             *
- * OUTPUT:                                                                     *
+ * OUTPUT: no return value from function, places value onto mememory address   *
  *                                                                             *
  * ASSUMPTION: Assumes that there is a YM2149 chip and its control registers   *
  *             are mapped at addresses:                                        *
  *                             select register: 0xFF8800                       *
  *                              write register: 0xFF8802                       *
  *******************************************************************************/
-void set_noise(int tuning) {
-  /* write func here */
+void set_noise(int tuning){
+  if(0<= tuning && tuning <= 31){
+    write_psg(NOISE,tuning);
+  }
   return;
 };
 
 /*******************************************************************************
  * FUNCTION NAME: set_envelop                                                  *
  *                                                                             *
- * PURPOSE:
+ * PURPOSE: Sets envelop shape and values to YM3149                            *
  *                                                                             *
- * INPUT:
+ * INPUT: 'shape' designates the register with the given shape,                *
+ *                only one shape can be set at a time                          *
  *                                                                             *
- * OUTPUT:
+ *        'sustain' a 16 bit value to be split up and loaded into the          *
+ *                fine and coarse envelop registers                            *
+ *                                                                             *
+ * OUTPUT: no return value from function, places value onto mememory address   *
  *                                                                             *
  * ASSUMPTION: Assumes that there is a YM2149 chip and its control registers   *
  *             are mapped at addresses:                                        *
  *                             select register: 0xFF8800                       *
  *                              write register: 0xFF8802                       *
  *******************************************************************************/
-void set_envelop(int shape, unsigned int sustain) {
-  /* write func here */
+void set_envelop(int shape, unsigned int sustain){
+  int fine = 0x00FF & sustain;
+  int coarse = sustain >> 8;
+  switch(shape){
+    case HOLD:
+      write_psg(ENVELOPE_SHAPE, 1);
+      write_psg(ENVELOPE_FINE,fine);
+      write_psg(ENVELOPE_COARSE, coarse);
+      break;
+
+    case ALT:
+      write_psg(ENVELOPE_SHAPE, 2);
+      write_psg(ENVELOPE_FINE,fine);
+      write_psg(ENVELOPE_COARSE, coarse);
+      break;
+
+    case ATT:
+      write_psg(ENVELOPE_SHAPE, 4);
+      write_psg(ENVELOPE_FINE,fine);
+      write_psg(ENVELOPE_COARSE, coarse);
+      break;
+
+    case CONT:
+      write_psg(ENVELOPE_SHAPE, 8);
+      write_psg(ENVELOPE_FINE,fine);
+      write_psg(ENVELOPE_COARSE, coarse);
+      break;
+  }
   return;
 };
