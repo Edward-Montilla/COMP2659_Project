@@ -20,7 +20,8 @@ const Model test_mso =
 int main()
 {
 	int key;
-	UINT32 count = 600;
+	UINT32 last_count;
+	UINT32 count = 60000;
 	void *base = Physbase();
 
 	/* Sets the scene */
@@ -45,10 +46,14 @@ int main()
             render(&test_mso, base);
 		}
 
+		last_count = count;
 		clock_timer(&(count));
-		printf("%lu seconds left \n\r", count/10);
 
-		if (count < 1 || count > 600) {
+		if (last_count/1000 != count/1000) {
+			printf("%lu seconds left \n\r", count/1000);
+		}
+
+		if (count < 1 || count > 60000) {
 			break;
 		}
 		
