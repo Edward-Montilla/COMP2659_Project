@@ -3,6 +3,10 @@
 #include "RASTER.H"
 #include "EVENTS.H"
 #include "RENDERER.H"
+#include "INPUT.H"
+
+#define BUFEER_A 0xFF8200
+#define BUFFER_B 0xFA7D00
 
 const Model test_mso =
 {
@@ -16,64 +20,66 @@ const Model test_mso =
 int main()
 {
 	int key;
-	int timer = 45;
-	void *base = Physbase();
+	UINT32 last_count;
+	UINT32 count = 60000;
+	void *base_A = Physbase();
+	void *base_B = (UINT16 *)Physbase() + BUFFER_B;
+
+	if (base_B == NULL) {
+		printf("naur");
+		return 1;
+	}
 
 	/* Sets the scene */
-	render(&test_mso, base);
+	render(&test_mso, base_A);
+	render(&test_mso, base_B);
 	
 	/* Instructions */
 	Cconws("Press Q to Quit\n\r");
 	Cconws("WASD to move\n\r");
 	Cconws("Spacebar for clock tick\n\r");
+	printf("you have %lu seconds left \n\r", count);
 
 	while (1) {
 		if (Cconis() != 0) {
 			key = Cnecin();
-
-			/* Player Movement */
-			if (key == 'W' || key == 'w') {
-				move_up_request(&(test_mso.reticle));
-				render(&test_mso, base);
-			}
-
-			if (key == 'A' || key == 'a') {
-				move_left_request(&(test_mso.reticle));
-				render(&test_mso, base);
-			}
-
-			if (key == 'S' || key == 's') {
-				move_down_request(&(test_mso.reticle));
-				render(&test_mso, base);
-			}
-
-			if (key == 'D' || key == 'd') {
-				move_right_request(&(test_mso.reticle));
-				render(&test_mso, base);
-			}
-
-			/* Clock tick, triggers all synchronous events */
-			if (key == ' ') {
-				game_timer(&timer);
-				printf("Timer = %d\n", timer);
-
-				/* Check lose condition */
-				if (time_lose_check(timer)) {
-					Cconws("YOU LOSE!\n\r");
-					break;
-				}
-
-				mallard_move_request(&(test_mso.mallards[0]));
-				mallard_move_request(&(test_mso.mallards[1]));
-				render(&test_mso, base);
-			}
-
 			/* Ends session */
-			if (key == 'Q' || key == 'q') {
+			if (key == 'q') {
 				break;
 			}
+
+			read_key(key, &(test_mso.reticle));
 		}
-	}
+
+		/*
+		last_count = count;
+		clock_timer(&(count));
+
+		if (last_count/1000 != count/1000) {
+			printf("%lu seconds left \n\r", count/1000);
+		}
+
+		if (count < 1 || count > 60000) {
+			break;
+		}
+
+		*/
+		
+		clock_timer(&(count));
+
+		if (count % 2 == 0) {
+			/* render(&test_mso, base_B); */
+			Setscreen(-1, base_B, -1);
+			render(&test_mso, base_A);
+		} else {
+			/* render(&test_mso, base_A); */
+			Setscreen(-1, base_A, -1);
+			render(&test_mso, base_B);
+		}
+		
+		}
+
+		Setscreen(-1, base_A, -1);
 
 	return 0;
 } 
