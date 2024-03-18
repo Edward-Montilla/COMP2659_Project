@@ -1,4 +1,7 @@
-all: tst_all tst_rend tst_fnt tst_psg
+all: game
+
+game: m_shoot.o raster.o bitmap.o events.o model.o renderer.o input.o rast_asm.o
+	cc68x -g m_shoot.o raster.o bitmap.o events.o model.o renderer.o input.o rast_asm.o -o game
 
 tst_all: tst_all.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o
 	cc68x -g tst_all.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o -o tst_all
@@ -9,8 +12,9 @@ tst_rend: tst_rend.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o
 tst_fnt: tst_fnt.o raster.o font.o
 	cc68x -g tst_fnt.o raster.o font.o -o tst_fnt
 
-tst_psg: tst_psg.o psg.o
-    cc68x -g tst_psg.o psg.o -o tst_psg
+m_shoot.o: m_shoot.c raster.h events.h renderer.h input.h
+	cc68x -g -c m_shoot.c
+
 
 tst_all.o: tst_all.c raster.h events.h
 	cc68x -g -c tst_all.c
@@ -21,13 +25,10 @@ tst_rend.o: tst_rend.c raster.h events.h
 tst_fnt.o: tst_fnt.c font.h types.h raster.h
 	cc68x -g -c tst_fnt.c
 
-tst_psg.o: tst_psg.c psg.h 
-    cc68x -g -c tst_psg.c 
+input.o: input.c input.h
+	cc68x -g -c input.c
 
-psg.o: psg.c psg.h
-    cc68x -g -c psg.c
-
-events.o: events.c events.h model.h
+events.o: events.c events.h
 	cc68x -g -c events.c
 
 raster.o: raster.c raster.h

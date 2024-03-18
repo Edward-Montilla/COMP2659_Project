@@ -1,4 +1,4 @@
-#include "RASTER.H"
+#include "RENDERER.H"
 
 const UINT16 reticle_bitmap[19] =
 {

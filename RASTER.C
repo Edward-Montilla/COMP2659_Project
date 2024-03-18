@@ -1,6 +1,6 @@
 #include "RASTER.H"
 #include "TYPES.H"
-#include "font.h"
+#include "FONT.H"
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 400
@@ -76,7 +76,6 @@ void plot_vertical_line(UINT16 *base, int x, int y, int length) {
  *              plot a pixel below that coordinate                             *
  *                                                                             *
  *******************************************************************************/
-/* */
 void plot_horizontal_line(UINT16 *base, int x, int y, int length) {
   int row;
 
