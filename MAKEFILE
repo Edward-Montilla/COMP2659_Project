@@ -15,6 +15,7 @@ tst_fnt: tst_fnt.o raster.o font.o
 m_shoot.o: m_shoot.c raster.h events.h renderer.h input.h
 	cc68x -g -c m_shoot.c
 
+
 tst_all.o: tst_all.c raster.h events.h
 	cc68x -g -c tst_all.c
 

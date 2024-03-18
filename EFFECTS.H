@@ -5,5 +5,6 @@
 
 void play_gunshot();
 void play_flaps();
+void play_explosion();
 
 #endif
