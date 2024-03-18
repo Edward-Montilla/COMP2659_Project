@@ -63,7 +63,7 @@ int main()
 		
 	}
 
-		Setscreen(-1, base_A, -1);
+	Setscreen(-1, base_A, -1);
 
 	return 0;
 } 

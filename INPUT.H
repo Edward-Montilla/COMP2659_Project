@@ -1,3 +1,4 @@
+#include "EFFECTS.H"
 #include "EVENTS.H"
 #include "MODEL.H"
 
