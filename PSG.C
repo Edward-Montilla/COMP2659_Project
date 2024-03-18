@@ -2,6 +2,8 @@
 #include "TYPES.H"
 #include <osbind.h>
 
+#include <stdio.h>
+
 volatile char *PSG_select = SELECT_REG;
 volatile char *PSG_write = WRITE_REG;
 
@@ -21,12 +23,15 @@ volatile char *PSG_write = WRITE_REG;
  *                             select register: 0xFF8800                       *
  *                              write register: 0xFF8802                       *
  *******************************************************************************/
-void write_psg(int reg, UINT8 val) {
-  if (0 <= reg && reg <= 15 && 0 <= val && val <= 255) {
-    *PSG_select = reg;
-    *PSG_select = val;
-  }
-  return;
+void write_psg(int reg, UINT8 val)
+{
+	long og_spr = Super(0);
+	if (0 <= reg && reg <= 15 && 0 <= val && val <= 255){
+		*PSG_select = reg;
+		*PSG_write = val;
+	}
+	Super(og_spr);
+	return;
 }
 
 /*******************************************************************************
@@ -44,11 +49,17 @@ void write_psg(int reg, UINT8 val) {
  *                             select register: 0xFF8800                       *
  *                              write register: 0xFF8802                       *
  *******************************************************************************/
-UINT8 read_psg(int reg) {
-  if (0 <= reg && reg <= 15) {
-    *PSG_select = reg;
-  }
-  return *PSG_write;
+int read_psg(int reg)
+{
+	long og_spr;
+	int val = -1;
+	if (0 <= reg && reg <= 15){
+		long og_spr = Super(0);
+		*PSG_select = reg;
+		val = *PSG_write;
+		Super(og_spr);
+	}
+	return val;
 }
 
 /*******************************************************************************
@@ -68,35 +79,36 @@ UINT8 read_psg(int reg) {
  *                             select register: 0xFF8800                       *
  *                              write register: 0xFF8802                       *
  *******************************************************************************/
-void set_tone(int channel, int tunning) {
+void set_tone(int channel, int tunning)
+{
+	int fine = tunning;
+	int coarse = tunning;
 
-  int fine = tunning;
-  int coarse = tunning;
-
-  if (0 <= channel && channel <= 2 && 0 <= tunning && tunning <= 4096) {
-    fine &= 0x00FF; /* capture the bottom 8 bits of 12 through masking */
-    coarse =
-        coarse >> 8; /* capture the top 4 bits of 12 through right shifting */
-
-    switch (channel) {
-    case CHANNEL_A:
-      write_psg(A_FINE, fine);
-      /*-------------------*/
-      write_psg(A_COARSE, coarse);
-      break;
-    case CHANNEL_B:
-      write_psg(B_fine, fine);
-      /*-------------------*/
-      write_psg(B_coarse, coarse);
-      break;
-    case CHANNEL_C:
-      write_psg(C_fine, fine);
-      /*-------------------*/
-      write_psg(C_coarse, coarse);
-      break;
-    }
-  }
-  return;
+	if (0 <= channel && channel <= 2 && 0 <= tunning && tunning <= 4096){
+		fine &= 0x00FF; /* capture the bottom 8 bits of 12 through masking */
+		coarse >= 8;    /* capture the top 4 bits of 12 through right shifting */
+		
+		switch (channel){
+			case CHANNEL_A:
+				write_psg(A_fine, fine);
+				write_psg(A_coarse, coarse);
+				break;
+			
+			case CHANNEL_B:
+				write_psg(B_fine, fine);
+				write_psg(B_coarse, coarse);
+				break;
+			
+			case CHANNEL_C:
+				write_psg(C_fine, fine);
+				write_psg(C_coarse, coarse);
+				break;
+			
+			default:
+				break;
+		}
+	}
+	return;
 };
 
 /*******************************************************************************
@@ -114,11 +126,12 @@ void set_tone(int channel, int tunning) {
  *                             select register: 0xFF8800                       *
  *                              write register: 0xFF8802                       *
  *******************************************************************************/
-void set_volume(int channel, int volume) {
-  if (0x08 <= channel && channel <= 0x0A && 0 <= volume && volume <= 15) {
-    write_psg(channel, volume);
-  }
-  return;
+void set_volume(int channel, int volume){
+
+	if (0x08 <= channel && channel <= 0x0A && 0 <= volume && volume <= 31){
+		write_psg(channel, volume);
+	}
+	return;
 };
 
 /*******************************************************************************
@@ -138,35 +151,30 @@ void set_volume(int channel, int volume) {
  *                              write register: 0xFF8802                       *
  *            on = 1, off = 0                                                  *
  *******************************************************************************/
-void enable_channel(int channel, int tone_on, int noise_on) {
-  int mask_tune = 0x3F;
-  if (0 <= tone_on && tone_on <= 1 && 0 <= noise_on && noise_on <= 1) {
-    tone_on = tone_on ^ mask_tune;
-    noise_on = noise_on ^ mask_tune;
-
-    /* the maske is wrong!!! mask the other way!!, have to toggle both noise and
-     * tone bits at the same time ro else tone will always turn off becasue of
-     * the order */
-    switch (channel) {
-    case CHANNEL_A:
-      mask_tune = tone_on ^ mask_tune;
-      mask_tune = (noise_on << 3) ^ mask_tune;
-      write_psg(MIXER_IO, mask_tune);
-      break;
-    case CHANNEL_B:
-      mask_tune = (tone_on << 1) ^ mask_tune;
-      mask_tune = (noise_on << 4) ^ mask_tune;
-      write_psg(MIXER_IO, mask_tune);
-      break;
-
-    case CHANNEL_C:
-      mask_tune = (tone_on << 2) ^ mask_tune;
-      mask_tune = (noise_on << 5) ^ mask_tune;
-      write_psg(MIXER_IO, mask_tune);
-      break;
-    }
-  }
-  return;
+void enable_channel(int channel, int tone_on, int noise_on){
+	int mask_tune;
+	mask_tune  = read_psg(MIXER_IO);
+	if (0 <= tone_on && tone_on <= 1 && 0 <= noise_on && noise_on <= 1){
+		/* mask_tune assigned with  current config of Mixer register */
+		 
+		printf("MIXER_IO current settings = %d\n", mask_tune);
+		
+		switch (channel){
+			case CHANNEL_A:
+				/* This is where you write the code is you were a good programmer and liked putting in the work */
+				break;
+			
+			case CHANNEL_B:
+				break;
+			
+			case CHANNEL_C:
+				break;
+			
+			default:
+				break;
+		}
+	}
+	return;
 }
 
 /*******************************************************************************
@@ -183,12 +191,16 @@ void enable_channel(int channel, int tone_on, int noise_on) {
  *                             select register: 0xFF8800                       *
  *                              write register: 0xFF8802                       *
  *******************************************************************************/
-void stop_sound() {
-  int reg;
-
-  for (reg = 0; reg <= 0xF; reg++) {
-    write_psg(reg, 0);
-  }
+void stop_sound(){
+	int reg;
+	for (reg = 0; reg <= 0xF; reg++){
+		if(reg == 7){
+			write_psg(MIXER_IO,0x3F); /* Plug all channels */
+		}
+		else{
+		write_psg(reg, 0); /* reduce all pitch data to 0 */
+		}
+	}
 };
 
 /*******************************************************************************
@@ -206,10 +218,10 @@ void stop_sound() {
  *                              write register: 0xFF8802                       *
  *******************************************************************************/
 void set_noise(int tuning){
-  if(0<= tuning && tuning <= 31){
-    write_psg(NOISE,tuning);
-  }
-  return;
+	if (0 <= tuning && tuning <= 31){
+		write_psg(NOISE, tuning);
+	}
+	return;
 };
 
 /*******************************************************************************
@@ -231,32 +243,38 @@ void set_noise(int tuning){
  *                              write register: 0xFF8802                       *
  *******************************************************************************/
 void set_envelop(int shape, unsigned int sustain){
-  int fine = 0x00FF & sustain;
-  int coarse = sustain >> 8;
-  switch(shape){
-    case HOLD:
-      write_psg(ENVELOPE_SHAPE, 1);
-      write_psg(ENVELOPE_FINE,fine);
-      write_psg(ENVELOPE_COARSE, coarse);
-      break;
+	
+	int fine = 0x00FF & sustain;
+	int coarse = sustain >> 8;
 
-    case ALT:
-      write_psg(ENVELOPE_SHAPE, 2);
-      write_psg(ENVELOPE_FINE,fine);
-      write_psg(ENVELOPE_COARSE, coarse);
-      break;
+	/* Make this not so dependent on current input,
+	dont let it clear other bits sisnce you can only
+	turn on things one at a time asshole*/
 
-    case ATT:
-      write_psg(ENVELOPE_SHAPE, 4);
-      write_psg(ENVELOPE_FINE,fine);
-      write_psg(ENVELOPE_COARSE, coarse);
-      break;
+	switch (shape){
+		case HOLD:
+			write_psg(ENVELOPE_SHAPE, 1);
+			write_psg(ENVELOPE_FINE, fine);
+			write_psg(ENVELOPE_COARSE, coarse);
+			break;
 
-    case CONT:
-      write_psg(ENVELOPE_SHAPE, 8);
-      write_psg(ENVELOPE_FINE,fine);
-      write_psg(ENVELOPE_COARSE, coarse);
-      break;
-  }
-  return;
+		case ALT:
+			write_psg(ENVELOPE_SHAPE, 2);
+			write_psg(ENVELOPE_FINE, fine);
+			write_psg(ENVELOPE_COARSE, coarse);
+			break;
+
+		case ATT:
+			write_psg(ENVELOPE_SHAPE, 4);
+			write_psg(ENVELOPE_FINE, fine);
+			write_psg(ENVELOPE_COARSE, coarse);
+			break;
+
+		case CONT:
+			write_psg(ENVELOPE_SHAPE, 8);
+			write_psg(ENVELOPE_FINE, fine);
+			write_psg(ENVELOPE_COARSE, coarse);
+			break;
+	}
+	return;
 };
