@@ -20,15 +20,10 @@ const Model test_mso =
 int main()
 {
 	int key;
-	UINT32 last_count;
 	UINT32 count = 60000;
+	UINT32 last_count = count;
 	void *base_A = Physbase();
 	void *base_B = (UINT16 *)Physbase() + BUFFER_B;
-
-	if (base_B == NULL) {
-		printf("naur");
-		return 1;
-	}
 
 	/* Sets the scene */
 	render(&test_mso, base_A);
@@ -50,34 +45,23 @@ int main()
 
 			read_key(key, &(test_mso.reticle));
 		}
-
-		/*
-		last_count = count;
-		clock_timer(&(count));
-
-		if (last_count/1000 != count/1000) {
-			printf("%lu seconds left \n\r", count/1000);
-		}
-
-		if (count < 1 || count > 60000) {
-			break;
-		}
-
-		*/
 		
 		clock_timer(&(count));
 
+		/* move enemies */
+		mallard_move_request(&(test_mso.mallards[0]));
+		mallard_move_request(&(test_mso.mallards[1]));
+
+		/* switch frame buffers*/
 		if (count % 2 == 0) {
-			/* render(&test_mso, base_B); */
 			Setscreen(-1, base_B, -1);
 			render(&test_mso, base_A);
 		} else {
-			/* render(&test_mso, base_A); */
 			Setscreen(-1, base_A, -1);
 			render(&test_mso, base_B);
 		}
 		
-		}
+	}
 
 		Setscreen(-1, base_A, -1);
 
