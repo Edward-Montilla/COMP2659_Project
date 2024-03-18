@@ -19,12 +19,12 @@
  *                                                                             *
  *******************************************************************************/
 void move_up_request(Reticle *reticle) {
-    reticle->dy -= 2;
+    reticle->dy -= 4;
     move_reticle(reticle);
 
     if (!bounds_check(reticle)) {
         Cconws("Out of bounds!");
-        reticle->dy += 4;
+        reticle->dy += 6;
         move_reticle(reticle);
     }
     
@@ -48,12 +48,12 @@ void move_up_request(Reticle *reticle) {
  *                                                                             *
  *******************************************************************************/
 void move_down_request(Reticle *reticle) {
-    reticle->dy += 2;
+    reticle->dy += 4;
     move_reticle(reticle);
 
     if (!bounds_check(reticle)) {
         Cconws("Out of bounds!");
-        reticle->dy -= 4;
+        reticle->dy -= 6;
         move_reticle(reticle);
     }
     
@@ -77,12 +77,12 @@ void move_down_request(Reticle *reticle) {
  *                                                                             *
  *******************************************************************************/
 void move_left_request(Reticle *reticle) {
-    reticle->dx -= 2;
+    reticle->dx -= 4;
     move_reticle(reticle);
 
     if (!bounds_check(reticle)) {
         Cconws("Out of bounds!");
-        reticle->dx += 4;
+        reticle->dx += 6;
         move_reticle(reticle);
     }
 
@@ -106,12 +106,12 @@ void move_left_request(Reticle *reticle) {
  *                                                                             *
  *******************************************************************************/
 void move_right_request(Reticle *reticle) {
-    reticle->dx += 2;
+    reticle->dx += 4;
     move_reticle(reticle);
 
     if (!bounds_check(reticle)) {
         Cconws("Out of bounds!");
-        reticle->dx -= 4;
+        reticle->dx -= 6;
         move_reticle(reticle);
     }
 
@@ -119,15 +119,15 @@ void move_right_request(Reticle *reticle) {
 }
 
 /*******************************************************************************
- * FUNCTION NAME: game_timer                                                   *
+ * FUNCTION NAME: clock_timer                                                  *
  *                                                                             *
- * PURPOSE: Ticks down in-game timer, synched with clock.                      *
+ * PURPOSE: Accesses the clock to and synchronizes it with the game.           *
  *                                                                             *
- * INPUT: *timer = a pointer to an int that represents the in-game timer.      *
+ * INPUT: *count = a pointer to an int that represents the in-game timer.      *
  *                                                                             *
  * OUTPUT: no return value from function, in-game timer is reduced by one.     *
  *                                                                             *
- * ASSUMPTION: Assumes that timer is dereferenced.                             *
+ * ASSUMPTION: Assumes that count is dereferenced.                             *
  *                                                                             *
  *******************************************************************************/
 void clock_timer(UINT32 *count) {
@@ -137,10 +137,20 @@ void clock_timer(UINT32 *count) {
 
     if (timeElapsed > 0) {
         timeThen = timeNow;
-        /* (*count) -= (timeElapsed) % 1000 / 500; */
         (*count) -= 1;
     }
 }
+
+/*******************************************************************************
+ * FUNCTION NAME: get_time                                                     *
+ *                                                                             *
+ * PURPOSE: Accesses the Atari ST's clock.                                     *
+ *                                                                             *
+ * OUTPUT: timeNow = the current value of the clock.                           *
+ *                                                                             *
+ * ASSUMPTION: Assumes the clock is not broken.                                *
+ *                                                                             *
+ *******************************************************************************/
 
 UINT32 get_time() {
   long old_ssp;
