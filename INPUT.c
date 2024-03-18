@@ -15,6 +15,9 @@ void read_key(int key, Reticle *ret) {
     case 'd':
         move_right_request(ret);
         break;
+    case ' ':
+        play_gunshot();
+        break;
     
     default:
         break;
