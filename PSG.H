@@ -56,12 +56,12 @@
 #define NOISE_OFF 0
 
 /* Masks for MIX_IO */
-#define TONE_A_ON 0x3E
-#define TONE_B_ON 0x3D
-#define TONE_C_ON 0x3B
-#define NOISE_A_ON 0xEF
-#define NOISE_B_ON 0xDF
-#define NOISE_C_ON 0xBF
+#define TONE_A_ON 0xFE
+#define TONE_B_ON 0xFD
+#define TONE_C_ON 0xFB
+#define NOISE_A_ON 0xF7
+#define NOISE_B_ON 0xEF
+#define NOISE_C_ON 0xDF
 
 #define TONE_A_OFF 0x01
 #define TONE_B_OFF 0x02
@@ -70,16 +70,29 @@
 #define NOISE_B_OFF 0x10
 #define NOISE_C_OFF 0x20
 
-/*Envelop shapes*/
+/* Envelop shapes */
 #define HOLD 0
 #define ALT 1
 #define ATT 2
 #define CONT 3
+#define NONE 15
+
+/* Envelop Shape Masks */
+#define SET_HOLD 0x01
+#define SET_ALT 0x02
+#define SET_ATT 0x04
+#define SET_CONT 0x08
+
+#define CLR_HOLD 0xFE
+#define CLR_ALT 0xFD
+#define CLR_ATT 0xFB
+#define CLR_CONT 0xF7
+
 
 /* prototypes */
 
 void write_psg(int reg, UINT8 val);
-int read_psg(int reg);
+UINT8 read_psg(int reg);
 void set_tone(int channel, int tunning);
 void set_volume(int channel, int volume);
 void enable_channel(int channel, int tone_on, int noise_on);

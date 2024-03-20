@@ -14,10 +14,13 @@
  *                                                                             *
  *******************************************************************************/
 void render(const Model *model, UINT16 *base) {
-    clear_screen(base, 0);
+    clear_screen(base, 0); /* Michael */
     render_reticle(&(model->reticle), base);
+    
     render_mallard(&(model->mallards[0]), base);
     render_mallard(&(model->mallards[1]), base);
+    
+    
 }
 
 /*******************************************************************************

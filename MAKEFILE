@@ -1,4 +1,11 @@
-all: game tst_rast tst_fnt
+all: game tst_rast tst_fnt mixer # delete the mixer
+
+# Delete the mixer 
+mixer: mixer.o psg.o events.o model.o
+	cc68x -g mixer.o psg.o events.o model.o effects.o -o mixer
+
+mixer.o: mixer.c psg.h events.h model.h effects.h
+	cc68x -c -g mixer.c
 
 game: m_shoot.o raster.o bitmap.o events.o model.o renderer.o input.o effects.o psg.o rast_asm.o
 	cc68x -g m_shoot.o raster.o bitmap.o events.o model.o renderer.o input.o effects.o psg.o rast_asm.o -o game

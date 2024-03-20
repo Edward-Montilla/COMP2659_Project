@@ -1,6 +1,7 @@
 #include <osbind.h>
 #include <stdio.h>
 #include "EVENTS.H"
+#include "MODEL.H"
 
 /*******************************************************************************
  * FUNCTION NAME: move_up_request                                              *

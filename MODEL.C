@@ -53,7 +53,7 @@ void move_mallard(Mallard *mallard) {
  * ASSUMPTION: Assumes that sturctures are in play                             *
  *                                                                             *
  *******************************************************************************/
-/* bool is_hit(Reticle &reticle, Mallard &mallard) {
+/*bool is_hit(Reticle &reticle, Mallard &mallard) {
   bool hit = FALSE;
   
   int left = mallard.x - (reticle.x + reticle.width);
@@ -64,7 +64,7 @@ void move_mallard(Mallard *mallard) {
   if (left > 0 || right < 0 || top < 0 || bottom > 0) hit = TRUE;
   
   return hit;
-}; */
+}; 
 
 /* Luu The Vinh. "Using Swept AABB to detect and process collision." amanotes.com.
   https://www.amanotes.com/post/using-swept-aabb-to-detect-and-process-collision#:~:text=What%20is%20AABB%3F,with%20each%20other%20or%20not
