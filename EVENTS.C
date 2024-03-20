@@ -137,7 +137,7 @@ void clock_timer(UINT32 *count) {
 
     if (timeElapsed > 0) {
         timeThen = timeNow;
-        (*count) -= 1;
+        (*count) += 1;
     }
 }
 

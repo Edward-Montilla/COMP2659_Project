@@ -10,3 +10,6 @@ x & y values of the reticle and the mallards as well as count down
 the in-game clock.
 
 Running "tst_rend" shows the frame by frame rendering in action.
+
+Running "tst_rast" will allow the user to flip through pre-programmed
+frames.
