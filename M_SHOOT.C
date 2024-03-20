@@ -17,6 +17,8 @@ const Model test_mso =
 	}
 };
 
+const int time_value[2] = {22, 16};
+
 int main()
 {
 	int key;
@@ -26,8 +28,8 @@ int main()
 	void *base_B = (UINT16 *)Physbase() + BUFFER_B;
 
 	/* Sets the scene */
-	render(&test_mso, base_A);
-	render(&test_mso, base_B);
+	render(&test_mso, time_value, base_A);
+	render(&test_mso, time_value, base_B);
 	
 	/* Instructions */
 	Cconws("Press Q to Quit\n\r");
@@ -55,10 +57,10 @@ int main()
 		/* switch frame buffers*/
 		if (count % 2 == 0) {
 			Setscreen(-1, base_B, -1);
-			render(&test_mso, base_A);
+			render(&test_mso, time_value, base_A);
 		} else {
 			Setscreen(-1, base_A, -1);
-			render(&test_mso, base_B);
+			render(&test_mso, time_value, base_B);
 		}
 		
 	}
