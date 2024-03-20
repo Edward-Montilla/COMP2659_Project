@@ -138,7 +138,7 @@ void clock_timer(UINT32 *count) {
 
     if (timeElapsed > 0) {
         timeThen = timeNow;
-        (*count) += 1; /* Changes cause Michael says so counts up for music */
+        (*count) += 1;
     }
 }
 

@@ -108,7 +108,7 @@ void clear_screen(UINT16 *base, int pattern) {
   register int i = 0;
   register UINT16 *loc = base;
 
-  while (i++ < BYTES_PER_SCREEN) {
+  while (i++ < (BYTES_PER_SCREEN)/2 ) {
     *(loc++) = pattern;
   }
 };
