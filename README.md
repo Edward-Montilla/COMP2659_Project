@@ -10,3 +10,11 @@ x & y values of the reticle and the mallards as well as count down
 the in-game clock.
 
 Running "tst_rend" shows the frame by frame rendering in action.
+
+
+
+
+
+Stage 8 is _challenged_ the PSG.C file has all running functions to help in implementing EFFECTS.C and MUSIC.
+> That being said, the MUSIC.C file is not implemented just yet, this will be corrected soon.
+

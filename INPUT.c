@@ -18,6 +18,9 @@ void read_key(int key, Reticle *ret) {
     case ' ':
         play_gunshot();
         break;
+    case 'g':
+        play_explosion();
+        break;
     
     default:
         break;
