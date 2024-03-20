@@ -16,7 +16,7 @@ const Model test_mso =
 int main()
 {
 	int key;
-	int timer = 45;
+	UINT32 timer = 45;
 	void *base = Physbase();
 
 	/* Sets the scene */
@@ -54,7 +54,7 @@ int main()
 
 			/* Clock tick, triggers all synchronous events */
 			if (key == ' ') {
-				game_timer(&timer);
+				clock_timer(&timer);
 				printf("Timer = %d\n", timer);
 
 				/* Check lose condition */

@@ -5,8 +5,12 @@
 #include "RENDERER.H"
 #include "INPUT.H"
 
-#define BUFEER_A 0xFF8200
-#define BUFFER_B 0xFA7D00
+#define BUFEER_A 0xFF8200L
+#define BUFFER_B 0xFA7D00L
+
+#define Cursor_off (printf("\033f"),fflush(stdout))
+#define Curson_on (printf("\033e"),fflush(stdout))
+
 
 const Model test_mso =
 {
@@ -22,8 +26,11 @@ int main()
 	int key;
 	UINT32 count = 60000;
 	UINT32 last_count = count;
+
 	void *base_A = Physbase();
-	void *base_B = (UINT16 *)Physbase() + BUFFER_B;
+	void *base_B =  (UINT16 *)Physbase() + BUFFER_B; 
+
+	Cursor_off;
 
 	/* Sets the scene */
 	render(&test_mso, base_A);
@@ -35,6 +42,7 @@ int main()
 	Cconws("Spacebar for clock tick\n\r");
 	printf("you have %lu seconds left \n\r", count);
 
+	
 	while (1) {
 		if (Cconis() != 0) {
 			key = Cnecin();
@@ -45,6 +53,7 @@ int main()
 
 			read_key(key, &(test_mso.reticle));
 		}
+
 		
 		clock_timer(&(count));
 
@@ -52,7 +61,7 @@ int main()
 		mallard_move_request(&(test_mso.mallards[0]));
 		mallard_move_request(&(test_mso.mallards[1]));
 
-		/* switch frame buffers*/
+		/* switch frame buffers */
 		if (count % 2 == 0) {
 			Setscreen(-1, base_B, -1);
 			render(&test_mso, base_A);
@@ -63,7 +72,11 @@ int main()
 		
 	}
 
+	
+	
 	Setscreen(-1, base_A, -1);
+
+	Curson_on;
 
 	return 0;
 } 

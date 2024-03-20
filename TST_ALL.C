@@ -58,7 +58,7 @@ int main()
 
 			/* Clock tick, triggers all synchronous events */
 			if (key == ' ') {
-				game_timer(&timer);
+				clock_timer(&timer);
 				printf("Timer = %d\n", timer);
 
 				/* Check lose condition */
