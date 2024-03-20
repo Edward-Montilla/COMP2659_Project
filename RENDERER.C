@@ -13,7 +13,7 @@
  *           the object's x and y are within bounds.                           *
  *                                                                             *
  *******************************************************************************/
-void render(const Model *model, const int *time_value, UINT16 *base) {
+void render(const Model *model, int *time_value, UINT16 *base) {
     clear_screen(base, 0);
     render_timer(time_value, base);
     render_reticle(&(model->reticle), base);
@@ -55,13 +55,26 @@ void render_mallard(const Mallard *mallard, UINT16 *base) {
     plot_bitmap_16(base, mallard->x, mallard->y, mallard_bitmap, mallard->height);
 }
 
-void render_timer(const int *time_value, UINT16 *base) {
+/*******************************************************************************
+ * FUNCTION NAME: render_timer                                                 *
+ *                                                                             *
+ * PURPOSE: Plots a raster graphic that displays the current timer.            *   
+ *                                                                             *
+ * INPUT: *time_value = an array with the bitmaps for the current game time.   *
+ *                                                                             *
+ * OUTPUT: no return value from function, plots current game time on the       *
+ *      screen.                                                                *
+ *                                                                             *
+ * ASSUMPTION: time values and base have been instantiated.                    *
+ *                                                                             *
+ *******************************************************************************/
+void render_timer(int *time_value, UINT16 *base) {
     plot_text(base, 0, 0, font, 52);
     plot_text(base, 8, 0, font, 41);
     plot_text(base, 16, 0, font, 45);
     plot_text(base, 24, 0, font, 37);
     plot_text(base, 32, 0, font, 50);
     plot_text(base, 40, 0, font, 26);
-    plot_text(base, 16, 10, font, 22);
-    plot_text(base, 24, 10, font, 16);
+    plot_text(base, 16, 10, font, time_value[0]);
+    plot_text(base, 24, 10, font, time_value[1]);
 }
