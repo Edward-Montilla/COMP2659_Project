@@ -4,7 +4,7 @@
 
 void play_gunshot(){
 	write_psg(6, 0x0F);
-	write_psg(7, 0x07); /* <-  Have to modify to make use of the enable channel funtions 
+	write_psg(7, 0x07); /* <-  Have to modify to make use of the enable channel funtions */
 	write_psg(8, 0x10);
 	write_psg(9, 0x10);
 	write_psg(10, 0x10);
