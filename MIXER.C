@@ -39,7 +39,7 @@ int main() {
       clock_timer(&tiks);
       }
       n++;
-      hold += 87;
+      hold += 21;
   };
 /*
   while (!Cconis()) /* tone now playing, await key 
