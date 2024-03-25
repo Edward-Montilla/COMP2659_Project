@@ -16,11 +16,11 @@ const Model test_mso =
 int main()
 {
 	int key;
-	UINT32 timer = 45;
+	int timer[2] = {22, 16};
 	void *base = Physbase();
 
 	/* Sets the scene */
-	render(&test_mso, base);
+	render(&test_mso, timer, base);
 	
 	/* Instructions */
 	Cconws("Press Q to Quit\n\r");
@@ -34,38 +34,43 @@ int main()
 			/* Player Movement */
 			if (key == 'W' || key == 'w') {
 				move_up_request(&(test_mso.reticle));
-				render(&test_mso, base);
+				render(&test_mso, timer, base);
 			}
 
 			if (key == 'A' || key == 'a') {
 				move_left_request(&(test_mso.reticle));
-				render(&test_mso, base);
+				render(&test_mso, timer, base);
 			}
 
 			if (key == 'S' || key == 's') {
 				move_down_request(&(test_mso.reticle));
-				render(&test_mso, base);
+				render(&test_mso, timer, base);
 			}
 
 			if (key == 'D' || key == 'd') {
 				move_right_request(&(test_mso.reticle));
-				render(&test_mso, base);
+				render(&test_mso, timer, base);
 			}
 
 			/* Clock tick, triggers all synchronous events */
 			if (key == ' ') {
-				clock_timer(&timer);
-				printf("Timer = %d\n", timer);
+				timer[1] -= 1;
+
+				/* second digit will not go below 0 */
+				if (timer[1] < 16) {
+					timer[1] += 10;
+					timer[0] -= 1;
+				}
 
 				/* Check lose condition */
-				if (time_lose_check(timer)) {
+				if ((timer[0] == 16) && (timer[1] == 16)) {
 					Cconws("YOU LOSE!\n\r");
 					break;
 				}
 
 				mallard_move_request(&(test_mso.mallards[0]));
 				mallard_move_request(&(test_mso.mallards[1]));
-				render(&test_mso, base);
+				render(&test_mso, timer, base);
 			}
 
 			/* Ends session */
