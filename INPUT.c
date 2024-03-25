@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "INPUT.H"
 
 void read_key(int key, Reticle *ret) {
