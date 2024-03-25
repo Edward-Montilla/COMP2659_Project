@@ -21,6 +21,8 @@ const Model test_mso =
 	}
 };
 
+int time_value[2] = {22, 16};
+
 int main()
 {
 	int key;
@@ -33,8 +35,8 @@ int main()
 	Cursor_off;
 
 	/* Sets the scene */
-	render(&test_mso, base_A);
-	render(&test_mso, base_B);
+	render(&test_mso, time_value, base_A);
+	render(&test_mso, time_value, base_B);
 	
 	/* Instructions */
 	Cconws("Press Q to Quit\n\r");
@@ -57,6 +59,16 @@ int main()
 		
 		clock_timer(&(count));
 
+		if (last_count%10 != count%10) {
+			time_value[1] -= 1;
+
+			/* second digit will not go below 0 */
+			if (time_value[1] < 16) {
+				time_value[1] += 10; 
+				time_value[0] -= 1;
+			}
+		}
+
 		/* move enemies */
 		mallard_move_request(&(test_mso.mallards[0]));
 		mallard_move_request(&(test_mso.mallards[1]));
@@ -64,10 +76,10 @@ int main()
 		/* switch frame buffers */
 		if (count % 2 == 0) {
 			Setscreen(-1, base_B, -1);
-			render(&test_mso, base_A);
+			render(&test_mso, time_value, base_A);
 		} else {
 			Setscreen(-1, base_A, -1);
-			render(&test_mso, base_B);
+			render(&test_mso, time_value, base_B);
 		}
 		
 	}
