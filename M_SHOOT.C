@@ -59,7 +59,7 @@ int main()
 		
 		clock_timer(&(count));
 
-		if (last_count%10 != count%10) {
+		if (last_count%10 == count%10) {
 			time_value[1] -= 1;
 
 			/* second digit will not go below 0 */
