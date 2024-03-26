@@ -20,8 +20,6 @@ void render(const Model *model, int *time_value, UINT16 *base) {
     
     render_mallard(&(model->mallards[0]), base);
     render_mallard(&(model->mallards[1]), base);
-    
-    
 }
 
 /*******************************************************************************
@@ -54,8 +52,12 @@ void render_reticle(const Reticle *ret, UINT16 *base) {
  *           the object's x and y are within bounds.                           *
  *                                                                             *
  *******************************************************************************/
-void render_mallard(const Mallard *mallard, UINT16 *base) {
-    plot_bitmap_16(base, mallard->x, mallard->y, mallard_bitmap, mallard->height);
+void render_mallard(Mallard *mallard, UINT16 *base) {
+    (mallard->phase)++;
+
+    if (mallard->phase > 3) (mallard->phase) = 0;
+
+    plot_bitmap_16(base, mallard->x, mallard->y, clay_pigeon_bitmap[(mallard->phase)], mallard->height);
 }
 
 /*******************************************************************************

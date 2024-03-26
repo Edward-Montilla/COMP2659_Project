@@ -16,8 +16,8 @@ const Model test_mso =
 {
 	{320, 200, 16, 19, 0, 0},	/* the Reticle; the player */
 	{
-		{49, 49, 16, 14, 0, 0},		    /* Mallard 1 */
-		{591, 351, 16, 14, 0, 0}		/* Mallard 2 */
+		{49, 49, 16, 14, 0, 0, 0},		    /* Mallard 1 */
+		{591, 351, 16, 14, 0, 0, 0}		/* Mallard 2 */
 	}
 };
 
