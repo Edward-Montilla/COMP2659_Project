@@ -30,7 +30,7 @@ int main()
 	UINT32 last_count = count;
 
 	void *base_A = Physbase();
-	void *base_B =  (UINT16 *)Physbase() + BUFFER_B; 
+	void *base_B =  (UINT16 *)Physbase() + BUFFER_B;
 
 	Cursor_off;
 
@@ -53,9 +53,8 @@ int main()
 				break;
 			}
 
-			read_key(key, &(test_mso.reticle));
+			read_key(key, &(test_mso));
 		}
-
 		
 		clock_timer(&(count));
 
@@ -81,6 +80,8 @@ int main()
 			Setscreen(-1, base_A, -1);
 			render(&test_mso, time_value, base_B);
 		}
+
+		if (count == 0) break;
 		
 	}
 

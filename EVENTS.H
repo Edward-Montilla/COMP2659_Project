@@ -2,17 +2,17 @@
 #define EVENTS_H
 
 #include "MODEL.H"
+#include "RENDERER.H"
 
 /* Asynchronous Events */
 void move_up_request(Reticle *reticle);
 void move_down_request(Reticle *reticle);
 void move_left_request(Reticle *reticle);
 void move_right_request(Reticle *reticle);
-void shoot_request();
+void shoot_request(Reticle *reticle, Mallard *mallard);
 void pause();
 
 /* Synchronous Events */
-void temp_clock_tick();
 void clock_timer(UINT32 *count);
 void mallard_move_request(Mallard *mallard);
 

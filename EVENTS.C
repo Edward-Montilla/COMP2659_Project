@@ -120,6 +120,13 @@ void move_right_request(Reticle *reticle) {
 }
 
 /*******************************************************************************
+ * 
+ *******************************************************************************/
+void shoot_request(Reticle *reticle, Mallard *mallard) {
+    if (is_hit(reticle, mallard)) mallard->is_dead = TRUE;
+}
+
+/*******************************************************************************
  * FUNCTION NAME: clock_timer                                                  *
  *                                                                             *
  * PURPOSE: Accesses the clock to and synchronizes it with the game.           *

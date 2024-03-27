@@ -53,6 +53,11 @@ void render_reticle(const Reticle *ret, UINT16 *base) {
  *                                                                             *
  *******************************************************************************/
 void render_mallard(Mallard *mallard, UINT16 *base) {
+    if (mallard->is_dead) {
+        plot_bitmap_16(base, mallard->x, mallard->y, clay_pigeon_dead, mallard->height);
+        return;
+    }
+
     (mallard->phase)++;
 
     if (mallard->phase > 3) (mallard->phase) = 0;
