@@ -46,7 +46,9 @@ void render_reticle(const Reticle *ret, UINT16 *base) {
  *                                                                             *
  * INPUT: *mallard = a Mallard object.                                         *
  *                                                                             *
- * OUTPUT: no return value from function, plots a mallard on the screen.       *
+ * OUTPUT: no return value from function, plots a clay pigeon on the screen.   *
+ *          the clay pigeon's bitmap will cycle until it is declared dead in   *
+ *          the structure.                                                     *
  *                                                                             *
  * ASSUMPTION: mallard and base have been instantiated, and                    *
  *           the object's x and y are within bounds.                           *

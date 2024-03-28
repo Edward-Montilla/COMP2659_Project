@@ -120,7 +120,18 @@ void move_right_request(Reticle *reticle) {
 }
 
 /*******************************************************************************
- * 
+ * FUNCTION NAME: shoot_request                                                *
+ *                                                                             *
+ * PURPOSE: Processes the after effects of a user shooting.                    *
+ *                                                                             *
+ * INPUT: *reticle = pointer to structure of structure.                        *
+ *        *mallard = pointer to structure of structure.                        *
+ *                                                                             *
+ * OUTPUT: no return from function, this is the only function that can declare *
+ *          the game's targets as dead.                                        *
+ *                                                                             *
+ * ASSUMPTION: Assumes Reticle and Mallard are instantiated.                   *
+ *                                                                             * 
  *******************************************************************************/
 void shoot_request(Reticle *reticle, Mallard *mallard) {
     if (is_hit(reticle, mallard)) mallard->is_dead = TRUE;

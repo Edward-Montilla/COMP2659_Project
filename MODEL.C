@@ -62,7 +62,6 @@ bool is_hit(Reticle *reticle, Mallard *mallard) {
   (mallard->y + mallard->height) > reticle->y &&
   mallard->y < (reticle->y + reticle->height)) {
     hit = TRUE;
-    Cconws("gay");
   }
   
   return hit;
