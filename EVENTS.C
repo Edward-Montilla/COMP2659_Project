@@ -210,7 +210,6 @@ void mallard_move_request(Mallard *mallard) {
     mallard->dy = 0;
 }
 
-
 /*******************************************************************************
  * FUNCTION NAME: time_lose_check                                              *
  *                                                                             *
@@ -223,10 +222,36 @@ void mallard_move_request(Mallard *mallard) {
  * ASSUMPTION:                                                                 *
  *                                                                             *
  *******************************************************************************/
+bool shoot_win_check(Mallard *target_a, Mallard *target_b) {
+    bool win = FALSE;
+
+    if (target_a->is_dead && target_b->is_dead) {
+        win = TRUE;
+        Cconws("You Win!");
+    }
+
+    return win;
+}
+
+/*******************************************************************************
+ * FUNCTION NAME: time_lose_check                                              *
+ *                                                                             *
+ * PURPOSE: Checks the game's in-game clock for the lose condition. (Timer = 0)*
+ *                                                                             *
+ * INPUT: timer = an int to represent the in-game timer.                       *
+ *                                                                             *
+ * OUTPUT: returns FALSE if the in-game timer is not 0, returns TRUE otherwise.*
+ *                                                                             *
+ * ASSUMPTION: timer is initiatlized.                                          *
+ *                                                                             *
+ *******************************************************************************/
 bool time_lose_check(int timer) {
     bool time_out = FALSE;
     
-    if (timer == 0) time_out = TRUE;
+    if (timer == 600) {
+        time_out = TRUE;
+        Cconws("You Lose!");
+    }
 
     return time_out;
 }

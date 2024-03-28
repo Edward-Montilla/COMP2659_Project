@@ -26,7 +26,7 @@ int time_value[2] = {22, 16};
 int main()
 {
 	int key;
-	UINT32 count = 60000;
+	UINT32 count = 0;
 	UINT32 last_count = count;
 
 	void *base_A = Physbase();
@@ -63,7 +63,7 @@ int main()
 
 			/* second digit will not go below 0 */
 			if (time_value[1] < 16) {
-				time_value[1] += 10; 
+				time_value[1] += 10;
 				time_value[0] -= 1;
 			}
 		}
@@ -81,12 +81,10 @@ int main()
 			render(&test_mso, time_value, base_B);
 		}
 
-		if (count == 0) break;
-		
+		if (time_lose_check(count) || shoot_win_check(&(test_mso.mallards[0]), &(test_mso.mallards[1]))) break;
 	}
-
 	
-	
+	/* game loop is over, returning the Atari ST to it's original state */
 	Setscreen(-1, base_A, -1);
 
 	Curson_on;

@@ -17,7 +17,7 @@ void clock_timer(UINT32 *count);
 void mallard_move_request(Mallard *mallard);
 
 /* Cascaded Events */
-bool shoot_win_check();
+bool shoot_win_check(Mallard *target_a, Mallard *target_b);
 bool time_lose_check(int timer);
 bool bounds_check(Reticle *reticle);
 /* bool bounds_check_enemy(Mallard *mallard); */ /* Not needed yet */
