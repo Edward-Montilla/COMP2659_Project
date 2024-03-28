@@ -33,7 +33,10 @@ void move_reticle(Reticle *reticle) {
  *                                                                             *
  *******************************************************************************/
 void move_mallard(Mallard *mallard) {
-  if (mallard->is_dead == TRUE) return;
+  if (mallard->is_dead == TRUE) {
+    mallard->y -= mallard->dy;
+    return;
+  }
 
   mallard->x += mallard->dx;
   mallard->y += mallard->dy;

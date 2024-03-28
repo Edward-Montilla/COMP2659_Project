@@ -200,6 +200,17 @@ UINT32 get_time() {
  *                                                                             *
  *******************************************************************************/
 void mallard_move_request(Mallard *mallard) {
+    /* clay pigeon is dead and falls to bottom of screen */
+    if (mallard->is_dead && bounds_check_enemy(mallard)) {
+        mallard->dy -= 4;
+        move_mallard(mallard);
+        return;
+    }
+    /* clay pigeon remains at the bottom of screen */
+    if (mallard->is_dead) {
+        return;
+    }
+
     if (mallard->y > 350) mallard->dx -= 4;
     if (mallard->y < 50) mallard->dx += 4;
     if (mallard->x < 50) mallard->dy -= 4;
@@ -266,7 +277,7 @@ bool time_lose_check(int timer) {
  *                                                                             *
  * OUTPUT: returns TRUE if player is inbounds, returns FALSE otherwise.        *
  *                                                                             *
- * ASSUMPTION:                                                                 *
+ * ASSUMPTION: Reticle is instantiated                                         *
  *                                                                             *
  *******************************************************************************/
 bool bounds_check(Reticle *reticle) {
@@ -281,15 +292,27 @@ bool bounds_check(Reticle *reticle) {
     return in_bounds;
 }
 
-/* Uneeded at this stage, reference mallard_move_request documentation */
-/* bool bounds_check_enemy(Mallard *mallard) {
+/*******************************************************************************
+ * FUNCTION NAME: bounds_check_enemy                                           *
+ *                                                                             *
+ * PURPOSE: Checks the current position of the clay pigeon to ensure they are  *
+ *             in bounds.                                                      *
+ *                                                                             *
+ * INPUT: *mallard = pointer to structure of structure.                        *
+ *                                                                             *
+ * OUTPUT: returns TRUE if object is inbounds, returns FALSE otherwise.        *
+ *                                                                             *
+ * ASSUMPTION: Mallard is instantiated                                         *
+ *                                                                             *
+ *******************************************************************************/
+bool bounds_check_enemy(Mallard *mallard) {
     bool in_bounds = TRUE;
 
     if (mallard->x <= 1
     || mallard->x + mallard->width >= 638
     || mallard->y <= 1 
-    || mallard->y + mallard->height >= 398)
+    || mallard->y + mallard->height >= 370)
         in_bounds = FALSE;
 
     return in_bounds;
-} */ 
+}
