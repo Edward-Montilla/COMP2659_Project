@@ -18,5 +18,11 @@ void plot_text(UINT16 *base, int x, int y, const UINT8 *bitmap, int ascii);
 /* bitmaps */
 extern const UINT16 reticle_bitmap[];
 extern const UINT16 mallard_bitmap[];
+extern const UINT16 clay_pigeon_1[];
+extern const UINT16 clay_pigeon_2[];
+extern const UINT16 clay_pigeon_3[];
+extern const UINT16 clay_pigeon_4[];
+extern const UINT16 *clay_pigeon_bitmap[];
+extern const UINT16 clay_pigeon_dead[];
 
 #endif
