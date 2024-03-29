@@ -42,7 +42,7 @@ int main()
 	Cconws("Press Q to Quit\n\r");
 	Cconws("WASD to move\n\r");
 	Cconws("Spacebar for clock tick\n\r");
-	printf("you have %lu seconds left \n\r", count);
+	printf("you have %lu seconds left \n\r", count/10);
 
 	
 	while (1) {
