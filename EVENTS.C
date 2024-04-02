@@ -131,11 +131,6 @@ void move_right_request(Reticle *reticle) {
         reticle->dx += 4;
         move_reticle(reticle);
         break;
-    case FALSE:
-        Cconws("Out of bounds!");
-        reticle->dx -= 11;
-        move_reticle(reticle);
-        break;
     default:
         break;
     }
@@ -307,11 +302,29 @@ bool time_lose_check(int timer) {
 bool bounds_check(Reticle *reticle) {
     bool in_bounds = TRUE;
 
-    if (reticle->x + reticle->width < 20
-    || reticle->x + reticle->width > 638
-    || reticle->y + reticle->height < 20 
-    || reticle->y + reticle->height > 398)
-        in_bounds = FALSE;
+    if (reticle->x + reticle->width < 20) {
+        Cconws("Out of bounds!");
+        reticle->dx += 11;
+        move_reticle(reticle);
+    }
+
+    if (reticle->x + reticle->width > 638) {
+        Cconws("Out of bounds!");
+        reticle->dx -= 11;
+        move_reticle(reticle);
+    }
+
+    if (reticle->y + reticle->height < 20) {
+        Cconws("Out of bounds!");
+        reticle->dy += 11;
+        move_reticle(reticle);
+    }
+
+    if (reticle->y + reticle->height > 398) {
+        Cconws("Out of bounds!");
+        reticle->dy -= 11;
+        move_reticle(reticle);
+    }
 
     return in_bounds;
 }
