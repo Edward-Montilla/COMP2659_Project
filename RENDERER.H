@@ -12,3 +12,9 @@ void render_mallard(const Mallard *mal, UINT16 *base);
 /* bitmaps */
 extern const UINT16 reticle_bitmap[];
 extern const UINT16 mallard_bitmap[];
+extern const UINT16 clay_pigeon_1[];
+extern const UINT16 clay_pigeon_2[];
+extern const UINT16 clay_pigeon_3[];
+extern const UINT16 clay_pigeon_4[];
+extern const UINT16 *clay_pigeon_bitmap[];
+extern const UINT16 clay_pigeon_dead[];
