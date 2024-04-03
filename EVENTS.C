@@ -26,11 +26,6 @@ void move_up_request(Reticle *reticle) {
         reticle->dy -= 4;
         move_reticle(reticle);
         break;
-    case FALSE:
-        Cconws("Out of bounds!");
-        reticle->dy += 11;
-        move_reticle(reticle);
-        break;
     default:
         break;
     }
@@ -61,11 +56,6 @@ void move_down_request(Reticle *reticle) {
         reticle->dy += 4;
         move_reticle(reticle);
         break;
-    case FALSE:
-        Cconws("Out of bounds!");
-        reticle->dy -= 11;
-        move_reticle(reticle);
-        break;
     default:
         break;
     }
@@ -94,11 +84,6 @@ void move_left_request(Reticle *reticle) {
     {
     case TRUE:
         reticle->dx -= 4;
-        move_reticle(reticle);
-        break;
-    case FALSE:
-        Cconws("Out of bounds!");
-        reticle->dx += 11;
         move_reticle(reticle);
         break;
     default:
@@ -189,7 +174,6 @@ void clock_timer(UINT32 *count) {
  * ASSUMPTION: Assumes the clock is not broken.                                *
  *                                                                             *
  *******************************************************************************/
-
 UINT32 get_time() {
   long old_ssp;
   UINT32 timeNow;
@@ -241,15 +225,16 @@ void mallard_move_request(Mallard *mallard) {
 }
 
 /*******************************************************************************
- * FUNCTION NAME: time_lose_check                                              *
+ * FUNCTION NAME: shoot_win_check                                              *
  *                                                                             *
- * PURPOSE: Checks the game's in-game clock for the lose condition. (Timer = 0)*
+ * PURPOSE: Checks the status of both clay pigeons to assess the win condition.*
  *                                                                             *
- * INPUT: timer = an int to represent the in-game timer.                       *
+ * INPUT: *target_a & *target_b = pointer to structure of structure.           *
  *                                                                             *
- * OUTPUT: returns FALSE if the in-game timer is not 0, returns TRUE otherwise.*
+ * OUTPUT: returns a boolean. returns TRUE if both targets are declared dead.  *
+ *          returns FALSE otherwise.                                           *
  *                                                                             *
- * ASSUMPTION:                                                                 *
+ * ASSUMPTION: targets are instantiated.                                       *
  *                                                                             *
  *******************************************************************************/
 bool shoot_win_check(Mallard *target_a, Mallard *target_b) {
@@ -284,49 +269,6 @@ bool time_lose_check(int timer) {
     }
 
     return time_out;
-}
-
-/*******************************************************************************
- * FUNCTION NAME: bounds_check                                                 *
- *                                                                             *
- * PURPOSE: Checks the current position of the player (reticle) to ensure they *
- *         are in bounds.                                                      *
- *                                                                             *
- * INPUT: *reticle = pointer to structure of structure.                        *
- *                                                                             *
- * OUTPUT: returns TRUE if player is inbounds, returns FALSE otherwise.        *
- *                                                                             *
- * ASSUMPTION: Reticle is instantiated                                         *
- *                                                                             *
- *******************************************************************************/
-bool bounds_check(Reticle *reticle) {
-    bool in_bounds = TRUE;
-
-    if (reticle->x + reticle->width < 20) {
-        Cconws("Out of bounds!");
-        reticle->dx += 11;
-        move_reticle(reticle);
-    }
-
-    if (reticle->x + reticle->width > 638) {
-        Cconws("Out of bounds!");
-        reticle->dx -= 11;
-        move_reticle(reticle);
-    }
-
-    if (reticle->y + reticle->height < 20) {
-        Cconws("Out of bounds!");
-        reticle->dy += 11;
-        move_reticle(reticle);
-    }
-
-    if (reticle->y + reticle->height > 398) {
-        Cconws("Out of bounds!");
-        reticle->dy -= 11;
-        move_reticle(reticle);
-    }
-
-    return in_bounds;
 }
 
 /*******************************************************************************
