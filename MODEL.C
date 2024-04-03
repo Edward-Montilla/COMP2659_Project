@@ -22,6 +22,74 @@ void move_reticle(Reticle *reticle) {
 };
 
 /*******************************************************************************
+ * FUNCTION NAME: bounds_check                                                 *
+ *                                                                             *
+ * PURPOSE: Checks the current position of the player (reticle) to ensure they *
+ *         are in bounds.                                                      *
+ *                                                                             *
+ * INPUT: *reticle = pointer to structure of structure.                        *
+ *                                                                             *
+ * OUTPUT: returns TRUE if player is inbounds, returns FALSE otherwise.        *
+ *                                                                             *
+ * ASSUMPTION: Reticle is instantiated                                         *
+ *                                                                             *
+ *******************************************************************************/
+bool bounds_check(Reticle *reticle) {
+  bool in_bounds = TRUE;
+
+  if (reticle->x + reticle->width < 20) {
+    in_bounds = FALSE;
+    out_of_bounds_action(reticle, TRUE, 11);
+  } 
+  
+  if (reticle->x + reticle->width > 638) {
+    in_bounds = FALSE;
+    out_of_bounds_action(reticle, TRUE, -11);
+  }
+  if (reticle->y + reticle->height < 20) {
+    in_bounds = FALSE;
+    out_of_bounds_action(reticle, FALSE, 11);
+  } 
+  
+  if (reticle->y + reticle->height > 398) {
+    in_bounds = FALSE;
+    out_of_bounds_action(reticle, FALSE, -11);
+  }
+
+  return in_bounds;
+}
+
+/*******************************************************************************
+ * FUNCTION NAME: out_of_bounds_action                                         *
+ *                                                                             *
+ * PURPOSE: Called to knock reticle into boundary.                             *
+ *                                                                             *
+ * INPUT: *reticle = pointer to structure of structure.                        *
+ *        is_horizontal = TRUE if making a change in the x-value,              *
+ *                  otherwise false.                                           *
+ *        change = how much change in the given direction. (is_horizontal)     *
+ *                                                                             *
+ * OUTPUT: does not return anything, but it does move the reticle.             *
+ *                                                                             *
+ * ASSUMPTION: Reticle is instantiated                                         *
+ *                                                                             *
+ *******************************************************************************/
+void out_of_bounds_action(Reticle *reticle, bool is_horizontal, int change) {
+    switch (is_horizontal)
+    {
+    case TRUE:
+        reticle->dx += change;
+        break;
+    case FALSE:
+        reticle->dy += change;
+    default:
+        break;
+    }
+
+    move_reticle(reticle);
+}
+
+/*******************************************************************************
  * FUNCTION NAME: move_mallard                                                 *
  *                                                                             *
  * PURPOSE: Changes the position of the mallard                                *

@@ -36,5 +36,7 @@ typedef struct {
 void move_reticle(Reticle *reticle);
 void move_mallard(Mallard *mallard);
 bool is_hit(Reticle *reticle, Mallard *mallard);
+bool bounds_check(Reticle *reticle);
+void out_of_bounds_action(Reticle *reticle, bool is_horizontal, int change);
 
 #endif

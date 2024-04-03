@@ -19,9 +19,7 @@ void mallard_move_request(Mallard *mallard);
 /* Cascaded Events */
 bool shoot_win_check(Mallard *target_a, Mallard *target_b);
 bool time_lose_check(int timer);
-bool bounds_check(Reticle *reticle);
 bool bounds_check_enemy(Mallard *mallard);
-void out_of_bounds_action(Reticle *reticle, bool is_horizontal, int delta);
 
 UINT32 get_time();
 
