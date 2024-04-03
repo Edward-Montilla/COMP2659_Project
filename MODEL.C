@@ -17,10 +17,8 @@
 void move_reticle(Reticle *reticle) {
   reticle->x += reticle->dx;
   reticle->y += reticle->dy;
-  /*
   reticle->dx = 0;
   reticle->dy = 0;
-  */
 };
 
 /*******************************************************************************
@@ -73,3 +71,4 @@ bool is_hit(Reticle *reticle, Mallard *mallard) {
   
   return hit;
 }; 
+

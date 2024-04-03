@@ -226,15 +226,16 @@ void mallard_move_request(Mallard *mallard) {
 }
 
 /*******************************************************************************
- * FUNCTION NAME: time_lose_check                                              *
+ * FUNCTION NAME: shoot_win_check                                              *
  *                                                                             *
- * PURPOSE: Checks the game's in-game clock for the lose condition. (Timer = 0)*
+ * PURPOSE: Checks the status of both clay pigeons to assess the win condition.*
  *                                                                             *
- * INPUT: timer = an int to represent the in-game timer.                       *
+ * INPUT: *target_a & *target_b = pointer to structure of structure.           *
  *                                                                             *
- * OUTPUT: returns FALSE if the in-game timer is not 0, returns TRUE otherwise.*
+ * OUTPUT: returns a boolean. returns TRUE if both targets are declared dead.  *
+ *          returns FALSE otherwise.                                           *
  *                                                                             *
- * ASSUMPTION:                                                                 *
+ * ASSUMPTION: targets are instantiated.                                       *
  *                                                                             *
  *******************************************************************************/
 bool shoot_win_check(Mallard *target_a, Mallard *target_b) {
