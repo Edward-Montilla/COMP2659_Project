@@ -23,8 +23,7 @@ void move_up_request(Reticle *reticle) {
     switch (bounds_check(reticle))
     {
     case TRUE:
-        reticle->dy -= 4;
-        move_reticle(reticle);
+        reticle_action(reticle, FALSE, -4);
         break;
     default:
         break;
@@ -53,8 +52,7 @@ void move_down_request(Reticle *reticle) {
     switch (bounds_check(reticle))
     {
     case TRUE:
-        reticle->dy += 4;
-        move_reticle(reticle);
+        reticle_action(reticle, FALSE, 4);
         break;
     default:
         break;
@@ -83,8 +81,7 @@ void move_left_request(Reticle *reticle) {
     switch (bounds_check(reticle))
     {
     case TRUE:
-        reticle->dx -= 4;
-        move_reticle(reticle);
+        reticle_action(reticle, TRUE, -4);
         break;
     default:
         break;
@@ -113,14 +110,11 @@ void move_right_request(Reticle *reticle) {
     switch (bounds_check(reticle))
     {
     case TRUE:
-        reticle->dx += 4;
-        move_reticle(reticle);
+        reticle_action(reticle, TRUE, 4);
         break;
     default:
         break;
     }
-
-    reticle->dx = 0;
 }
 
 /*******************************************************************************

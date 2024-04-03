@@ -39,21 +39,21 @@ bool bounds_check(Reticle *reticle) {
 
   if (reticle->x + reticle->width < 20) {
     in_bounds = FALSE;
-    out_of_bounds_action(reticle, TRUE, 11);
+    reticle_action(reticle, TRUE, 11);
   } 
   
   if (reticle->x + reticle->width > 638) {
     in_bounds = FALSE;
-    out_of_bounds_action(reticle, TRUE, -11);
+    reticle_action(reticle, TRUE, -11);
   }
   if (reticle->y + reticle->height < 20) {
     in_bounds = FALSE;
-    out_of_bounds_action(reticle, FALSE, 11);
+    reticle_action(reticle, FALSE, 11);
   } 
   
   if (reticle->y + reticle->height > 398) {
     in_bounds = FALSE;
-    out_of_bounds_action(reticle, FALSE, -11);
+    reticle_action(reticle, FALSE, -11);
   }
 
   return in_bounds;
@@ -74,7 +74,7 @@ bool bounds_check(Reticle *reticle) {
  * ASSUMPTION: Reticle is instantiated                                         *
  *                                                                             *
  *******************************************************************************/
-void out_of_bounds_action(Reticle *reticle, bool is_horizontal, int change) {
+void reticle_action(Reticle *reticle, bool is_horizontal, int change) {
     switch (is_horizontal)
     {
     case TRUE:
@@ -82,6 +82,7 @@ void out_of_bounds_action(Reticle *reticle, bool is_horizontal, int change) {
         break;
     case FALSE:
         reticle->dy += change;
+        break;
     default:
         break;
     }
