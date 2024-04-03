@@ -17,14 +17,9 @@ void read_key(int key, const Model *model) {
         move_right_request(&(model->reticle));
         break;
     case ' ':
-        play_gunshot();
         shoot_request(&(model->reticle), &(model->mallards[0]));
         shoot_request(&(model->reticle), &(model->mallards[1]));
         break;
-    case 'g':
-        play_explosion();
-        break;
-    
     default:
         break;
     }

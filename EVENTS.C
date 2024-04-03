@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "EVENTS.H"
 #include "MODEL.H"
+#include "EFFECTS.H"
 
 /*******************************************************************************
  * FUNCTION NAME: move_up_request                                              *
@@ -132,6 +133,7 @@ void move_right_request(Reticle *reticle) {
  *                                                                             * 
  *******************************************************************************/
 void shoot_request(Reticle *reticle, Mallard *mallard) {
+    play_gunshot();
     if (is_hit(reticle, mallard)) mallard->is_dead = TRUE;
 }
 
