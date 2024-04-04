@@ -1,7 +1,7 @@
 all: game tst_rast tst_fnt mixer tst_rend
 
-mixer: mixer.o psg.o events.o model.o
-	cc68x -g mixer.o psg.o events.o model.o effects.o -o mixer
+mixer: mixer.o psg.o events.o model.o music.o
+	cc68x -g mixer.o psg.o events.o model.o effects.o music.o -o mixer
 
 mixer.o: mixer.c psg.h events.h model.h effects.h
 	cc68x -c -g mixer.c

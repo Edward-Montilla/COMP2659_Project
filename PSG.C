@@ -83,7 +83,7 @@ void set_tone(int channel, int tunning) {
 
   if (0 <= channel && channel <= 2 && 0 <= tunning && tunning <= 4096) {
     fine &= 0x00FF; /* capture the bottom 8 bits of 12 through masking */
-    coarse >= 8;    /* capture the top 4 bits of 12 through right shifting */
+    coarse = coarse >> 8;    /* capture the top 4 bits of 12 through right shifting */
 
     switch (channel) {
     case CHANNEL_A:
