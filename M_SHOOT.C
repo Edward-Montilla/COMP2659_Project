@@ -4,6 +4,10 @@
 #include "EVENTS.H"
 #include "RENDERER.H"
 #include "INPUT.H"
+#include "MODEL.H"
+#include "GLOBALS.H"
+#include "ISR.H"
+
 
 #define BUFEER_A 0xFF8200L
 #define BUFFER_B 0xFA7D00L
@@ -12,23 +16,14 @@
 #define Curson_on (printf("\033e"),fflush(stdout))
 
 
-const Model test_mso =
-{
-	{320, 200, 16, 19, 0, 0},	/* the Reticle; the player */
-	{
-		{49, 49, 16, 14, 0, 0},		    /* Mallard 1 */
-		{591, 351, 16, 14, 0, 0}		/* Mallard 2 */
-	}
-};
-
 int main()
 {
 	int key;
 	UINT32 count = 60000;
 	UINT32 last_count = count;
 
-	void *base_A = Physbase();
-	void *base_B =  (UINT16 *)Physbase() + BUFFER_B; 
+	void *base_A =	Physbase();
+	void *base_B =	(UINT16 *)Physbase() + BUFFER_B; 
 
 	Cursor_off;
 
@@ -44,6 +39,8 @@ int main()
 
 	
 	while (1) {
+
+		/***** Asynchronous *****/
 		if (Cconis() != 0) {
 			key = Cnecin();
 			/* Ends session */
@@ -54,12 +51,13 @@ int main()
 			read_key(key, &(test_mso.reticle));
 		}
 
-		
+		/***** Synchronous *****/
 		clock_timer(&(count));
 
-		/* move enemies */
+		/* move enemies 
 		mallard_move_request(&(test_mso.mallards[0]));
 		mallard_move_request(&(test_mso.mallards[1]));
+		*/
 
 		/* switch frame buffers */
 		if (count % 2 == 0) {
@@ -72,8 +70,6 @@ int main()
 		
 	}
 
-	
-	
 	Setscreen(-1, base_A, -1);
 
 	Curson_on;
