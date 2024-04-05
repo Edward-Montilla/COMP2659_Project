@@ -29,8 +29,6 @@ void move_up_request(Reticle *reticle) {
     default:
         break;
     }
-    
-    reticle->dy = 0;
 }
 
 /*******************************************************************************
@@ -58,8 +56,6 @@ void move_down_request(Reticle *reticle) {
     default:
         break;
     }
-    
-    reticle->dy = 0;
 }
 
 /*******************************************************************************
