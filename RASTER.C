@@ -2,6 +2,8 @@
 #include "TYPES.H"
 #include "FONT.H"
 
+#include <stdio.h>
+
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 400
 #define BYTES_PER_SCREEN 32000
@@ -77,15 +79,16 @@ void plot_vertical_line(UINT16 *base, int x, int y, int length) {
  *                                                                             *
  *******************************************************************************/
 void plot_horizontal_line(UINT16 *base, int x, int y, int length) {
-  int row;
-
   if (x >= 0 && x < SCREEN_WIDTH - length && y >= 0 && y < SCREEN_HEIGHT) {
     UINT16 *loc = base + (y * 40) + (x >> 4);
+    int bit_offset = 15 - (x & 15);
     int col;
 
     for (col = 0; col < length; col++) {
-      *loc |= 1 << 15 - (x & 15);
-      loc += 1;
+      *loc |= 1 << bit_offset;
+      x++;
+      bit_offset = 15 - (x & 15);
+      if (bit_offset == 15) loc += 1;
     }
   }
 };
@@ -112,6 +115,20 @@ void clear_screen(UINT16 *base, int pattern) {
     *(loc++) = pattern;
   }
 };
+
+void plot_bitmap_32(UINT16 *base, int x, int y, const UINT16 *bitmap,
+                    unsigned int height) {
+  int i = 0;
+  base += (x >> 4) + y * 40;
+
+  while (i < height) {
+    *base = bitmap[i] >> (x & 31);
+    *(base + 1) = bitmap[i] << 32 - (x & 31);
+    base += 40;
+    i++;
+  }
+};
+
 
 /*******************************************************************************
  * FUNCTION NAME: plot_bitmap_16                                               *
@@ -201,5 +218,25 @@ void plot_text(UINT16 *base, int x, int y, const UINT8 *bitmap, int ascii) {
   for (row = 0; row < 8; row++) {
     *loc |= bitmap[row];
     loc += 40;
+  }
+};
+
+void plot_rectangle(UINT16 *base, int start_x, int start_y, int end_x, int end_y) {
+  int row, col;
+  UINT16 *loc;
+  int bit_offset;
+  printf("ugh");
+
+  for (row = start_y; row < end_y; row++) {
+    loc = base + (row * 40) + (start_x >> 4);
+    bit_offset = 15 - (start_x & 15);
+
+    printf("Row: %d, Memory Location: %p, Bit Offset: %d\n", row, loc, bit_offset);
+
+    for (col = start_x; col < end_x; col++) {
+      *loc |= 1 << bit_offset;
+      bit_offset = (bit_offset - 1) & 15;
+      if (bit_offset == 15) loc++;
+    }
   }
 };
