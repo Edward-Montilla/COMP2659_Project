@@ -9,13 +9,13 @@
 #define OPENING_SIZE 8
 #define LAUGH_SIZE 	7
 
-Notes opening[] = {
+Note opening[] = {
 	/* the opening theme of the game */
 	{G_FLT, half}, {F_SHP, half}, {E_FLT, half},
 	{D_FLT, half}, {C_FLT, half}, {D_FLT, half},
 	{E_FLT, half}, {F_SHP, half}, {G_FLT, half}};
 
-Notes laugh[] = {
+Note laugh[] = {
 	{D_FLT, eight}, {G_FLT, eight}, {B_FLT, eight},
 	{A_FLT, eight}, {G_FLT, eight}, {D_FLT, eight},
 };
