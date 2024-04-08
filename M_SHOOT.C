@@ -83,7 +83,7 @@ int main()
 
 		mallard_move_request(&(test_mso.mallards[0]));
 		mallard_move_request(&(test_mso.mallards[1]));
-		*/
+		
 
 		/* switch frame buffers */
 		if (count % 2 == 0) {
