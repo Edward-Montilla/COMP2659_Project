@@ -83,8 +83,6 @@ void move_left_request(Reticle *reticle) {
     default:
         break;
     }
-
-    reticle->dx = 0;
 }
 
 /*******************************************************************************
@@ -206,14 +204,10 @@ void mallard_move_request(Mallard *mallard) {
         return;
     }
 
-    if (mallard->y > 350) mallard->dx -= 4;
-    if (mallard->y < 50) mallard->dx += 4;
-    if (mallard->x < 50) mallard->dy -= 4;
-    if (mallard->x > 590) mallard->dy += 4;
-
-    move_mallard(mallard);
-    mallard->dx = 0;
-    mallard->dy = 0;
+    if (mallard->y > 350) mallard_action(mallard, TRUE, -4);
+    if (mallard->y < 50) mallard_action(mallard, TRUE, 4);
+    if (mallard->x < 50) mallard_action(mallard, FALSE, -4);
+    if (mallard->x > 590) mallard_action(mallard, FALSE, 4);
 }
 
 /*******************************************************************************
