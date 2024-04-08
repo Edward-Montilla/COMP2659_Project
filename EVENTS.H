@@ -10,7 +10,6 @@ void move_down_request(Reticle *reticle);
 void move_left_request(Reticle *reticle);
 void move_right_request(Reticle *reticle);
 void shoot_request(Reticle *reticle, Mallard *mallard);
-void pause();
 
 /* Synchronous Events */
 void clock_timer(UINT32 *count);
