@@ -1,19 +1,19 @@
 all: game tst_rast tst_fnt mixer tst_rend
 
-mixer: mixer.o psg.o events.o model.o music.o
-	cc68x -g mixer.o psg.o events.o model.o effects.o music.o -o mixer
+mixer: mixer.o psg.o events.o model.o music.o isr.o isr_asm.o
+	cc68x -g mixer.o psg.o events.o model.o effects.o music.o isr.o isr_asm.o -o mixer
 
 mixer.o: mixer.c psg.h events.h model.h effects.h
 	cc68x -c -g mixer.c
 
-game: m_shoot.o raster.o bitmap.o events.o model.o renderer.o input.o effects.o psg.o font.o rast_asm.o
-	cc68x -g m_shoot.o raster.o bitmap.o events.o model.o renderer.o input.o effects.o psg.o font.o rast_asm.o -o game
+game: m_shoot.o raster.o bitmap.o events.o model.o renderer.o input.o effects.o psg.o font.o isr.o isr_asm.o rast_asm.o
+	cc68x -g m_shoot.o raster.o bitmap.o events.o model.o renderer.o input.o effects.o psg.o font.o isr.o isr_asm.o rast_asm.o -o game
 
 tst_all: tst_all.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o
 	cc68x -g tst_all.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o -o tst_all
 
-tst_rend: tst_rend.o raster.o bitmap.o events.o model.o renderer.o effects.o psg.o font.o rast_asm.o
-	cc68x -g tst_rend.o raster.o bitmap.o events.o model.o renderer.o effects.o psg.o font.o rast_asm.o -o tst_rend
+tst_rend: tst_rend.o raster.o bitmap.o events.o model.o renderer.o effects.o psg.o font.o isr.o isr_asm.o rast_asm.o
+	cc68x -g tst_rend.o raster.o bitmap.o events.o model.o renderer.o effects.o psg.o font.o isr.o isr_asm.o rast_asm.o -o tst_rend
 
 tst_fnt: tst_fnt.o raster.o font.o
 	cc68x -g tst_fnt.o raster.o font.o -o tst_fnt
@@ -21,13 +21,10 @@ tst_fnt: tst_fnt.o raster.o font.o
 tst_rast: rast1.o raster.o model.o font.o bitmap.o
 	cc68x -g rast1.o raster.o model.o font.o bitmap.o -o tst_rast
 
-isr.o: isr.c isr.h globals.h model.h types.h
+isr.o: isr.c isr.h model.h types.h
 	cc68x -g -c isr.c
 
-globals.o: globals.c globals.h model.h types.h
-	cc68x -g -c globals.c
-
-m_shoot.o: m_shoot.c raster.h events.h renderer.h input.h globals.h model.h isr.h
+m_shoot.o: m_shoot.c raster.h events.h renderer.h input.h model.h isr.h
 	cc68x -g -c m_shoot.c
 
 tst_all.o: tst_all.c raster.h events.h
@@ -54,7 +51,7 @@ music.o: music.c music.h
 psg.o: psg.c psg.h
 	cc68x -g -c psg.c
 
-events.o: events.c events.h
+events.o: events.c events.h isr.h
 	cc68x -g -c events.c
 
 raster.o: raster.c raster.h
