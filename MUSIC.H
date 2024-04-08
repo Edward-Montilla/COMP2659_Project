@@ -4,22 +4,25 @@
 #include "TYPES.H"
 
 /* Durations based on 4-4 time measure at 120 bmp */
+
 #define sixteenth	4
 #define eight 		8
 #define quarter		16
 #define half		32
 #define whole		64
 
-/* A 'song' will be an array of Notes data types 
+
+/* A 'song' will be an array of Note data types
   that encapsulate pitch and duration */
 typedef struct {
-	int pitch;    /* the pitch of the note */
-	int duration; /* the duration of the  note */
-} Notes;
+  int pitch;    /* the pitch of the note */
+  int duration; /* the duration of the  note */
+} Note;
 
 void start_music();
 void update_music(UINT32 time_elapsed);
 void start_dog_laugh();
 void update_laugh(UINT32 time_elapsed);
+void stop_music();
 
 #endif

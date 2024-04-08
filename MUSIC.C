@@ -59,5 +59,11 @@ void start_dog_laugh(){
 };
 
 void update_dog_laugh(UINT32 time_elapsed){
-	
+
 };
+
+void stop_music(){
+	stop_sound();
+	return;
+}
+

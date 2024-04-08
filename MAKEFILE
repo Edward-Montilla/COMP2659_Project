@@ -6,14 +6,14 @@ mixer: mixer.o psg.o events.o model.o music.o
 mixer.o: mixer.c psg.h events.h model.h effects.h
 	cc68x -c -g mixer.c
 
-game: rast_asm.o isr_asm.o m_shoot.o raster.o bitmap.o events.o model.o renderer.o input.o effects.o psg.o
-	cc68x -g m_shoot.o raster.o bitmap.o events.o model.o renderer.o input.o effects.o psg.o rast_asm.o -o game
+game: m_shoot.o raster.o bitmap.o events.o model.o renderer.o input.o effects.o psg.o font.o rast_asm.o
+	cc68x -g m_shoot.o raster.o bitmap.o events.o model.o renderer.o input.o effects.o psg.o font.o rast_asm.o -o game
 
 tst_all: tst_all.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o
 	cc68x -g tst_all.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o -o tst_all
 
-tst_rend: tst_rend.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o
-	cc68x -g tst_rend.o raster.o bitmap.o events.o model.o renderer.o rast_asm.o -o tst_rend
+tst_rend: tst_rend.o raster.o bitmap.o events.o model.o renderer.o effects.o psg.o font.o rast_asm.o
+	cc68x -g tst_rend.o raster.o bitmap.o events.o model.o renderer.o effects.o psg.o font.o rast_asm.o -o tst_rend
 
 tst_fnt: tst_fnt.o raster.o font.o
 	cc68x -g tst_fnt.o raster.o font.o -o tst_fnt

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "EVENTS.H"
 #include "MODEL.H"
+#include "EFFECTS.H"
 
 /*******************************************************************************
  * FUNCTION NAME: move_up_request                                              *
@@ -20,16 +21,14 @@
  *                                                                             *
  *******************************************************************************/
 void move_up_request(Reticle *reticle) {
-    reticle->dy -= 4;
-    move_reticle(reticle);
-
-    if (!bounds_check(reticle)) {
-        Cconws("Out of bounds!");
-        reticle->dy += 6;
-        move_reticle(reticle);
+    switch (bounds_check(reticle))
+    {
+    case TRUE:
+        reticle_action(reticle, FALSE, -4);
+        break;
+    default:
+        break;
     }
-    
-    reticle->dy = 0;
 }
 
 /*******************************************************************************
@@ -49,16 +48,14 @@ void move_up_request(Reticle *reticle) {
  *                                                                             *
  *******************************************************************************/
 void move_down_request(Reticle *reticle) {
-    reticle->dy += 4;
-    move_reticle(reticle);
-
-    if (!bounds_check(reticle)) {
-        Cconws("Out of bounds!");
-        reticle->dy -= 6;
-        move_reticle(reticle);
+    switch (bounds_check(reticle))
+    {
+    case TRUE:
+        reticle_action(reticle, FALSE, 4);
+        break;
+    default:
+        break;
     }
-    
-    reticle->dy = 0;
 }
 
 /*******************************************************************************
@@ -78,13 +75,13 @@ void move_down_request(Reticle *reticle) {
  *                                                                             *
  *******************************************************************************/
 void move_left_request(Reticle *reticle) {
-    reticle->dx -= 4;
-    move_reticle(reticle);
-
-    if (!bounds_check(reticle)) {
-        Cconws("Out of bounds!");
-        reticle->dx += 6;
-        move_reticle(reticle);
+    switch (bounds_check(reticle))
+    {
+    case TRUE:
+        reticle_action(reticle, TRUE, -4);
+        break;
+    default:
+        break;
     }
 
     reticle->dx = 0;
@@ -107,16 +104,33 @@ void move_left_request(Reticle *reticle) {
  *                                                                             *
  *******************************************************************************/
 void move_right_request(Reticle *reticle) {
-    reticle->dx += 4;
-    move_reticle(reticle);
-
-    if (!bounds_check(reticle)) {
-        Cconws("Out of bounds!");
-        reticle->dx -= 6;
-        move_reticle(reticle);
+    switch (bounds_check(reticle))
+    {
+    case TRUE:
+        reticle_action(reticle, TRUE, 4);
+        break;
+    default:
+        break;
     }
+}
 
-    reticle->dx = 0;
+/*******************************************************************************
+ * FUNCTION NAME: shoot_request                                                *
+ *                                                                             *
+ * PURPOSE: Processes the after effects of a user shooting.                    *
+ *                                                                             *
+ * INPUT: *reticle = pointer to structure of structure.                        *
+ *        *mallard = pointer to structure of structure.                        *
+ *                                                                             *
+ * OUTPUT: no return from function, this is the only function that can declare *
+ *          the game's targets as dead.                                        *
+ *                                                                             *
+ * ASSUMPTION: Assumes Reticle and Mallard are instantiated.                   *
+ *                                                                             * 
+ *******************************************************************************/
+void shoot_request(Reticle *reticle, Mallard *mallard) {
+    play_gunshot();
+    if (is_hit(reticle, mallard)) mallard->is_dead = TRUE;
 }
 
 /*******************************************************************************
@@ -152,7 +166,6 @@ void clock_timer(UINT32 *count) {
  * ASSUMPTION: Assumes the clock is not broken.                                *
  *                                                                             *
  *******************************************************************************/
-
 UINT32 get_time() {
   long old_ssp;
   UINT32 timeNow;
@@ -182,6 +195,17 @@ UINT32 get_time() {
  *                                                                             *
  *******************************************************************************/
 void mallard_move_request(Mallard *mallard) {
+    /* clay pigeon is dead and falls to bottom of screen */
+    if (mallard->is_dead && bounds_check_enemy(mallard)) {
+        mallard->dy -= 4;
+        move_mallard(mallard);
+        return;
+    }
+    /* clay pigeon remains at the bottom of screen */
+    if (mallard->is_dead) {
+        return;
+    }
+
     if (mallard->y > 350) mallard->dx -= 4;
     if (mallard->y < 50) mallard->dx += 4;
     if (mallard->x < 50) mallard->dy -= 4;
@@ -192,6 +216,29 @@ void mallard_move_request(Mallard *mallard) {
     mallard->dy = 0;
 }
 
+/*******************************************************************************
+ * FUNCTION NAME: shoot_win_check                                              *
+ *                                                                             *
+ * PURPOSE: Checks the status of both clay pigeons to assess the win condition.*
+ *                                                                             *
+ * INPUT: *target_a & *target_b = pointer to structure of structure.           *
+ *                                                                             *
+ * OUTPUT: returns a boolean. returns TRUE if both targets are declared dead.  *
+ *          returns FALSE otherwise.                                           *
+ *                                                                             *
+ * ASSUMPTION: targets are instantiated.                                       *
+ *                                                                             *
+ *******************************************************************************/
+bool shoot_win_check(Mallard *target_a, Mallard *target_b) {
+    bool win = FALSE;
+
+    if (target_a->is_dead && target_b->is_dead) {
+        win = TRUE;
+        Cconws("You Win!");
+    }
+
+    return win;
+}
 
 /*******************************************************************************
  * FUNCTION NAME: time_lose_check                                              *
@@ -202,51 +249,41 @@ void mallard_move_request(Mallard *mallard) {
  *                                                                             *
  * OUTPUT: returns FALSE if the in-game timer is not 0, returns TRUE otherwise.*
  *                                                                             *
- * ASSUMPTION:                                                                 *
+ * ASSUMPTION: timer is initiatlized.                                          *
  *                                                                             *
  *******************************************************************************/
 bool time_lose_check(int timer) {
     bool time_out = FALSE;
     
-    if (timer == 0) time_out = TRUE;
+    if (timer == 600) {
+        time_out = TRUE;
+        Cconws("You Lose!");
+    }
 
     return time_out;
 }
 
 /*******************************************************************************
- * FUNCTION NAME: bounds_check                                                 *
+ * FUNCTION NAME: bounds_check_enemy                                           *
  *                                                                             *
- * PURPOSE: Checks the current position of the player (reticle) to ensure they *
- *         are in bounds.                                                      *
+ * PURPOSE: Checks the current position of the clay pigeon to ensure they are  *
+ *             in bounds.                                                      *
  *                                                                             *
- * INPUT: *reticle = pointer to structure of structure.                        *
+ * INPUT: *mallard = pointer to structure of structure.                        *
  *                                                                             *
- * OUTPUT: returns TRUE if player is inbounds, returns FALSE otherwise.        *
+ * OUTPUT: returns TRUE if object is inbounds, returns FALSE otherwise.        *
  *                                                                             *
- * ASSUMPTION:                                                                 *
+ * ASSUMPTION: Mallard is instantiated                                         *
  *                                                                             *
  *******************************************************************************/
-bool bounds_check(Reticle *reticle) {
+bool bounds_check_enemy(Mallard *mallard) {
     bool in_bounds = TRUE;
 
-    if (reticle->x <= 1
-    || reticle->x + reticle->width >= 638
-    || reticle->y <= 1 
-    || reticle->y + reticle->height >= 398)
+    if (mallard->x + mallard->width <= 1
+    || mallard->x + mallard->width >= 638
+    || mallard->y + mallard->height <= 1 
+    || mallard->y + mallard->height >= 370)
         in_bounds = FALSE;
 
     return in_bounds;
 }
-
-/* Uneeded at this stage, reference mallard_move_request documentation */
-/* bool bounds_check_enemy(Mallard *mallard) {
-    bool in_bounds = TRUE;
-
-    if (mallard->x <= 1
-    || mallard->x + mallard->width >= 638
-    || mallard->y <= 1 
-    || mallard->y + mallard->height >= 398)
-        in_bounds = FALSE;
-
-    return in_bounds;
-} */ 

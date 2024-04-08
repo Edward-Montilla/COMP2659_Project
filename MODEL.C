@@ -1,3 +1,4 @@
+#include <osbind.h>
 #include "MODEL.H"
 
 /*******************************************************************************
@@ -16,7 +17,78 @@
 void move_reticle(Reticle *reticle) {
   reticle->x += reticle->dx;
   reticle->y += reticle->dy;
+  reticle->dx = 0;
+  reticle->dy = 0;
 };
+
+/*******************************************************************************
+ * FUNCTION NAME: bounds_check                                                 *
+ *                                                                             *
+ * PURPOSE: Checks the current position of the player (reticle) to ensure they *
+ *         are in bounds.                                                      *
+ *                                                                             *
+ * INPUT: *reticle = pointer to structure of structure.                        *
+ *                                                                             *
+ * OUTPUT: returns TRUE if player is inbounds, returns FALSE otherwise.        *
+ *                                                                             *
+ * ASSUMPTION: Reticle is instantiated                                         *
+ *                                                                             *
+ *******************************************************************************/
+bool bounds_check(Reticle *reticle) {
+  bool in_bounds = TRUE;
+
+  if (reticle->x + reticle->width < 20) {
+    in_bounds = FALSE;
+    reticle_action(reticle, TRUE, 11);
+  } 
+  
+  if (reticle->x + reticle->width > 638) {
+    in_bounds = FALSE;
+    reticle_action(reticle, TRUE, -11);
+  }
+  if (reticle->y + reticle->height < 20) {
+    in_bounds = FALSE;
+    reticle_action(reticle, FALSE, 11);
+  } 
+  
+  if (reticle->y + reticle->height > 398) {
+    in_bounds = FALSE;
+    reticle_action(reticle, FALSE, -11);
+  }
+
+  return in_bounds;
+}
+
+/*******************************************************************************
+ * FUNCTION NAME: out_of_bounds_action                                         *
+ *                                                                             *
+ * PURPOSE: Called to knock reticle into boundary.                             *
+ *                                                                             *
+ * INPUT: *reticle = pointer to structure of structure.                        *
+ *        is_horizontal = TRUE if making a change in the x-value,              *
+ *                  otherwise false.                                           *
+ *        change = how much change in the given direction. (is_horizontal)     *
+ *                                                                             *
+ * OUTPUT: does not return anything, but it does move the reticle.             *
+ *                                                                             *
+ * ASSUMPTION: Reticle is instantiated                                         *
+ *                                                                             *
+ *******************************************************************************/
+void reticle_action(Reticle *reticle, bool is_horizontal, int change) {
+    switch (is_horizontal)
+    {
+    case TRUE:
+        reticle->dx += change;
+        break;
+    case FALSE:
+        reticle->dy += change;
+        break;
+    default:
+        break;
+    }
+
+    move_reticle(reticle);
+}
 
 /*******************************************************************************
  * FUNCTION NAME: move_mallard                                                 *
@@ -32,7 +104,10 @@ void move_reticle(Reticle *reticle) {
  *                                                                             *
  *******************************************************************************/
 void move_mallard(Mallard *mallard) {
-  if (mallard->is_dead == TRUE) return;
+  if (mallard->is_dead == TRUE) {
+    mallard->y -= mallard->dy;
+    return;
+  }
 
   mallard->x += mallard->dx;
   mallard->y += mallard->dy;
@@ -42,7 +117,7 @@ void move_mallard(Mallard *mallard) {
  * FUNCTION NAME: is_hit                                                       *
  *                                                                             *
  * PURPOSE: Checks coordinate of two objects and returns true if hit           *
- *        This funtion uses an AABB collision algorithm found on amanotes [1]  *
+ *        This funtion uses an AABB collision algorithm found on amanotes      *
  *                                                                             *
  * INPUT: *mallard = pointer to structure                                      *
  *        *reticle = pointer to structure                                      *
@@ -53,19 +128,16 @@ void move_mallard(Mallard *mallard) {
  * ASSUMPTION: Assumes that sturctures are in play                             *
  *                                                                             *
  *******************************************************************************/
-/*bool is_hit(Reticle &reticle, Mallard &mallard) {
+bool is_hit(Reticle *reticle, Mallard *mallard) {
   bool hit = FALSE;
   
-  int left = mallard.x - (reticle.x + reticle.width);
-  int right = (mallard.x + mallard.width) - reticle.x;
-  int top = (mallard.y + mallard.height) - reticle.y;
-  int bottom = mallard.y - (reticle.y + reticle.height);
-
-  if (left > 0 || right < 0 || top < 0 || bottom > 0) hit = TRUE;
+  if (mallard->x < (reticle->x + reticle->width) &&
+  (mallard->x + mallard->width) > reticle->x &&
+  (mallard->y + mallard->height) > reticle->y &&
+  mallard->y < (reticle->y + reticle->height)) {
+    hit = TRUE;
+  }
   
   return hit;
 }; 
 
-/* Luu The Vinh. "Using Swept AABB to detect and process collision." amanotes.com.
-  https://www.amanotes.com/post/using-swept-aabb-to-detect-and-process-collision#:~:text=What%20is%20AABB%3F,with%20each%20other%20or%20not
-  (accessed Feb. 14, 2024) */

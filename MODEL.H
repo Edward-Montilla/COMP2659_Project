@@ -12,6 +12,7 @@ typedef struct {
   int dx, dy;
 } Reticle;
 
+/* Clay Pigeon Bitmaps */
 typedef struct {
   /* position variables */
   unsigned int x, y;
@@ -21,6 +22,8 @@ typedef struct {
   int dx, dy;
   /* out of play variable */
   bool is_dead;
+  /* plays "animation" by cycling through bitmap */
+  int phase;
 } Mallard;
 
 /* A structure for all models */
@@ -33,5 +36,7 @@ typedef struct {
 void move_reticle(Reticle *reticle);
 void move_mallard(Mallard *mallard);
 bool is_hit(Reticle *reticle, Mallard *mallard);
+bool bounds_check(Reticle *reticle);
+void reticle_action(Reticle *reticle, bool is_horizontal, int change);
 
 #endif

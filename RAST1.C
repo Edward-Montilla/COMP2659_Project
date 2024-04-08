@@ -1,8 +1,6 @@
 #include <osbind.h>
 #include <stdio.h>
-#include "RASTER.H"
-#include "MODEL.H"
-#include "FONT.H"
+#include "RENDERER.H"
 
 const Model test_mso =
 {
