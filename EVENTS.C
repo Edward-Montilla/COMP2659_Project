@@ -3,6 +3,7 @@
 #include "EVENTS.H"
 #include "MODEL.H"
 #include "EFFECTS.H"
+#include "ISR.H"
 
 /*******************************************************************************
  * FUNCTION NAME: move_up_request                                              *
@@ -144,14 +145,7 @@ void shoot_request(Reticle *reticle, Mallard *mallard) {
  *                                                                             *
  *******************************************************************************/
 void clock_timer(UINT32 *count) {
-    UINT32 timeThen, timeNow, timeElapsed;
-    timeNow = get_time();
-    timeElapsed = timeNow - timeThen;
-
-    if (timeElapsed > 0) {
-        timeThen = timeNow;
-        (*count) += 1;
-    }
+    (*count) = VBL_count;
 }
 
 /*******************************************************************************
