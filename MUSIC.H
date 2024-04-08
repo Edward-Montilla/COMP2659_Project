@@ -4,11 +4,13 @@
 #include "TYPES.H"
 
 /* Durations based on 4-4 time measure at 120 bmp */
-#define sixteenth 4
-#define eight
-#define quarter
-#define half
-#define whole
+
+#define sixteenth	4
+#define eight 		8
+#define quarter		16
+#define half		32
+#define whole		64
+
 
 /* A 'song' will be an array of Note data types
   that encapsulate pitch and duration */
