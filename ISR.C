@@ -29,10 +29,17 @@ int mouse_button = HEADER_PACKET;
 int mouse_status = 0;
 int mouse_deltaXY[2];
 
+int seconds = 0;
 
 void do_VBL_isr(){
 	VBL_calls++;
-}
+
+	if(VBL_calls % 70 == 0){
+		seconds++;
+	}
+
+};
+
 
 void do_IKBD_isr(){
 	UINT8 scancode = *RDR_ADDRESS;
@@ -80,7 +87,7 @@ void load_vectors(){
 	unmask_interrupts();
 };
 
-void restore_vector(){
+void restore_vectors(){
 	mask_interrupts();
 
 	install_vector(VBL_ISR, org_VBL);

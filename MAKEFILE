@@ -1,4 +1,4 @@
-all: game tst_rast tst_fnt mixer tst_rend
+all: game tst_rast tst_fnt mixer tst_rend tst_isr
 
 mixer: mixer.o psg.o events.o model.o music.o isr.o isr_asm.o
 	cc68x -g mixer.o psg.o events.o model.o effects.o music.o isr.o isr_asm.o -o mixer
@@ -21,7 +21,13 @@ tst_fnt: tst_fnt.o raster.o font.o
 tst_rast: rast1.o raster.o model.o font.o bitmap.o
 	cc68x -g rast1.o raster.o model.o font.o bitmap.o -o tst_rast
 
-isr.o: isr.c isr.h model.h types.h
+tst_isr: tst_isr.o isr.o isr_asm.o events.o
+	cc68x -g tst_isr.o isr.o isr_asm.o events.o -o tst_isr
+
+tst_isr.o: tst_isr.c isr.h
+	cc68x -g -c tst_isr.c
+
+isr.o: isr.c isr.h isr_asm.s
 	cc68x -g -c isr.c
 
 m_shoot.o: m_shoot.c raster.h events.h renderer.h input.h model.h isr.h
