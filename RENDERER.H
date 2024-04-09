@@ -18,3 +18,4 @@ extern const UINT16 clay_pigeon_3[];
 extern const UINT16 clay_pigeon_4[];
 extern const UINT16 *clay_pigeon_bitmap[];
 extern const UINT16 clay_pigeon_dead[];
+extern const UINT8 starter_splashscreen[];

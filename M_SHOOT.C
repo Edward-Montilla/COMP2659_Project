@@ -36,10 +36,22 @@ int main()
 
 
 	void *base_A = Physbase();
-	void *base_B =  (UINT16 *)Physbase() + BUFFER_B;
+	void *base_B = (UINT16 *)Physbase() + BUFFER_B;
 
 
 	Cursor_off;
+
+	plot_screen(base_A, starter_splashscreen);
+	while (1) {
+		if (Cconis() != 0) {
+			key = Cnecin();
+			/* Ends session */
+			if (key == 'q') {
+				break;
+			}
+		}	
+	}
+	
 
 	/* Sets the scene */
 	render(&test_mso, time_value, base_A);

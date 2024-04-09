@@ -113,12 +113,14 @@ void clear_screen(UINT16 *base, int pattern) {
   }
 };
 
-void plot_screen(UINT16 *base, const UINT16 *bitmap) {
+void plot_screen(UINT16 *base, const UINT8 *bitmap) {
   register int i = 0;
   register UINT16 *loc = base;
 
-  while (i++ < (BYTES_PER_SCREEN)/2 ) {
-    *(loc++) = bitmap[i];
+  while (i < BYTES_PER_SCREEN / 2 ) {
+    *(loc) = bitmap[i];
+    loc++;
+    i++;
   }
 };
 
