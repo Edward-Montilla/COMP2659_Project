@@ -19,9 +19,9 @@ int main() {
   printf("Calls to VBL ISR = %ld\n", VBL_calls);
 
   /* print the corresponding Keyboard input in ascii */
-  while (pressed != 'q') {
-    printf("\n");
-  }
+  
+    printf("This is where the IKBD will be tested, if I ever got to it\n");
+  
 
   restore_vectors();
 
