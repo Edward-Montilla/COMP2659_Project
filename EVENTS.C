@@ -3,7 +3,6 @@
 #include "EVENTS.H"
 #include "MODEL.H"
 #include "EFFECTS.H"
-#include "ISR.H"
 
 /*******************************************************************************
  * FUNCTION NAME: move_up_request                                              *
@@ -129,7 +128,7 @@ void move_right_request(Reticle *reticle) {
  *******************************************************************************/
 void shoot_request(Reticle *reticle, Mallard *mallard) {
     play_gunshot();
-    if (is_hit(reticle, mallard)) mallard->is_dead = TRUE;
+    if (is_hit(reticle, mallard)) play_explosion();
 }
 
 /*******************************************************************************
@@ -145,7 +144,14 @@ void shoot_request(Reticle *reticle, Mallard *mallard) {
  *                                                                             *
  *******************************************************************************/
 void clock_timer(UINT32 *count) {
-    (*count) = VBL_count;
+    UINT32 timeThen, timeNow, timeElapsed;
+    timeNow = get_time();
+    timeElapsed = timeNow - timeThen;
+
+    if (timeElapsed > 0) {
+        timeThen = timeNow;
+        (*count) += 1;
+    }
 }
 
 /*******************************************************************************
@@ -189,8 +195,7 @@ UINT32 get_time() {
 void mallard_move_request(Mallard *mallard) {
     /* clay pigeon is dead and falls to bottom of screen */
     if (mallard->is_dead && bounds_check_enemy(mallard)) {
-        mallard->dy -= 4;
-        move_mallard(mallard);
+        mallard_action(mallard, FALSE, -4);
         return;
     }
     /* clay pigeon remains at the bottom of screen */
