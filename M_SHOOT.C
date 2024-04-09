@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * STUDENT: Jaunie Williams, Edward Montilla                                   *
+ *                                                                             *
+ * COURSE: COMP2659 - COMPUTING MACHINERY II                                   *
+ *                                                                             *
+ * PROFESSOR: Marc Schroeder								                   *
+ * 																			   *
+ * PURPOSE: Main game module												   *
+ *                                                                             *
+ *******************************************************************************/
+
 #include <osbind.h>
 #include <stdio.h>
 #include "RASTER.H"

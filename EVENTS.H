@@ -1,6 +1,18 @@
 #ifndef EVENTS_H
 #define EVENTS_H
 
+/*******************************************************************************
+ * STUDENT: Jaunie Williams, Edward Montilla                                   *
+ *                                                                             *
+ * COURSE: COMP2659 - COMPUTING MACHINERY II                                   *
+ *                                                                             *
+ * PROFESSOR: Marc Schroeder								                   *
+ * 																			   *
+ * PURPOSE: Communicates with effects and models to create synchronous and     *
+ *         asynchronous game effects.                                          *
+ *                                                                             *
+ *******************************************************************************/
+
 #include "MODEL.H"
 #include "RENDERER.H"
 

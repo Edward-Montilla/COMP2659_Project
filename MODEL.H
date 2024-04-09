@@ -1,6 +1,17 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+/*******************************************************************************
+ * STUDENT: Jaunie Williams, Edward Montilla                                   *
+ *                                                                             *
+ * COURSE: COMP2659 - COMPUTING MACHINERY II                                   *
+ *                                                                             *
+ * PROFESSOR: Marc Schroeder								                                   *
+ * 																			                                       *
+ * PURPOSE: Tracks all models and model-manipulating functions.                *
+ *                                                                             *
+ *******************************************************************************/
+
 #include "TYPES.H"
 
 typedef struct {

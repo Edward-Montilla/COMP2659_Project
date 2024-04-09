@@ -3,6 +3,17 @@
 
 #include "TYPES.H"
 
+/*******************************************************************************
+ * STUDENT: Jaunie Williams, Edward Montilla                                   *
+ *                                                                             *
+ * COURSE: COMP2659 - COMPUTING MACHINERY II                                   *
+ *                                                                             *
+ * PROFESSOR: Marc Schroeder								                                   *
+ * 																			                                       *
+ * PURPOSE: Handles all music coordination.                                    *
+ *                                                                             *
+ *******************************************************************************/
+
 /* Durations based on 4-4 time measure at 120 bmp */
 
 #define sixteenth	4

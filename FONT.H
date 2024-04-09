@@ -1,6 +1,17 @@
 #ifndef FONT_H
 #define FONT_H
 
+/*******************************************************************************
+ * STUDENT: Jaunie Williams, Edward Montilla                                   *
+ *                                                                             *
+ * COURSE: COMP2659 - COMPUTING MACHINERY II                                   *
+ *                                                                             *
+ * PROFESSOR: Marc Schroeder								                   *
+ * 																			   *
+ * PURPOSE: Holds the games font for writing to screen.                        *
+ *                                                                             *
+ *******************************************************************************/
+
 #include "types.h"
 
 extern const UINT8 font[];     /* 8x8 system font */

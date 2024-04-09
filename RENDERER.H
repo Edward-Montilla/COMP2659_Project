@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * STUDENT: Jaunie Williams, Edward Montilla                                   *
+ *                                                                             *
+ * COURSE: COMP2659 - COMPUTING MACHINERY II                                   *
+ *                                                                             *
+ * PROFESSOR: Marc Schroeder								                   *
+ * 							                                                   *
+ * PURPOSE: Handles all rendering and large bitmap handling.                   *
+ *                                                                             *
+ *******************************************************************************/
+
 #include "MODEL.H"
 #include "TYPES.H"
 #include "RASTER.H"

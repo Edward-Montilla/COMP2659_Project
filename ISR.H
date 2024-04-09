@@ -1,6 +1,17 @@
 #ifndef ISR_H
 #define ISR_H
 
+/*******************************************************************************
+ * STUDENT: Jaunie Williams, Edward Montilla                                   *
+ *                                                                             *
+ * COURSE: COMP2659 - COMPUTING MACHINERY II                                   *
+ *                                                                             *
+ * PROFESSOR: Marc Schroeder								                   *
+ * 																			   *
+ * PURPOSE: Keeps track of the interrupt service routines.                     *
+ *                                                                             *
+ *******************************************************************************/
+
 #include "MUSIC.H"
 #include "RASTER.H"
 #include "TYPES.H"
