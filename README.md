@@ -3,15 +3,20 @@ Game for the Atari ST
 Title: Mallard ShootOut
 Authors: Jaunie W. & Edward M.
 
-After running make, these test executables should be made:
+After running make, two test executables should be made:
 
-- "game" is the final game
+Running "game" will render bitmaps and allow the user to track
+x & y values of the reticle and the mallards as well as count down
+the in-game clock.
 
-- "tst_rend" shows the frame by frame rendering in action.
+Running "tst_rend" shows the frame by frame rendering in action.
 
-- Running "tst_rast" will allow the user to flip through pre-programmed raster orientations
+Stage 8 is _challenged_ the PSG.C file has all running functions to help in implementing EFFECTS.C and MUSIC.
+> That being said, the MUSIC.C file is not implemented just yet, this will be corrected soon.
 
-- Running "mixer" will ride the scale of notes, holding each note for ~2.5 seconds and clock ticks are printed onto the screen.
+Running "tst_rast" will allow the user to flip through pre-programmed
+
+Running "mixer" will ride the scale of notes, holding each note for ~2.5 seconds and clock ticks are printed onto the screen.
 
 
 Fixes from Stages 2-4:

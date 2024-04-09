@@ -7,7 +7,6 @@
 void plot_pixel(UINT16 *base, int x, int y);
 void plot_vertical_line(UINT16 *base, int x, int y, int length);
 void plot_horizontal_line(UINT16 *base, int x, int y, int length);
-void plot_screen(UINT16 *base, const UINT8 *bitmap);
 void clear_screen(UINT16 *base, int pattern);
 void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap,
                     unsigned int height);

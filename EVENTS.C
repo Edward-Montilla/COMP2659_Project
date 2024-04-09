@@ -221,6 +221,7 @@ bool shoot_win_check(Mallard *target_a, Mallard *target_b) {
 
     if (target_a->is_dead && target_b->is_dead) {
         win = TRUE;
+        Cconws("You Win!");
     }
 
     return win;
@@ -243,6 +244,7 @@ bool time_lose_check(int timer) {
     
     if (timer == 600) {
         time_out = TRUE;
+        Cconws("You Lose!");
     }
 
     return time_out;
@@ -271,50 +273,4 @@ bool bounds_check_enemy(Mallard *mallard) {
         in_bounds = FALSE;
 
     return in_bounds;
-}
-
-char read_IKBD(bool to_process){
-    
-    UINT32 code;
-    char key;
-    mask_interrupts();
-    code = IKBD_buffer[head];
-    code &= 0x000000FF; /* keep the low byte*/
-    check_key(code, key);
-    unmask_interrupts();
-    
-    return key;
-}
-
-static void check_key(UINT32 code, char key){
-    switch (code){
-    case ESC:
-        key = 'q';
-        break;
-    
-    case W:
-        key = 'w';
-        break;
-
-    case A:
-        key = 'a';
-        break;
-
-    case S:
-        key = 's';
-        break;
-
-    case D:
-        key = 'd';
-        break;
-
-    case SPC:
-        key = ' ';
-        break;
-
-    default:
-        key = 'N';
-        break;
-    }
-
 }
