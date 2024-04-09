@@ -21,13 +21,10 @@ tst_fnt: tst_fnt.o raster.o font.o
 tst_rast: rast1.o raster.o model.o font.o bitmap.o
 	cc68x -g rast1.o raster.o model.o font.o bitmap.o -o tst_rast
 
-isr.o: isr.c isr.h globals.h model.h types.h
+isr.o: isr.c isr.h model.h types.h
 	cc68x -g -c isr.c
 
-globals.o: globals.c globals.h model.h types.h
-	cc68x -g -c globals.c
-
-m_shoot.o: m_shoot.c raster.h events.h renderer.h input.h globals.h model.h isr.h
+m_shoot.o: m_shoot.c raster.h events.h renderer.h input.h model.h isr.h
 	cc68x -g -c m_shoot.c
 
 tst_all.o: tst_all.c raster.h events.h

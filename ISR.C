@@ -55,7 +55,7 @@ void do_IKDB_isr(){
 	else if(mouse_status == TRUE){
 		while(read_loop < 2){
 			mouse_deltaXY[read_loop] = scancode;
-			scancode++;
+			read_loop++;
 		}	
 	}
 	*MPF = INTERRUPT_CLEAR; 

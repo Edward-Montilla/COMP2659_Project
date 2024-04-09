@@ -5,7 +5,6 @@
 #include "RENDERER.H"
 #include "INPUT.H"
 #include "MODEL.H"
-#include "GLOBALS.H"
 #include "ISR.H"
 
 
@@ -83,8 +82,7 @@ int main()
 
 		mallard_move_request(&(test_mso.mallards[0]));
 		mallard_move_request(&(test_mso.mallards[1]));
-		*/
-
+		
 		/* switch frame buffers */
 		if (count % 2 == 0) {
 			Setscreen(-1, base_B, -1);
