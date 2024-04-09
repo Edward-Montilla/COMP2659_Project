@@ -19,6 +19,12 @@
 #define DELTA_X 		0
 #define DELTA_Y			1
 
+#define ESC 			0x1B
+#define W				0x77
+#define A				0x61
+#define S				0x73
+#define D				0x64
+#define SPC				0x20
 typedef void (*Vector)(); 	/* a Vector is a function start address */
 
 Vector install_vector(int num, Vector vector);

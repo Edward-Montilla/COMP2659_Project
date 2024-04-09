@@ -21,8 +21,8 @@ tst_fnt: tst_fnt.o raster.o font.o
 tst_rast: rast1.o raster.o model.o font.o bitmap.o
 	cc68x -g rast1.o raster.o model.o font.o bitmap.o -o tst_rast
 
-tst_isr: tst_isr.o isr.o isr_asm.o
-	cc68x -g tst_isr.o isr.o isr_asm.o -o tst_isr
+tst_isr: tst_isr.o isr.o isr_asm.o events.o
+	cc68x -g tst_isr.o isr.o isr_asm.o events.o -o tst_isr
 
 tst_isr.o: tst_isr.c isr.h
 	cc68x -g -c tst_isr.c
