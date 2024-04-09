@@ -43,11 +43,13 @@ int main()
 {
 	int key;
 	bool win = FALSE;
+	bool win = FALSE;
 	UINT32 count = 0;
 	UINT32 last_count = count;
 
 
 	void *base_A = Physbase();
+	void *base_B = (UINT16 *)Physbase() + BUFFER_B;
 	void *base_B = (UINT16 *)Physbase() + BUFFER_B;
 
 
@@ -106,8 +108,7 @@ int main()
 
 		mallard_move_request(&(test_mso.mallards[0]));
 		mallard_move_request(&(test_mso.mallards[1]));
-
-
+		
 		/* switch frame buffers */
 		if (count % 2 == 0) {
 			Setscreen(-1, base_B, -1);
@@ -123,11 +124,21 @@ int main()
 			win = TRUE;
 			break;
 		} 
+		if (time_lose_check(count)) {
+			break;
+		} else if (shoot_win_check(&(test_mso.mallards[0]), &(test_mso.mallards[1]))) {
+			win = TRUE;
+			break;
+		} 
 	}
 	
 	/* game loop is over, returning the Atari ST to it's original state */
 
 	Setscreen(-1, base_A, -1);
+
+	if (win) {
+		plot_screen(base_A, win_splashscreen);
+	}
 
 	if (win) {
 		plot_screen(base_A, win_splashscreen);

@@ -20,8 +20,9 @@ Note laugh[] = {
 	{A_FLT, eight}, {G_FLT, eight}, {D_FLT, eight},
 };
 
-int current_note, duration;
+int current_note, duration = 0;
 
+/* Starts Music by loading the registers with the valeus necessary */
 void start_music() {
 	set_tone(CHANNEL_B, opening[0].pitch);
 	printf("fine is set %d, coarse is set %d\n", read_psg(B_fine), read_psg(B_coarse));
@@ -33,10 +34,11 @@ void start_music() {
 	return;
 };
 
+/* Should Update Music as the ticks */
 void update_music(UINT32 time_elapsed){
 	/* Repeat if end */
 	/* where do I keep my duration? */
-	static int duration = 0;
+	
 	if(current_note == OPENING_SIZE){
 		printf("HELP UPDATE REPEAT! \n");
 		current_note = 0;
