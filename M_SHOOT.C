@@ -83,7 +83,10 @@ int main()
 		mallard_move_request(&(test_mso.mallards[0]));
 		mallard_move_request(&(test_mso.mallards[1]));
 		
+<<<<<<< HEAD
+=======
 
+>>>>>>> 66e966df6fdda0da5c35a41c88feae1771305c8d
 		/* switch frame buffers */
 		if (count % 2 == 0) {
 			Setscreen(-1, base_B, -1);

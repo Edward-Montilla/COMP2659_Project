@@ -33,11 +33,13 @@ int seconds = 0;
 
 void do_VBL_isr(){
 	VBL_calls++;
+
 	if(VBL_calls % 70 == 0){
 		seconds++;
 	}
 
 };
+
 
 void do_IKBD_isr(){
 	UINT8 scancode = *RDR_ADDRESS;
@@ -56,7 +58,7 @@ void do_IKBD_isr(){
 	else if(mouse_status == TRUE){
 		while(read_loop < 2){
 			mouse_deltaXY[read_loop] = scancode;
-			scancode++;
+			read_loop++;
 		}	
 	}
 	*MFP = INTERRUPT_CLEAR; 

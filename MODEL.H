@@ -38,5 +38,6 @@ void move_mallard(Mallard *mallard);
 bool is_hit(Reticle *reticle, Mallard *mallard);
 bool bounds_check(Reticle *reticle);
 void reticle_action(Reticle *reticle, bool is_horizontal, int change);
+void mallard_action(Mallard *mallard, bool is_horizontal, int change);
 
 #endif

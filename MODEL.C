@@ -60,9 +60,9 @@ bool bounds_check(Reticle *reticle) {
 }
 
 /*******************************************************************************
- * FUNCTION NAME: out_of_bounds_action                                         *
+ * FUNCTION NAME: reticle_action                                               *
  *                                                                             *
- * PURPOSE: Called to knock reticle into boundary.                             *
+ * PURPOSE: Intermediary step into moving player's unit.                       *
  *                                                                             *
  * INPUT: *reticle = pointer to structure of structure.                        *
  *        is_horizontal = TRUE if making a change in the x-value,              *
@@ -111,7 +111,40 @@ void move_mallard(Mallard *mallard) {
 
   mallard->x += mallard->dx;
   mallard->y += mallard->dy;
+  mallard->dx = 0;
+  mallard->dy = 0;
 };
+
+/*******************************************************************************
+ * FUNCTION NAME: mallard_action                                               *
+ *                                                                             *
+ * PURPOSE: Intermediary step for moving enemy units.                          *
+ *                                                                             *
+ * INPUT: *reticle = pointer to structure of structure.                        *
+ *        is_horizontal = TRUE if making a change in the x-value,              *
+ *                  otherwise false.                                           *
+ *        change = how much change in the given direction. (is_horizontal)     *
+ *                                                                             *
+ * OUTPUT: does not return anything, but it does move the reticle.             *
+ *                                                                             *
+ * ASSUMPTION: Reticle is instantiated                                         *
+ *                                                                             *
+ *******************************************************************************/
+void mallard_action(Mallard *mallard, bool is_horizontal, int change) {
+    switch (is_horizontal)
+    {
+    case TRUE:
+        mallard->dx += change;
+        break;
+    case FALSE:
+        mallard->dy += change;
+        break;
+    default:
+        break;
+    }
+
+    move_mallard(mallard);
+}
 
 /*******************************************************************************
  * FUNCTION NAME: is_hit                                                       *
@@ -136,6 +169,7 @@ bool is_hit(Reticle *reticle, Mallard *mallard) {
   (mallard->y + mallard->height) > reticle->y &&
   mallard->y < (reticle->y + reticle->height)) {
     hit = TRUE;
+    mallard->is_dead = TRUE;
   }
   
   return hit;

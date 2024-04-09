@@ -35,6 +35,8 @@ void start_music() {
 
 void update_music(UINT32 time_elapsed){
 	/* Repeat if end */
+	/* where do I keep my duration? */
+	static int duration = 0;
 	if(current_note == OPENING_SIZE){
 		printf("HELP UPDATE REPEAT! \n");
 		current_note = 0;
