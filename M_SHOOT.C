@@ -31,15 +31,28 @@ int time_value[2] = {22, 16};
 int main()
 {
 	int key;
+	bool win = FALSE;
 	UINT32 count = 0;
 	UINT32 last_count = count;
 
 
 	void *base_A = Physbase();
-	void *base_B =  (UINT16 *)Physbase() + BUFFER_B;
+	void *base_B = (UINT16 *)Physbase() + BUFFER_B;
 
 
 	Cursor_off;
+	
+	plot_screen(base_A, starter_splashscreen);
+	while (1) {
+		if (Cconis() != 0) {
+			key = Cnecin();
+			/* Ends session */
+			if (key == 'q') {
+				break;
+			}
+		}
+	}
+	
 
 	/* Sets the scene */
 	render(&test_mso, time_value, base_A);
@@ -92,13 +105,21 @@ int main()
 			render(&test_mso, time_value, base_B);
 		}
 
-
-		if (time_lose_check(count) || shoot_win_check(&(test_mso.mallards[0]), &(test_mso.mallards[1]))) break;
+		if (time_lose_check(count)) {
+			break;
+		} else if (shoot_win_check(&(test_mso.mallards[0]), &(test_mso.mallards[1]))) {
+			win = TRUE;
+			break;
+		} 
 	}
 	
 	/* game loop is over, returning the Atari ST to it's original state */
 
 	Setscreen(-1, base_A, -1);
+
+	if (win) {
+		plot_screen(base_A, win_splashscreen);
+	}
 
 	Curson_on;
 

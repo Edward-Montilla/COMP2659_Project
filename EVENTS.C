@@ -221,7 +221,6 @@ bool shoot_win_check(Mallard *target_a, Mallard *target_b) {
 
     if (target_a->is_dead && target_b->is_dead) {
         win = TRUE;
-        Cconws("You Win!");
     }
 
     return win;
@@ -244,7 +243,6 @@ bool time_lose_check(int timer) {
     
     if (timer == 600) {
         time_out = TRUE;
-        Cconws("You Lose!");
     }
 
     return time_out;
