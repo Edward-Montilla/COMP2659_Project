@@ -273,6 +273,7 @@ bool bounds_check_enemy(Mallard *mallard) {
     return in_bounds;
 }
 
+/* NOT USED! reads the scancode from the IKBD buffer */
 char read_IKBD(bool to_process){
     
     UINT32 code;
@@ -286,6 +287,7 @@ char read_IKBD(bool to_process){
     return key;
 }
 
+/* Helper funciton, changes 'key' perameter to charater matching ascii value of the 'code' parameter */
 static void check_key(UINT32 code, char key){
     switch (code){
     case ESC:
