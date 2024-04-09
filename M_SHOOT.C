@@ -47,7 +47,7 @@ int main()
 		if (Cconis() != 0) {
 			key = Cnecin();
 			/* Ends session */
-			if (key == 'q') {
+			if (key == 'q' || key == ' ') {
 				break;
 			}
 		}

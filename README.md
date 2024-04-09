@@ -14,5 +14,10 @@ After running make, these test executables should be made:
 - Running "mixer" will ride the scale of notes, holding each note for ~2.5 seconds and clock ticks are printed onto the screen.
 
 
-Fixes from Stages 2-6:
-- 
+Fixes from Stages 2-4:
+- Submitted code compiles without errors
+- There is no game specific data in raster module and plotting on x works smoothly
+- Tst_rast is complete
+- each routine's implementation is clear and concise
+- model and events module have been appropriately seperated
+- Tst_rend functions

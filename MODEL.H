@@ -40,4 +40,16 @@ bool bounds_check(Reticle *reticle);
 void reticle_action(Reticle *reticle, bool is_horizontal, int change);
 void mallard_action(Mallard *mallard, bool is_horizontal, int change);
 
+/* bitmaps */
+extern const UINT16 reticle_bitmap[];
+extern const UINT16 mallard_bitmap[];
+extern const UINT16 clay_pigeon_1[];
+extern const UINT16 clay_pigeon_2[];
+extern const UINT16 clay_pigeon_3[];
+extern const UINT16 clay_pigeon_4[];
+extern const UINT16 *clay_pigeon_bitmap[];
+extern const UINT16 clay_pigeon_dead[];
+extern const UINT8 starter_splashscreen[];
+extern const UINT8 win_splashscreen[];
+
 #endif
