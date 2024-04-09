@@ -29,17 +29,17 @@ int mouse_button = HEADER_PACKET;
 int mouse_status = 0;
 int mouse_deltaXY[2];
 
+int seconds = 0;
 
 void do_VBL_isr(){
 	VBL_calls++;
-	update_music(VBL_calls);
-
-	if(mouse_enabled == TRUE){
-		rem
+	if(VBL_calls % 70 == 0){
+		seconds++;
 	}
+
 };
 
-void do_IKDB_isr(){
+void do_IKBD_isr(){
 	UINT8 scancode = *RDR_ADDRESS;
 	int read_loop = 0;
 
@@ -50,7 +50,7 @@ void do_IKDB_isr(){
 			mouse_status = TRUE;
 		}
 		else if( !(scancode & MAKECODE)){
-			KBD_BUFF[tail++] = scancode; 
+			IKBD_buffer[tail++] = scancode; 
 		}
 	}
 	else if(mouse_status == TRUE){
@@ -59,7 +59,7 @@ void do_IKDB_isr(){
 			scancode++;
 		}	
 	}
-	*MPF = INTERRUPT_CLEAR; 
+	*MFP = INTERRUPT_CLEAR; 
 };
 
 Vector install_vector(int num, Vector vector) {
@@ -85,7 +85,7 @@ void load_vectors(){
 	unmask_interrupts();
 };
 
-void restore_vector(){
+void restore_vectors(){
 	mask_interrupts();
 
 	install_vector(VBL_ISR, org_VBL);

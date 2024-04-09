@@ -5,6 +5,7 @@
 #include "RASTER.H"
 #include "TYPES.H"
 
+
 /* Trap Address */
 #define VBL_ISR			28
 #define IKBD_ISR		70
@@ -28,8 +29,8 @@ extern void IKBD_isr();
 void do_VBL_isr();
 void do_IKBD_isr();
 
-void load_vector();
-void restore_vector();
+void load_vectors();
+void restore_vectors();
 
 void mask_interrupts();
 void unmask_interrupts();
@@ -52,4 +53,5 @@ extern bool mouse_status; /* 	FALSE == no mouse movement, TRUE == mouse movement
 
 extern int mouse_deltaXY[2]; /* index 0 == delta X , index 1 == delta Y */
 
+extern int seconds; /* for testing purposes */
 #endif

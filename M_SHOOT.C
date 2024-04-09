@@ -5,7 +5,6 @@
 #include "RENDERER.H"
 #include "INPUT.H"
 #include "MODEL.H"
-#include "GLOBALS.H"
 #include "ISR.H"
 
 
