@@ -68,6 +68,15 @@ int main()
 					break;
 				}
 
+				/* shoot and check win condition */
+				shoot_request(&(test_mso.reticle), &(test_mso.mallards[0]));
+        		shoot_request(&(test_mso.reticle), &(test_mso.mallards[1]));
+
+				if (shoot_win_check(&(test_mso.mallards[0]), &(test_mso.mallards[1]))) {
+					Cconws("YOU WIN!\n\r");
+					break;
+				}
+
 				mallard_move_request(&(test_mso.mallards[0]));
 				mallard_move_request(&(test_mso.mallards[1]));
 				render(&test_mso, timer, base);
