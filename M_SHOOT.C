@@ -40,7 +40,7 @@ int main()
 
 
 	Cursor_off;
-
+	
 	plot_screen(base_A, starter_splashscreen);
 	while (1) {
 		if (Cconis() != 0) {
@@ -49,7 +49,7 @@ int main()
 			if (key == 'q') {
 				break;
 			}
-		}	
+		}
 	}
 	
 
